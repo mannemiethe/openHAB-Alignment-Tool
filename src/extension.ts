@@ -31,9 +31,10 @@ const REGEX_ITEM_LABEL = /\".+?\"/;
 const REGEX_ITEM_ICON = /<.+?>/;
 const REGEX_ITEM_GROUP = /\(.+?\)/;
 const REGEX_ITEM_TAG = /\[\s*(\".+?\")\s*(,\s*\".+?\"\s*)*\]/;
-const REGEX_ITEM_CHANNEL_START = /\{\s*(\w*\s?=\s?"[^\}]*"?,?\s*)+\}?/;
+// Updated regex to handle nested curly braces inside quoted strings
+const REGEX_ITEM_CHANNEL_START = /\{\s*(\w*\s?=\s?"(?:[^"\\]|\\.)*"?,?\s*)+\}?/;
 const REGEX_ITEM_CHANNEL_END = /.*[\},]/;
-const REGEX_ITEM_CHANNEL_SECTION = /(\w+\=\".*?\"\s*(\[.*?\])?)+/g;
+const REGEX_ITEM_CHANNEL_SECTION = /(\w+\=\"(?:[^"\\]|\\.)*\"\s*(\[.*?\])?)+/g;
 
 const REGEX_SITEMAP_ELEMENTS = /\b(Frame|Default|Text|Group|Switch|Selection|Setpoint|Slider|Colorpicker|Webview|Mapview|Image|Video|Chart)\b/g;
 

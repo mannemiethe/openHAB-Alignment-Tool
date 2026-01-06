@@ -63,7 +63,7 @@ export function fillColumns(str: string, finalLength: number): string {
 	}
 
 	if (editor.options.insertSpaces) {
-		for (let e = 0; e < tabSize + finalLength - str.length; e++) {
+		for (let e = 0; e < tabSize - finalLength % tabSize + finalLength - str.length; e++) {
 			tab += " ";
 		}
 		str += tab;
