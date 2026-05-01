@@ -1,7 +1,7 @@
 {
 	"name": "openhab-config-aligner-2026",
 	"displayName": "openHAB Config Aligner 2026",
-	"version": "2.1.8",
+	"version": "2.1.9",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Manuel Miethe",

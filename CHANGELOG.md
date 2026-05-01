@@ -1,5 +1,12 @@
 # openHAB Config Aligner 2026 Change Log
 
+## [2.1.9] - 01.05.2026
+
+- Updated Marketplace package identity to `ManuelMiethe.openhab-config-aligner-2026`.
+- Renamed install-facing settings and command IDs to `openhab-config-aligner-2026.*`.
+- Added README notes for the maintained fork, fixed formatting bugs, and support links.
+
+
 ## [2.1.8] - 01.05.2026
 
 - First community-maintained release after the original project went quiet in 2021.
