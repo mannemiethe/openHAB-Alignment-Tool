@@ -122,7 +122,7 @@ export class BookmarksSocialMediaProvider implements SocialMediaProvider {
 		return [
 			{
 				title: "Follow me on GitHub",
-				link: "https://github.com/MaxBec",
+				link: "https://github.com/mannemiethe",
 			},
 		];
 	}

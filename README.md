@@ -1,12 +1,12 @@
 <div align="center">
- <img width="400" src="https://raw.githubusercontent.com/MaxBec/openHAB-Alignment-Tool/master/images/logo_text.png">
+ <img width="400" src="https://raw.githubusercontent.com/mannemiethe/openHAB-Alignment-Tool/master/images/logo_text.png">
 </div>
 <br></br>
 
 [![Build Status](https://maxbec.visualstudio.com/openHAB%20Alignment%20Tool/_apis/build/status/MaxBec.openHAB-Alignment-Tool?branchName=master)](https://maxbec.visualstudio.com/openHAB%20Alignment%20Tool/_build/latest?definitionId=1&branchName=master)
-[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/max-beckenbauer.oh-alignment-tool?color=blue&label=Installs&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/i/max-beckenbauer.oh-alignment-tool?color=blue&label=Installs&logo=visual-studio-code)
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/max-beckenbauer.oh-alignment-tool?color=orange&label=Version)](https://img.shields.io/visual-studio-marketplace/v/max-beckenbauer.oh-alignment-tool?color=orange)
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/stars/max-beckenbauer.oh-alignment-tool?label=Rating&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/stars/max-beckenbauer.oh-alignment-tool?label=Rating&logo=visual-studio-code)
+[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/mannemiethe.oh-alignment-tool-2026?color=blue&label=Installs&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/i/mannemiethe.oh-alignment-tool-2026?color=blue&label=Installs&logo=visual-studio-code)
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/mannemiethe.oh-alignment-tool-2026?color=orange&label=Version)](https://img.shields.io/visual-studio-marketplace/v/mannemiethe.oh-alignment-tool-2026?color=orange)
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/stars/mannemiethe.oh-alignment-tool-2026?label=Rating&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/stars/mannemiethe.oh-alignment-tool-2026?label=Rating&logo=visual-studio-code)
 
 
 This extension adds support for formatting and indenting [openHAB](http://www.openhab.org) files like `*.items`, `*.sitemap`, etc. At the moment only `*.items` and `*.sitemap` files are supported. They can be formatted in a column channel-column or multiline style. In the future the other file types
@@ -102,11 +102,11 @@ the different parts.
 
 ## Known Issues
 
-See [Github Issues](https://github.com/MaxBec/openHAB-Alignment-Tool/issues) file for the details.
+See [Github Issues](https://github.com/mannemiethe/openHAB-Alignment-Tool/issues) file for the details.
 
 ## Release Notes
 
-See [CHANGELOG.md](https://github.com/MaxBec/openHAB-Alignment-Tool/blob/master/CHANGELOG.md) file for the details.
+See [CHANGELOG.md](https://github.com/mannemiethe/openHAB-Alignment-Tool/blob/master/CHANGELOG.md) file for the details.
 
 ---
 

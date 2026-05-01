@@ -1,12 +1,13 @@
 {
-	"name": "oh-alignment-tool",
-	"displayName": "openHAB Alignment Tool",
-	"version": "2.1.7",
-	"publisher": "max-beckenbauer",
+	"name": "oh-alignment-tool-2026",
+	"displayName": "openHAB Alignment Tool 2026",
+	"version": "2026.0.0",
+	"publisher": "mannemiethe",
 	"contributors": [
+		"Manuel Miethe",
 		"Mark Hilbush"
 	],
-	"description": "Tool to format and indent openHAB files. At the moment only item and sitemap files can be formatted.",
+	"description": "Community-maintained fork of the openHAB Alignment Tool for formatting and indenting openHAB item and sitemap files.",
 	"author": {
 		"name": "Maximilian Beckenbauer",
 		"email": "max.bec92@gmail.com",
@@ -19,12 +20,11 @@
 	],
 	"icon": "images/logo.png",
 	"repository": {
-		"url": "https://github.com/MaxBec/openHAB-Alignment-Tool",
+		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool",
 		"type": "git"
 	},
 	"bugs": {
-		"url": "https://github.com/MaxBec/openHAB-Alignment-Tool/issues",
-		"email": "max.bec92@gmail.com"
+		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool/issues"
 	},
 	"engines": {
 		"vscode": "^1.55.0"
@@ -138,5 +138,6 @@
 		"tslint": "^5.20.1",
 		"typescript": "^4.2.4",
 		"vscode-test": "^1.5.2"
-	}
+	},
+	"homepage": "https://github.com/mannemiethe/openHAB-Alignment-Tool#readme"
 }
