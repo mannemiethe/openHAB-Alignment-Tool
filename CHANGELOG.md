@@ -4,7 +4,7 @@
 
 - First community-maintained release after the original project went quiet in 2021.
 - Continued the upstream package version from `2.1.7` to `2.1.8` instead of resetting to a year-based version.
-- Renamed extension package to `oh-alignment-tool-2026` / display name `openHAB Config Aligner 2026` to avoid colliding with the unmaintained original Marketplace listing.
+- Renamed extension package to `openhab-config-aligner-2026` / display name `openHAB Config Aligner 2026` to avoid colliding with the unmaintained original Marketplace listing.
 
 
 All notable changes to the openHAB Config Aligner 2026 extension will be documented in this file.

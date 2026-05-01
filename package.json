@@ -1,5 +1,5 @@
 {
-	"name": "oh-alignment-tool-2026",
+	"name": "openhab-config-aligner-2026",
 	"displayName": "openHAB Config Aligner 2026",
 	"version": "2.1.8",
 	"publisher": "ManuelMiethe",
@@ -36,42 +36,42 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "oh-alignment-tool-2026.insert-item-generic",
+				"command": "openhab-config-aligner-2026.insert-item-generic",
 				"category": "openHAB Config Aligner",
 				"title": "Insert Item"
 			},
 			{
-				"command": "oh-alignment-tool-2026.insert-item-switch",
+				"command": "openhab-config-aligner-2026.insert-item-switch",
 				"category": "openHAB Config Aligner",
 				"title": "Insert Switch Item"
 			},
 			{
-				"command": "oh-alignment-tool-2026.insert-item-dimmer",
+				"command": "openhab-config-aligner-2026.insert-item-dimmer",
 				"category": "openHAB Config Aligner",
 				"title": "Insert Dimmer Item"
 			},
 			{
-				"command": "oh-alignment-tool-2026.insert-item-string",
+				"command": "openhab-config-aligner-2026.insert-item-string",
 				"category": "openHAB Config Aligner",
 				"title": "Insert String Item"
 			},
 			{
-				"command": "oh-alignment-tool-2026.insert-item-number",
+				"command": "openhab-config-aligner-2026.insert-item-number",
 				"category": "openHAB Config Aligner",
 				"title": "Insert Number Item"
 			},
 			{
-				"command": "oh-alignment-tool-2026.insert-item-datetime",
+				"command": "openhab-config-aligner-2026.insert-item-datetime",
 				"category": "openHAB Config Aligner",
 				"title": "Insert DateTime Item"
 			},
 			{
-				"command": "oh-alignment-tool-2026.whatsNew",
+				"command": "openhab-config-aligner-2026.whatsNew",
 				"title": "%extension.commands.whatsNew.title%",
 				"category": "%extension.commands.category.bookmarks%"
 			},
 			{
-				"command": "_oh-alignment-tool-2026.whatsNewContextMenu",
+				"command": "_openhab-config-aligner-2026.whatsNewContextMenu",
 				"title": "%extension.commands.whatsNewContextMenu.title%"
 			}
 		],
@@ -79,17 +79,17 @@
 			"type": "object",
 			"title": "openHAB Config Aligner 2026",
 			"properties": {
-				"oh-alignment-tool-2026.preserveWhitespace": {
+				"openhab-config-aligner-2026.preserveWhitespace": {
 					"type": "boolean",
 					"default": false,
 					"description": "Preserves any leading whitespace when reformatting an item."
 				},
-				"oh-alignment-tool-2026.newLineAfterItem": {
+				"openhab-config-aligner-2026.newLineAfterItem": {
 					"type": "boolean",
 					"default": false,
 					"description": "Choose if you want to have a new line inserted after each item."
 				},
-				"oh-alignment-tool-2026.formatStyle": {
+				"openhab-config-aligner-2026.formatStyle": {
 					"type": "string",
 					"default": "Column",
 					"enum": [
@@ -103,12 +103,12 @@
 						"Formats the files in a multiline-style. E.g. in an items file each part of an item is written in a new line."
 					]
 				},
-				"oh-alignment-tool-2026.minimumIndentAmount": {
+				"openhab-config-aligner-2026.minimumIndentAmount": {
 					"type": "number",
 					"default": 4,
 					"description": "Minimum separation of thing or item parts."
 				},
-				"oh-alignment-tool-2026.enableBetaFeatures": {
+				"openhab-config-aligner-2026.enableBetaFeatures": {
 					"type": "boolean",
 					"default": false,
 					"description": "Enable beta features like sitemap formatting or thing file formatting."

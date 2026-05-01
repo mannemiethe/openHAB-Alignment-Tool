@@ -79,7 +79,7 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.languages.registerDocumentFormattingEditProvider("openhab", {
 			provideDocumentFormattingEdits: (document, options, token) => {
-				let config = vscode.workspace.getConfiguration("oh-alignment-tool-2026");
+				let config = vscode.workspace.getConfiguration("openhab-config-aligner-2026");
 				// Check the file type, clean the file and format it
 				if (document.fileName.includes(".sitemap")) {
 					return config.enableBetaFeatures ? formatSitemapFile() : undefined;
@@ -105,27 +105,27 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 
 	// Insert a generic item
-	vscode.commands.registerCommand("oh-alignment-tool-2026.insert-item-generic", () => {
+	vscode.commands.registerCommand("openhab-config-aligner-2026.insert-item-generic", () => {
 		commandInsertNewGenericItem();
 	});
 	// Insert a Switch item
-	vscode.commands.registerCommand("oh-alignment-tool-2026.insert-item-switch", () => {
+	vscode.commands.registerCommand("openhab-config-aligner-2026.insert-item-switch", () => {
 		commandInsertNewSwitchItem();
 	});
 	// Insert a Dimmer item
-	vscode.commands.registerCommand("oh-alignment-tool-2026.insert-item-dimmer", () => {
+	vscode.commands.registerCommand("openhab-config-aligner-2026.insert-item-dimmer", () => {
 		commandInsertNewDimmerItem();
 	});
 	// Insert a String item
-	vscode.commands.registerCommand("oh-alignment-tool-2026.insert-item-string", () => {
+	vscode.commands.registerCommand("openhab-config-aligner-2026.insert-item-string", () => {
 		commandInsertNewStringItem();
 	});
 	// Insert a Number item
-	vscode.commands.registerCommand("oh-alignment-tool-2026.insert-item-number", () => {
+	vscode.commands.registerCommand("openhab-config-aligner-2026.insert-item-number", () => {
 		commandInsertNewNumberItem();
 	});
 	// Insert a DateTime item
-	vscode.commands.registerCommand("oh-alignment-tool-2026.insert-item-datetime", () => {
+	vscode.commands.registerCommand("openhab-config-aligner-2026.insert-item-datetime", () => {
 		commandInsertNewDateTimeItem();
 	});
 
@@ -276,7 +276,7 @@ function formatItemFile(range?: vscode.Range): vscode.TextEdit[] {
 	var itemBlockCounter = 0;
 
 	// Get the format configuration settings
-	let config = vscode.workspace.getConfiguration("oh-alignment-tool-2026");
+	let config = vscode.workspace.getConfiguration("openhab-config-aligner-2026");
 	let preserveWhitespace = config.preserveWhitespace;
 	let newLineAfterItem = config.newLineAfterItem;
 
@@ -570,7 +570,7 @@ function formatThingFile(range?: vscode.Range): vscode.TextEdit[] {
 	let channelPending = false;
 
 	// Get the format configuration settings
-	let config = vscode.workspace.getConfiguration("oh-alignment-tool-2026");
+	let config = vscode.workspace.getConfiguration("openhab-config-aligner-2026");
 	let preserveWhitespace = config.preserveWhitespace;
 	let newLineAfterItem = config.newLineAfterItem;
 
@@ -832,7 +832,7 @@ function insertItem(type: string, name: string, label: string, icon: string, gro
  */
 function formatItem(item: Item): string {
 	// Get the configuration settings
-	let config = vscode.workspace.getConfiguration("oh-alignment-tool-2026");
+	let config = vscode.workspace.getConfiguration("openhab-config-aligner-2026");
 	let formatStyle = item.formatOption ? item.formatOption : config.formatStyle;
 	let newLineAfterItem = config.newLineAfterItem;
 	let editor = vscode.window.activeTextEditor;
@@ -972,7 +972,7 @@ function formatItem(item: Item): string {
  */
 function formatThing(thing: Thing): string {
 	// Get the configuration settings
-	let config = vscode.workspace.getConfiguration("oh-alignment-tool-2026");
+	let config = vscode.workspace.getConfiguration("openhab-config-aligner-2026");
 	let formatStyle = config.formatStyle;
 	let newLineAfterItem = config.newLineAfterItem;
 	let multilineIndentAmount = config.multilineIndentAmount;
@@ -1029,8 +1029,8 @@ function formatThing(thing: Thing): string {
  *---------------------------------------------------------------------------------------------------------*/
 function registerWhatsNew(context: vscode.ExtensionContext) {
 	const provider = new BookmarksContentProvider();
-	const viewer = new WhatsNewManager(context).registerContentProvider("ManuelMiethe", "oh-alignment-tool-2026", provider).registerSocialMediaProvider(new BookmarksSocialMediaProvider()).registerSponsorProvider(new BookmarksSponsorProvider());
+	const viewer = new WhatsNewManager(context).registerContentProvider("ManuelMiethe", "openhab-config-aligner-2026", provider).registerSocialMediaProvider(new BookmarksSocialMediaProvider()).registerSponsorProvider(new BookmarksSponsorProvider());
 	viewer.showPageInActivation();
-	context.subscriptions.push(commands.registerCommand("oh-alignment-tool-2026.whatsNew", () => viewer.showPage()));
-	context.subscriptions.push(commands.registerCommand("_oh-alignment-tool-2026.whatsNewContextMenu", () => viewer.showPage()));
+	context.subscriptions.push(commands.registerCommand("openhab-config-aligner-2026.whatsNew", () => viewer.showPage()));
+	context.subscriptions.push(commands.registerCommand("_openhab-config-aligner-2026.whatsNewContextMenu", () => viewer.showPage()));
 }

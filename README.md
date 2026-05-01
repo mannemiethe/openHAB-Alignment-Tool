@@ -3,9 +3,9 @@
 </div>
 <br></br>
 
-[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.oh-alignment-tool-2026?color=blue&label=Installs&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.oh-alignment-tool-2026?color=blue&label=Installs&logo=visual-studio-code)
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.oh-alignment-tool-2026?color=orange&label=Version)](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.oh-alignment-tool-2026?color=orange)
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.oh-alignment-tool-2026?label=Rating&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.oh-alignment-tool-2026?label=Rating&logo=visual-studio-code)
+[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.openhab-config-aligner-2026?color=blue&label=Installs&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.openhab-config-aligner-2026?color=blue&label=Installs&logo=visual-studio-code)
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.openhab-config-aligner-2026?color=orange&label=Version)](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.openhab-config-aligner-2026?color=orange)
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.openhab-config-aligner-2026?label=Rating&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.openhab-config-aligner-2026?label=Rating&logo=visual-studio-code)
 
 
 This extension adds support for formatting and indenting [openHAB](http://www.openhab.org) files like `*.items`, `*.sitemap`, etc. At the moment only `*.items` and `*.sitemap` files are supported. They can be formatted in a column channel-column or multiline style. In the future the other file types
@@ -73,19 +73,19 @@ The formatting is available for the following openhab file types:
 
 With this option you can choose if you want to have a new line inserted after each item. If there is already a single empty line after an item this settings is ignored.
 
-`"oh-alignment-tool-2026.newLineAfterItem": true`
+`"openhab-config-aligner-2026.newLineAfterItem": true`
 
 ### Preserve Whitespace
 
 Whitespaces (tabs or spaces) in front of items get preserved and won't be deleted.
 
-`"oh-alignment-tool-2026.preserveWhitespace": true`
+`"openhab-config-aligner-2026.preserveWhitespace": true`
 
 ### Multiline Indent Amount
 
 With this option you can control the amount of indent when using the Multiline format.
 
-`"oh-alignment-tool-2026.multilineIndentAmount": 28`
+`"openhab-config-aligner-2026.multilineIndentAmount": 28`
 
 ### Format Style
 
