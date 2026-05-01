@@ -63,14 +63,14 @@ export class BookmarksContentProvider implements ContentProvider {
 	public provideSupportChannels(): SupportChannel[] {
 		const supportChannels: SupportChannel[] = [];
 		supportChannels.push({
-			title: "Get me a coffee on Ko-Fi",
-			link: "https://ko-fi.com/C0C01XTXB",
-			message: "Buy me a coffe :)",
+			title: "Buy Manuel Miethe a coffee",
+			link: "https://www.buymeacoffee.com/mannemiethe",
+			message: "Support ongoing maintenance",
 		});
 		supportChannels.push({
-			title: "Donate via PayPal",
+			title: "PayPal donation for the original developer",
 			link: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url",
-			message: "Donate via PayPal",
+			message: "Support Maximilian Beckenbauer, the original developer",
 		});
 		return supportChannels;
 	}

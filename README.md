@@ -11,9 +11,13 @@
 This extension adds support for formatting and indenting [openHAB](http://www.openhab.org) files like `*.items`, `*.sitemap`, etc. At the moment only `*.items` and `*.sitemap` files are supported. They can be formatted in a column channel-column or multiline style. In the future the other file types
 and other format-types will be added. Feel free to add feature-requests on the github repository.
 
-If you've found the extension helpful or useful, then please consider throwing a coffee my way to help support my work. As i am a student and would like to invest more time and effort in this project this would really help me.
+If this maintained fork helps you, please consider supporting the ongoing maintenance:
 
--    [PayPal Donation](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url)
+-    [Buy Manuel Miethe a coffee](https://www.buymeacoffee.com/mannemiethe)
+
+If you want to thank the original developer as well:
+
+-    [PayPal donation for Maximilian Beckenbauer, the original developer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url)
 
 ## Features
 
