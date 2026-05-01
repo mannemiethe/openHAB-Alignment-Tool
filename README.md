@@ -19,6 +19,12 @@ If you want to thank the original developer as well:
 
 -    [PayPal donation for Maximilian Beckenbauer, the original developer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url)
 
+## Maintained Fork / Fixed Bug
+
+This 2026 maintained fork includes the upstream fixes and adds a fix for item channel binding configurations where curly braces inside quoted strings could break formatting. Example affected cases are channel parameters that contain JSON-like values or text with `{...}` inside quotes.
+
+It also corrects space-based column padding when `editor.insertSpaces` is enabled, so aligned columns stay consistent with the configured tab size.
+
 ## Features
 
 The tool is available as a standard Visual-Studio-Code formatter as it uses the original vsc formatter API. You can force to formatting with right-clicking the document and clicking `Format Document...` or `Format Selection...`. If you have enabled the function in the vsc settings it even can
