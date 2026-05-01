@@ -3,7 +3,6 @@
 </div>
 <br></br>
 
-[![Build Status](https://maxbec.visualstudio.com/openHAB%20Alignment%20Tool/_apis/build/status/MaxBec.openHAB-Alignment-Tool?branchName=master)](https://maxbec.visualstudio.com/openHAB%20Alignment%20Tool/_build/latest?definitionId=1&branchName=master)
 [![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.oh-alignment-tool-2026?color=blue&label=Installs&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.oh-alignment-tool-2026?color=blue&label=Installs&logo=visual-studio-code)
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.oh-alignment-tool-2026?color=orange&label=Version)](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.oh-alignment-tool-2026?color=orange)
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.oh-alignment-tool-2026?label=Rating&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.oh-alignment-tool-2026?label=Rating&logo=visual-studio-code)
@@ -14,7 +13,6 @@ and other format-types will be added. Feel free to add feature-requests on the g
 
 If you've found the extension helpful or useful, then please consider throwing a coffee my way to help support my work. As i am a student and would like to invest more time and effort in this project this would really help me.
 
--    [Ko-Fi Donation to MaxBec](https://ko-fi.com/C0C01XTXB)
 -    [PayPal Donation](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url)
 
 ## Features
@@ -75,19 +73,19 @@ The formatting is available for the following openhab file types:
 
 With this option you can choose if you want to have a new line inserted after each item. If there is already a single empty line after an item this settings is ignored.
 
-`"oh-alignment-tool.newLineAfterItem": true`
+`"oh-alignment-tool-2026.newLineAfterItem": true`
 
 ### Preserve Whitespace
 
 Whitespaces (tabs or spaces) in front of items get preserved and won't be deleted.
 
-`"oh-alignment-tool.preserveWhitespace": true`
+`"oh-alignment-tool-2026.preserveWhitespace": true`
 
 ### Multiline Indent Amount
 
 With this option you can control the amount of indent when using the Multiline format.
 
-`"oh-alignment-tool.multilineIndentAmount": 28`
+`"oh-alignment-tool-2026.multilineIndentAmount": 28`
 
 ### Format Style
 

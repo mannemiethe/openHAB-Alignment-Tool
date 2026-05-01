@@ -1,4 +1,4 @@
-# openHAB Alignment Tool Change Log
+# openHAB Config Aligner 2026 Change Log
 
 ## [2.1.8] - 01.05.2026
 
@@ -7,7 +7,7 @@
 - Renamed extension package to `oh-alignment-tool-2026` / display name `openHAB Config Aligner 2026` to avoid colliding with the unmaintained original Marketplace listing.
 
 
-All notable changes to the openHAB Alignment Tool extension will be documented in this file.
+All notable changes to the openHAB Config Aligner 2026 extension will be documented in this file.
 
 ## [2.1.6] - 30.04.2021
 

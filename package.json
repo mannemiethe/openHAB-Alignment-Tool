@@ -9,9 +9,8 @@
 	],
 	"description": "Community-maintained config alignment and formatting tool for openHAB item and sitemap files.",
 	"author": {
-		"name": "Maximilian Beckenbauer",
-		"email": "max.bec92@gmail.com",
-		"url": "https://github.com/MaxBec/openHAB-Alignment-Tool"
+		"name": "Manuel Miethe",
+		"url": "https://github.com/mannemiethe"
 	},
 	"categories": [
 		"Other",
@@ -37,60 +36,60 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "extension.insert-item-generic",
-				"category": "openHAB Alignment",
+				"command": "oh-alignment-tool-2026.insert-item-generic",
+				"category": "openHAB Config Aligner",
 				"title": "Insert Item"
 			},
 			{
-				"command": "extension.insert-item-switch",
-				"category": "openHAB Alignment",
+				"command": "oh-alignment-tool-2026.insert-item-switch",
+				"category": "openHAB Config Aligner",
 				"title": "Insert Switch Item"
 			},
 			{
-				"command": "extension.insert-item-dimmer",
-				"category": "openHAB Alignment",
+				"command": "oh-alignment-tool-2026.insert-item-dimmer",
+				"category": "openHAB Config Aligner",
 				"title": "Insert Dimmer Item"
 			},
 			{
-				"command": "extension.insert-item-string",
-				"category": "openHAB Alignment",
+				"command": "oh-alignment-tool-2026.insert-item-string",
+				"category": "openHAB Config Aligner",
 				"title": "Insert String Item"
 			},
 			{
-				"command": "extension.insert-item-number",
-				"category": "openHAB Alignment",
+				"command": "oh-alignment-tool-2026.insert-item-number",
+				"category": "openHAB Config Aligner",
 				"title": "Insert Number Item"
 			},
 			{
-				"command": "extension.insert-item-datetime",
-				"category": "openHAB Alignment",
+				"command": "oh-alignment-tool-2026.insert-item-datetime",
+				"category": "openHAB Config Aligner",
 				"title": "Insert DateTime Item"
 			},
 			{
-				"command": "extension.whatsNew",
+				"command": "oh-alignment-tool-2026.whatsNew",
 				"title": "%extension.commands.whatsNew.title%",
 				"category": "%extension.commands.category.bookmarks%"
 			},
 			{
-				"command": "_extension.whatsNewContextMenu",
+				"command": "_oh-alignment-tool-2026.whatsNewContextMenu",
 				"title": "%extension.commands.whatsNewContextMenu.title%"
 			}
 		],
 		"configuration": {
 			"type": "object",
-			"title": "openHAB Alignment Tool",
+			"title": "openHAB Config Aligner 2026",
 			"properties": {
-				"oh-alignment-tool.preserveWhitespace": {
+				"oh-alignment-tool-2026.preserveWhitespace": {
 					"type": "boolean",
 					"default": false,
 					"description": "Preserves any leading whitespace when reformatting an item."
 				},
-				"oh-alignment-tool.newLineAfterItem": {
+				"oh-alignment-tool-2026.newLineAfterItem": {
 					"type": "boolean",
 					"default": false,
 					"description": "Choose if you want to have a new line inserted after each item."
 				},
-				"oh-alignment-tool.formatStyle": {
+				"oh-alignment-tool-2026.formatStyle": {
 					"type": "string",
 					"default": "Column",
 					"enum": [
@@ -104,12 +103,12 @@
 						"Formats the files in a multiline-style. E.g. in an items file each part of an item is written in a new line."
 					]
 				},
-				"oh-alignment-tool.minimumIndentAmount": {
+				"oh-alignment-tool-2026.minimumIndentAmount": {
 					"type": "number",
 					"default": 4,
 					"description": "Minimum separation of thing or item parts."
 				},
-				"oh-alignment-tool.enableBetaFeatures": {
+				"oh-alignment-tool-2026.enableBetaFeatures": {
 					"type": "boolean",
 					"default": false,
 					"description": "Enable beta features like sitemap formatting or thing file formatting."
