@@ -21,6 +21,28 @@ export class BookmarksContentProvider implements ContentProvider {
 	public provideChangeLog(): ChangeLogItem[] {
 		const changeLog: ChangeLogItem[] = [];
 
+		changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "2.1.9", releaseDate: "May 2026" } });
+		changeLog.push({
+			kind: ChangeLogKind.FIXED,
+			detail: "Fixed formatting for item channel binding configurations where curly braces inside quoted strings could break alignment.",
+		});
+		changeLog.push({
+			kind: ChangeLogKind.FIXED,
+			detail: "Fixed space-based column padding when editor.insertSpaces is enabled, keeping aligned columns consistent with the configured tab size.",
+		});
+		changeLog.push({
+			kind: ChangeLogKind.CHANGED,
+			detail: "This maintained fork is published as openHAB Config Aligner 2026 under ManuelMiethe.openhab-config-aligner-2026.",
+		});
+		changeLog.push({
+			kind: ChangeLogKind.CHANGED,
+			detail: "Support ongoing maintenance: Buy Manuel Miethe a coffee at https://www.buymeacoffee.com/mannemiethe",
+		});
+		changeLog.push({
+			kind: ChangeLogKind.CHANGED,
+			detail: "Original developer support: PayPal donation for Maximilian Beckenbauer is still linked in the README and support section.",
+		});
+
 		changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "2.1.0", releaseDate: "April 2021" } });
 		changeLog.push({
 			kind: ChangeLogKind.FIXED,
