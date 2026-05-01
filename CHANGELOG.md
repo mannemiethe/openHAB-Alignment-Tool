@@ -4,7 +4,7 @@
 
 - First community-maintained release after the original project went quiet in 2021.
 - Continued the upstream package version from `2.1.7` to `2.1.8` instead of resetting to a year-based version.
-- Renamed extension package to `oh-alignment-tool-2026` / display name `openHAB Alignment Tool 2026` to avoid colliding with the unmaintained original Marketplace listing.
+- Renamed extension package to `oh-alignment-tool-2026` / display name `openHAB Config Formatter 2026` to avoid colliding with the unmaintained original Marketplace listing.
 
 
 All notable changes to the openHAB Alignment Tool extension will be documented in this file.
