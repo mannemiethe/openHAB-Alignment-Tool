@@ -1029,7 +1029,7 @@ function formatThing(thing: Thing): string {
  *---------------------------------------------------------------------------------------------------------*/
 function registerWhatsNew(context: vscode.ExtensionContext) {
 	const provider = new BookmarksContentProvider();
-	const viewer = new WhatsNewManager(context).registerContentProvider("mannemiethe", "oh-alignment-tool-2026", provider).registerSocialMediaProvider(new BookmarksSocialMediaProvider()).registerSponsorProvider(new BookmarksSponsorProvider());
+	const viewer = new WhatsNewManager(context).registerContentProvider("ManuelMiethe", "oh-alignment-tool-2026", provider).registerSocialMediaProvider(new BookmarksSocialMediaProvider()).registerSponsorProvider(new BookmarksSponsorProvider());
 	viewer.showPageInActivation();
 	context.subscriptions.push(commands.registerCommand("extension.whatsNew", () => viewer.showPage()));
 	context.subscriptions.push(commands.registerCommand("_extension.whatsNewContextMenu", () => viewer.showPage()));
