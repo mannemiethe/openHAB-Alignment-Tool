@@ -1,13 +1,13 @@
 {
 	"name": "oh-alignment-tool-2026",
-	"displayName": "openHAB 2026 Alignment Tool",
+	"displayName": "openHAB Config Aligner 2026",
 	"version": "2.1.8",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Manuel Miethe",
 		"Mark Hilbush"
 	],
-	"description": "Community-maintained formatter and alignment tool for openHAB item and sitemap configuration files.",
+	"description": "Community-maintained config alignment and formatting tool for openHAB item and sitemap files.",
 	"author": {
 		"name": "Maximilian Beckenbauer",
 		"email": "max.bec92@gmail.com",
@@ -139,5 +139,13 @@
 		"typescript": "^4.2.4",
 		"vscode-test": "^1.5.2"
 	},
-	"homepage": "https://github.com/mannemiethe/openHAB-Alignment-Tool#readme"
+	"homepage": "https://github.com/mannemiethe/openHAB-Alignment-Tool#readme",
+	"keywords": [
+		"openHAB",
+		"formatter",
+		"alignment",
+		"items",
+		"sitemap",
+		"config"
+	]
 }
