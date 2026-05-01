@@ -7,17 +7,20 @@
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.openhab-config-aligner-2026?color=orange&label=Version)](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.openhab-config-aligner-2026?color=orange)
 [![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.openhab-config-aligner-2026?label=Rating&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.openhab-config-aligner-2026?label=Rating&logo=visual-studio-code)
 
-
-This extension adds support for formatting and indenting [openHAB](http://www.openhab.org) files like `*.items`, `*.sitemap`, etc. At the moment only `*.items` and `*.sitemap` files are supported. They can be formatted in a column channel-column or multiline style. In the future the other file types
-and other format-types will be added. Feel free to add feature-requests on the github repository.
+## Support & Credits
 
 If this maintained fork helps you, please consider supporting the ongoing maintenance:
 
--    [Buy Manuel Miethe a coffee](https://www.buymeacoffee.com/mannemiethe)
+-    ☕ [Buy Manuel Miethe a coffee](https://www.buymeacoffee.com/mannemiethe)
 
+This extension is a maintained community fork of the original openHAB Alignment Tool by Maximilian Beckenbauer.
 If you want to thank the original developer as well:
 
--    [PayPal donation for Maximilian Beckenbauer, the original developer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url)
+-    💙 [PayPal donation for Maximilian Beckenbauer, the original developer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url)
+
+
+This extension adds support for formatting and indenting [openHAB](http://www.openhab.org) files like `*.items`, `*.sitemap`, etc. At the moment only `*.items` and `*.sitemap` files are supported. They can be formatted in a column channel-column or multiline style. In the future the other file types
+and other format-types will be added. Feel free to add feature-requests on the github repository.
 
 ## Maintained Fork / Fixed Bug
 

@@ -1,7 +1,7 @@
 {
 	"name": "openhab-config-aligner-2026",
 	"displayName": "openHAB Config Aligner 2026",
-	"version": "2.1.9",
+	"version": "2.1.10",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Manuel Miethe",
@@ -146,5 +146,8 @@
 		"items",
 		"sitemap",
 		"config"
-	]
+	],
+	"sponsor": {
+		"url": "https://www.buymeacoffee.com/mannemiethe"
+	}
 }

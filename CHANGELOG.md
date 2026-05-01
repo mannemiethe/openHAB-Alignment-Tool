@@ -1,5 +1,11 @@
 # openHAB Config Aligner 2026 Change Log
 
+## [2.1.10] - 01.05.2026
+
+- Moved support and original-author credit links to the top of the Marketplace README overview.
+- Added extension sponsor metadata pointing to Manuel Miethe's Buy Me a Coffee page.
+
+
 ## [2.1.9] - 01.05.2026
 
 - Updated Marketplace package identity to `ManuelMiethe.openhab-config-aligner-2026`.
