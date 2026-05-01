@@ -1,9 +1,9 @@
 # openHAB Alignment Tool Change Log
 
-## 2026.0.0
+## [2.1.8] - 01.05.2026
 
 - Community-maintained Marketplace release from the `mannemiethe/openHAB-Alignment-Tool` fork.
-- Renamed extension package to `oh-alignment-tool-2026` to avoid colliding with the unmaintained original Marketplace listing.
+- Renamed extension package to `oh-alignment-tool-2026` / display name `openHAB Alignment Tool 2026` to avoid colliding with the unmaintained original Marketplace listing.
 
 
 All notable changes to the openHAB Alignment Tool extension will be documented in this file.
