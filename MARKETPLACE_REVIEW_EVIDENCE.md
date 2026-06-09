@@ -29,6 +29,7 @@ The extension has been rebranded so it is clearly distinct from the inactive ori
   - it is not affiliated with or endorsed by the original project or author,
   - the original open-source project is credited only for transparent attribution.
 - Replaced the old README example screenshots/GIFs with reworked, branded `formatkit-*` example images.
+- Removed original-author donation/support UI from the extension and kept attribution in the README only.
 - Renamed commands and settings to the new namespace `openhab-formatkit.*`.
 - Updated in-extension what's-new/messaging text to the new brand.
 - Added a `2.2.0` changelog entry documenting the rebrand.
@@ -56,7 +57,8 @@ The extension has been rebranded so it is clearly distinct from the inactive ori
 
 - TypeScript compile completed successfully with `npm run compile`.
 - VSIX packaging completed successfully with `npx --yes @vscode/vsce package --no-dependencies`.
-- Search for the previous package identity and old logo references returns no matches outside historical attribution text.
+- VSIX package now excludes development-only files such as GitHub templates, Azure pipeline config, quickstart notes, and the review evidence document.
+- Search for the previous package identity and old logo references returns no matches outside historical attribution/removal evidence text.
 
 ## Note for Marketplace support
 

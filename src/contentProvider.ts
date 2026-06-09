@@ -38,10 +38,6 @@ export class BookmarksContentProvider implements ContentProvider {
 			kind: ChangeLogKind.CHANGED,
 			detail: "Support ongoing maintenance through feedback, issues, and pull requests.",
 		});
-		changeLog.push({
-			kind: ChangeLogKind.CHANGED,
-			detail: "Original developer support: PayPal donation for Maximilian Beckenbauer is still linked in the README and support section.",
-		});
 
 		changeLog.push({ kind: ChangeLogKind.VERSION, detail: { releaseNumber: "2.1.0", releaseDate: "April 2021" } });
 		changeLog.push({
@@ -88,11 +84,6 @@ export class BookmarksContentProvider implements ContentProvider {
 			title: "Project issues and feedback",
 			link: "https://github.com/mannemiethe/openHAB-Alignment-Tool/issues",
 			message: "Report bugs or request improvements",
-		});
-		supportChannels.push({
-			title: "PayPal donation for the original developer",
-			link: "https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url",
-			message: "Support Maximilian Beckenbauer, the original developer",
 		});
 		return supportChannels;
 	}
@@ -143,8 +134,8 @@ export class BookmarksSocialMediaProvider implements SocialMediaProvider {
 	public provideSocialMedias() {
 		return [
 			{
-				title: "Follow me on GitHub",
-				link: "https://github.com/mannemiethe",
+				title: "Project repository",
+				link: "https://github.com/mannemiethe/openHAB-Alignment-Tool",
 			},
 		];
 	}

@@ -1,11 +1,15 @@
 .vscode/**
+.github/**
 **/*.ts
 **/*.map
 .gitignore
 **/tsconfig.json
 **/tsconfig.base.json
+azure-pipelines.yml
 contributing.md
 .travis.yml
+vsc-extension-quickstart.md
+MARKETPLACE_REVIEW_EVIDENCE.md
 client/node_modules/**
 !client/node_modules/vscode-jsonrpc/**
 !client/node_modules/vscode-languageclient/**

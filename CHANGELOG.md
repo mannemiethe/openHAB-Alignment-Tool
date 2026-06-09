@@ -7,7 +7,9 @@
 - Replaced the icon and README wordmark with newly created `formatkit` artwork.
 - Rewrote README and extension messaging to state independent maintenance and no affiliation with the original project.
 - Renamed install-facing settings and command IDs to the `openhab-formatkit.*` namespace.
-- Removed old logo assets from the maintained project.
+- Removed old logo/example assets from the maintained project.
+- Replaced README examples with reworked branded images.
+- Cleaned Marketplace package contents to exclude development-only files.
 
 ## [2.1.10] - 01.05.2026
 
