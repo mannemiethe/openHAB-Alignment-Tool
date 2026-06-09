@@ -44,6 +44,15 @@ const REGEX_THING_LABEL = /\".+?\"/;
 const REGEX_THING_LOCATION = /\".+?\"/;
 const REGEX_THING_PARAMETERS = /.*[\},]/;
 
+
+const OPENHAB_DOCUMENT_SELECTOR: vscode.DocumentSelector = [
+	{ language: "openhab", scheme: "file" },
+	{ language: "openhab", scheme: "untitled" },
+	{ pattern: "**/*.items", scheme: "file" },
+	{ pattern: "**/*.sitemap", scheme: "file" },
+	{ pattern: "**/*.things", scheme: "file" },
+];
+
 // Default item values
 const DEF_ITEM_TYPE = "Type";
 const DEF_ITEM_NAME = "Name";
@@ -77,7 +86,7 @@ function getDocumentRange(document: vscode.TextDocument) {
 export function activate(context: vscode.ExtensionContext) {
 	// Formatter implementation
 	context.subscriptions.push(
-		vscode.languages.registerDocumentFormattingEditProvider("openhab", {
+		vscode.languages.registerDocumentFormattingEditProvider(OPENHAB_DOCUMENT_SELECTOR, {
 			provideDocumentFormattingEdits: (document, options, token) => {
 				let config = vscode.workspace.getConfiguration("openhab-formatkit");
 				// Check the file type, clean the file and format it
@@ -95,7 +104,7 @@ export function activate(context: vscode.ExtensionContext) {
 	);
 	// Selection Formatter implementation
 	context.subscriptions.push(
-		vscode.languages.registerDocumentRangeFormattingEditProvider("openhab", {
+		vscode.languages.registerDocumentRangeFormattingEditProvider(OPENHAB_DOCUMENT_SELECTOR, {
 			provideDocumentRangeFormattingEdits: (document, range, options, token) => {
 				var start = new vscode.Position(0, 0);
 				var end = new vscode.Position(document.lineCount - 1, document.lineAt(document.lineCount - 1).text.length);

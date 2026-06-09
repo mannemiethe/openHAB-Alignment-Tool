@@ -1,5 +1,10 @@
 # openHAB FormatKit Change Log
 
+## [2.2.2] - 09.06.2026
+
+- Registered formatter providers with explicit file-pattern selectors for `*.items`, `*.sitemap`, and `*.things`, so VS Code can discover the formatter even when the document language mode is not already `openhab`.
+- Added startup/workspace activation events for openHAB configuration files.
+
 ## [2.2.1] - 09.06.2026
 
 - Added built-in openHAB language contribution for `.items`, `.sitemap`, and `.things` files so the formatter is available without relying on another extension to provide the `openhab` language id.
