@@ -10,7 +10,7 @@ export class BookmarksContentProvider implements ContentProvider {
 	public provideHeader(logoUrl: string): Header {
 		return <Header>{
 			logo: <Image>{ src: logoUrl, height: 50, width: 40 },
-			message: `<b>openHAB Config Aligner 2026</b> This extension adds support for formatting and indenting <a href="http://www.openhab.org)">openHAB</a>
+			message: `<b>Miethe openHAB FormatKit</b> This extension adds support for formatting and indenting <a href="http://www.openhab.org)">openHAB</a>
 			files like <code>*.items</code>, <code>*.sitemap</code>, etc. At the moment only
 			<code>*.items</code> and <code>*.sitemap</code> files are supported. They can be formatted in a column channel-column
 			or multiline style. In the future the other file types and other format-types will be added.
@@ -32,7 +32,7 @@ export class BookmarksContentProvider implements ContentProvider {
 		});
 		changeLog.push({
 			kind: ChangeLogKind.CHANGED,
-			detail: "This maintained fork is published as openHAB Config Aligner 2026 under ManuelMiethe.openhab-config-aligner-2026.",
+			detail: "This maintained fork is published as Miethe openHAB FormatKit under ManuelMiethe.miethe-openhab-formatkit.",
 		});
 		changeLog.push({
 			kind: ChangeLogKind.CHANGED,

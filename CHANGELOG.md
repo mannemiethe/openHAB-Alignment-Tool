@@ -1,26 +1,32 @@
-# openHAB Config Aligner 2026 Change Log
+# Miethe openHAB FormatKit Change Log
+
+## [2.2.0] - 09.06.2026
+
+- Rebranded the extension to **Miethe openHAB FormatKit**.
+- Changed Marketplace package identity to `ManuelMiethe.miethe-openhab-formatkit`.
+- Replaced the icon and README wordmark with newly created `formatkit` artwork.
+- Rewrote README and extension messaging to state independent maintenance and no affiliation with the original project.
+- Renamed install-facing settings and command IDs to the `miethe-openhab-formatkit.*` namespace.
+- Removed old logo assets from the maintained project.
 
 ## [2.1.10] - 01.05.2026
 
 - Moved support and original-author credit links to the top of the Marketplace README overview.
 - Added extension sponsor metadata pointing to Manuel Miethe's Buy Me a Coffee page.
 
-
 ## [2.1.9] - 01.05.2026
 
-- Updated Marketplace package identity to `ManuelMiethe.openhab-config-aligner-2026`.
-- Renamed install-facing settings and command IDs to `openhab-config-aligner-2026.*`.
+- Updated Marketplace package identity for Manuel Miethe's maintained fork.
+- Renamed install-facing settings and command IDs for the maintained fork.
 - Added README notes for the maintained fork, fixed formatting bugs, and support links.
-
 
 ## [2.1.8] - 01.05.2026
 
 - First community-maintained release after the original project went quiet in 2021.
 - Continued the upstream package version from `2.1.7` to `2.1.8` instead of resetting to a year-based version.
-- Renamed extension package to `openhab-config-aligner-2026` / display name `openHAB Config Aligner 2026` to avoid colliding with the unmaintained original Marketplace listing.
+- Renamed extension package and display name to avoid colliding with the unmaintained original Marketplace listing.
 
-
-All notable changes to the openHAB Config Aligner 2026 extension will be documented in this file.
+All notable changes to the Miethe openHAB FormatKit extension will be documented in this file.
 
 ## [2.1.6] - 30.04.2021
 

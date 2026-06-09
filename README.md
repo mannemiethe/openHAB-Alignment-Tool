@@ -1,129 +1,150 @@
 <div align="center">
- <img width="400" src="https://raw.githubusercontent.com/mannemiethe/openHAB-Alignment-Tool/master/images/logo_text.png">
+  <img width="520" src="images/formatkit-wordmark.png" alt="Miethe openHAB FormatKit">
 </div>
-<br></br>
 
-[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.openhab-config-aligner-2026?color=blue&label=Installs&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.openhab-config-aligner-2026?color=blue&label=Installs&logo=visual-studio-code)
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.openhab-config-aligner-2026?color=orange&label=Version)](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.openhab-config-aligner-2026?color=orange)
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.openhab-config-aligner-2026?label=Rating&logo=visual-studio-code)](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.openhab-config-aligner-2026?label=Rating&logo=visual-studio-code)
+# Miethe openHAB FormatKit
 
-## Support & Credits
+Miethe openHAB FormatKit is an independently maintained Visual Studio Code extension for formatting and cleaning up openHAB configuration files such as `.items` and `.sitemap` files.
 
-If this maintained fork helps you, please consider supporting the ongoing maintenance:
+This project is maintained by Manuel Miethe. It is **not affiliated with, endorsed by, or published by** the original `openHAB Alignment Tool` author or project. The codebase began as a maintained fork of the inactive open-source project by Maximilian Beckenbauer, and that origin is credited here for transparency. All marketplace branding, icon artwork, package identity, README wording, and command/settings namespace have been changed for this independent release.
 
--    ☕ [Buy Manuel Miethe a coffee](https://www.buymeacoffee.com/mannemiethe)
+[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.miethe-openhab-formatkit?color=blue&label=Installs&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=ManuelMiethe.miethe-openhab-formatkit)
+[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.miethe-openhab-formatkit?color=orange&label=Version)](https://marketplace.visualstudio.com/items?itemName=ManuelMiethe.miethe-openhab-formatkit)
+[![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.miethe-openhab-formatkit?label=Rating&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=ManuelMiethe.miethe-openhab-formatkit)
 
-This extension is a maintained community fork of the original openHAB Alignment Tool by Maximilian Beckenbauer.
-If you want to thank the original developer as well:
+## What changed for the independent release
 
--    💙 [PayPal donation for Maximilian Beckenbauer, the original developer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url)
-
-
-This extension adds support for formatting and indenting [openHAB](http://www.openhab.org) files like `*.items`, `*.sitemap`, etc. At the moment only `*.items` and `*.sitemap` files are supported. They can be formatted in a column channel-column or multiline style. In the future the other file types
-and other format-types will be added. Feel free to add feature-requests on the github repository.
-
-## Maintained Fork / Fixed Bug
-
-This 2026 maintained fork includes the upstream fixes and adds a fix for item channel binding configurations where curly braces inside quoted strings could break formatting. Example affected cases are channel parameters that contain JSON-like values or text with `{...}` inside quotes.
-
-It also corrects space-based column padding when `editor.insertSpaces` is enabled, so aligned columns stay consistent with the configured tab size.
+- Extension display name changed to **Miethe openHAB FormatKit**.
+- Marketplace package ID changed to `ManuelMiethe.miethe-openhab-formatkit`.
+- Extension icon and README wordmark replaced with newly created artwork under `images/formatkit-*`.
+- Commands and settings moved to the `miethe-openhab-formatkit.*` namespace.
+- README and extension messaging rewritten to make the independent maintenance status clear.
+- Attribution to the original open-source project is kept without implying affiliation or endorsement.
 
 ## Features
 
-The tool is available as a standard Visual-Studio-Code formatter as it uses the original vsc formatter API. You can force to formatting with right-clicking the document and clicking `Format Document...` or `Format Selection...`. If you have enabled the function in the vsc settings it even can
-`Format-On-Save`.
+The extension uses the standard Visual Studio Code formatter API. You can format files with **Format Document**, **Format Selection**, or VS Code's format-on-save setting.
 
-### Item-Formatting:
+Supported formatting styles for openHAB item files:
 
-**Column-Style:**
+- Column style
+- Channel-column style
+- Multiline style
 
-![formatting item gif](images/items_column.png)
+Supported openHAB file types:
 
-**Column-Channel-Style:**
+- `.items` — fully functional
+- `.sitemap` — under development
+- `.things` — under development / beta
 
-![formatting item gif](images/items_channelcolumn.png)
+### Item formatting examples
 
-**Multiline-Style:**
+**Column style**
 
-![formatting item gif](images/items_multiline.png)
+![Column style item formatting](images/items_column.png)
 
-**Sitemap-Formatting:**
+**Column-channel style**
 
-![formatting sitemap gif](images/sitemap-formatting.gif)
+![Column-channel item formatting](images/items_channelcolumn.png)
 
-## Special Comment Tags
+**Multiline style**
 
-With the new version (v2) of this extension there are introduced new **Special Comment Tags** you can use in your `_.items_ file code, to change the way the extension is formatting your code.
+![Multiline item formatting](images/items_multiline.png)
 
-**New Group Tag**
+**Sitemap formatting**
 
-`// #OHNG#`
+![Sitemap formatting](images/sitemap-formatting.gif)
 
-With this tag you can start a new formatting group for an item section. The tracking of the longest item parts is resetted and will be set to the longest item part in the new group. The following image shows an example of a formatting group:
+## Maintained fixes
 
-![new formatting group](images/ng_formatting.png)
+This maintained version includes fixes for openHAB item channel binding configurations where curly braces inside quoted strings could break formatting. Example affected cases are channel parameters that contain JSON-like values or text with `{...}` inside quotes.
 
-**New Formatting Style**
+It also corrects space-based column padding when `editor.insertSpaces` is enabled, so aligned columns stay consistent with the configured tab size.
 
-`// #OHFS#%FORMATTING_STYLE%#OHFS#`
-
-With this tag you can change the formatting of the following item definitions from the default formatting style selected in the VSC settings to a new style inserted in `%FORMATTING_STYLE%`. So just replace `%FORMATTING_STYLE%` with `Column`, `ChannelColumn` or `Multiline`. The following image shows
-an example of a Multiline formatted part in a ChannelColumn document:
-
-![new formatting style](images/fs_formatting.png)
-
-## Limitations
-
-The formatting is available for the following openhab file types:
-
--    `.items` (Fully functional)
--    `.sitemap` (Under development)
--    `.things` (Under development)
-
-## Extension Settings
+## Extension settings
 
 ### New Line After Item
 
-With this option you can choose if you want to have a new line inserted after each item. If there is already a single empty line after an item this settings is ignored.
+Insert a new line after each item unless a single empty line already exists.
 
-`"openhab-config-aligner-2026.newLineAfterItem": true`
+```json
+"miethe-openhab-formatkit.newLineAfterItem": true
+```
 
 ### Preserve Whitespace
 
-Whitespaces (tabs or spaces) in front of items get preserved and won't be deleted.
+Preserve leading whitespace in front of items while reformatting.
 
-`"openhab-config-aligner-2026.preserveWhitespace": true`
+```json
+"miethe-openhab-formatkit.preserveWhitespace": true
+```
 
-### Multiline Indent Amount
+### Minimum Indent Amount
 
-With this option you can control the amount of indent when using the Multiline format.
+Control the minimum separation of thing or item parts.
 
-`"openhab-config-aligner-2026.multilineIndentAmount": 28`
+```json
+"miethe-openhab-formatkit.minimumIndentAmount": 4
+```
 
 ### Format Style
 
-The format style option gives you two styles between you can choose.
+Choose the formatter style:
 
--    Column
--    ChannelColumn
--    Multiline
+- `Column`
+- `ChannelColumn`
+- `Multiline`
 
-The Column style formats the files in a column-way. Each item will be on one line and the item parts are separated in columns. With the ChannelColumn style only the channel part of an item gets formatted into multiple lines. The Multiline format prints every part of an item in a new line and indents
-the different parts.
+```json
+"miethe-openhab-formatkit.formatStyle": "Column"
+```
 
-## Known Issues
+### Enable Beta Features
 
-See [Github Issues](https://github.com/mannemiethe/openHAB-Alignment-Tool/issues) file for the details.
+Enable beta formatting support for sitemap or thing files.
 
-## Release Notes
+```json
+"miethe-openhab-formatkit.enableBetaFeatures": false
+```
 
-See [CHANGELOG.md](https://github.com/mannemiethe/openHAB-Alignment-Tool/blob/master/CHANGELOG.md) file for the details.
+## Special comment tags
 
----
+### New Group Tag
 
-### For More Information
+```text
+// #OHNG#
+```
 
--    [openHAB Documentation](https://www.openhab.org/docs/)
--    [openHAB Community](https://community.openhab.org)
+Starts a new formatting group for an item section. Tracking of the longest item parts is reset for the new group.
+
+![New formatting group](images/ng_formatting.png)
+
+### New Formatting Style
+
+```text
+// #OHFS#%FORMATTING_STYLE%#OHFS#
+```
+
+Changes formatting for the following item definitions. Replace `%FORMATTING_STYLE%` with `Column`, `ChannelColumn`, or `Multiline`.
+
+![New formatting style](images/fs_formatting.png)
+
+## Attribution
+
+This project originated as a maintained fork of the inactive open-source project `maxbec/openHAB-Alignment-Tool` by Maximilian Beckenbauer. The current extension is independently maintained by Manuel Miethe and uses distinct marketplace identity, branding, and documentation.
+
+Original project: <https://github.com/maxbec/openHAB-Alignment-Tool>
+
+## Support
+
+If this maintained project helps you, you can support ongoing maintenance here:
+
+- ☕ [Buy Manuel Miethe a coffee](https://www.buymeacoffee.com/mannemiethe)
+
+## More information
+
+- [openHAB Documentation](https://www.openhab.org/docs/)
+- [openHAB Community](https://community.openhab.org)
+- [Issues for this maintained project](https://github.com/mannemiethe/openHAB-Alignment-Tool/issues)
 
 **Enjoy!**

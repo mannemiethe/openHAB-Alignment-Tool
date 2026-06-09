@@ -1,13 +1,13 @@
 {
-	"name": "openhab-config-aligner-2026",
-	"displayName": "openHAB Config Aligner 2026",
-	"version": "2.1.10",
+	"name": "miethe-openhab-formatkit",
+	"displayName": "Miethe openHAB FormatKit",
+	"version": "2.2.0",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Manuel Miethe",
 		"Mark Hilbush"
 	],
-	"description": "Community-maintained config alignment and formatting tool for openHAB item and sitemap files.",
+	"description": "Independent formatter and cleanup toolkit for openHAB items, sitemap, and configuration files.",
 	"author": {
 		"name": "Manuel Miethe",
 		"url": "https://github.com/mannemiethe"
@@ -17,7 +17,7 @@
 		"Formatters",
 		"Linters"
 	],
-	"icon": "images/logo.png",
+	"icon": "images/formatkit-icon.png",
 	"repository": {
 		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool",
 		"type": "git"
@@ -36,60 +36,60 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "openhab-config-aligner-2026.insert-item-generic",
-				"category": "openHAB Config Aligner",
+				"command": "miethe-openhab-formatkit.insert-item-generic",
+				"category": "Miethe openHAB FormatKit",
 				"title": "Insert Item"
 			},
 			{
-				"command": "openhab-config-aligner-2026.insert-item-switch",
-				"category": "openHAB Config Aligner",
+				"command": "miethe-openhab-formatkit.insert-item-switch",
+				"category": "Miethe openHAB FormatKit",
 				"title": "Insert Switch Item"
 			},
 			{
-				"command": "openhab-config-aligner-2026.insert-item-dimmer",
-				"category": "openHAB Config Aligner",
+				"command": "miethe-openhab-formatkit.insert-item-dimmer",
+				"category": "Miethe openHAB FormatKit",
 				"title": "Insert Dimmer Item"
 			},
 			{
-				"command": "openhab-config-aligner-2026.insert-item-string",
-				"category": "openHAB Config Aligner",
+				"command": "miethe-openhab-formatkit.insert-item-string",
+				"category": "Miethe openHAB FormatKit",
 				"title": "Insert String Item"
 			},
 			{
-				"command": "openhab-config-aligner-2026.insert-item-number",
-				"category": "openHAB Config Aligner",
+				"command": "miethe-openhab-formatkit.insert-item-number",
+				"category": "Miethe openHAB FormatKit",
 				"title": "Insert Number Item"
 			},
 			{
-				"command": "openhab-config-aligner-2026.insert-item-datetime",
-				"category": "openHAB Config Aligner",
+				"command": "miethe-openhab-formatkit.insert-item-datetime",
+				"category": "Miethe openHAB FormatKit",
 				"title": "Insert DateTime Item"
 			},
 			{
-				"command": "openhab-config-aligner-2026.whatsNew",
+				"command": "miethe-openhab-formatkit.whatsNew",
 				"title": "%extension.commands.whatsNew.title%",
 				"category": "%extension.commands.category.bookmarks%"
 			},
 			{
-				"command": "_openhab-config-aligner-2026.whatsNewContextMenu",
+				"command": "_miethe-openhab-formatkit.whatsNewContextMenu",
 				"title": "%extension.commands.whatsNewContextMenu.title%"
 			}
 		],
 		"configuration": {
 			"type": "object",
-			"title": "openHAB Config Aligner 2026",
+			"title": "Miethe openHAB FormatKit",
 			"properties": {
-				"openhab-config-aligner-2026.preserveWhitespace": {
+				"miethe-openhab-formatkit.preserveWhitespace": {
 					"type": "boolean",
 					"default": false,
 					"description": "Preserves any leading whitespace when reformatting an item."
 				},
-				"openhab-config-aligner-2026.newLineAfterItem": {
+				"miethe-openhab-formatkit.newLineAfterItem": {
 					"type": "boolean",
 					"default": false,
 					"description": "Choose if you want to have a new line inserted after each item."
 				},
-				"openhab-config-aligner-2026.formatStyle": {
+				"miethe-openhab-formatkit.formatStyle": {
 					"type": "string",
 					"default": "Column",
 					"enum": [
@@ -103,12 +103,12 @@
 						"Formats the files in a multiline-style. E.g. in an items file each part of an item is written in a new line."
 					]
 				},
-				"openhab-config-aligner-2026.minimumIndentAmount": {
+				"miethe-openhab-formatkit.minimumIndentAmount": {
 					"type": "number",
 					"default": 4,
 					"description": "Minimum separation of thing or item parts."
 				},
-				"openhab-config-aligner-2026.enableBetaFeatures": {
+				"miethe-openhab-formatkit.enableBetaFeatures": {
 					"type": "boolean",
 					"default": false,
 					"description": "Enable beta features like sitemap formatting or thing file formatting."
@@ -142,10 +142,11 @@
 	"keywords": [
 		"openHAB",
 		"formatter",
-		"alignment",
+		"formatkit",
 		"items",
 		"sitemap",
-		"config"
+		"config",
+		"cleanup"
 	],
 	"sponsor": {
 		"url": "https://www.buymeacoffee.com/mannemiethe"
