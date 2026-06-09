@@ -1,5 +1,10 @@
 # openHAB FormatKit Change Log
 
+## [2.2.3] - 09.06.2026
+
+- Restored and expanded Marketplace discovery metadata for formatter/category searches, including `openhab`, `formatter`, `alignment`, and `aligner` keywords.
+- Added `Programming Languages` category alongside `Formatters` so VS Code can surface the extension for openHAB file support and formatter searches.
+
 ## [2.2.2] - 09.06.2026
 
 - Registered formatter providers with explicit file-pattern selectors for `*.items`, `*.sitemap`, and `*.things`, so VS Code can discover the formatter even when the document language mode is not already `openhab`.

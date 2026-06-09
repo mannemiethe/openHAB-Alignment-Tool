@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.2.2",
+	"version": "2.2.3",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -12,9 +12,9 @@
 		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool"
 	},
 	"categories": [
-		"Other",
 		"Formatters",
-		"Linters"
+		"Programming Languages",
+		"Other"
 	],
 	"icon": "images/formatkit-icon.png",
 	"repository": {
@@ -160,11 +160,26 @@
 	"homepage": "https://github.com/mannemiethe/openHAB-Alignment-Tool#readme",
 	"keywords": [
 		"openHAB",
+		"openhab",
 		"formatter",
-		"formatkit",
+		"formatters",
+		"formatting",
+		"alignment",
+		"aligner",
 		"items",
 		"sitemap",
+		"things",
 		"config",
-		"cleanup"
+		"configuration",
+		"cleanup",
+		"smart home",
+		"home automation"
+	],
+	"badges": [
+		{
+			"url": "https://img.shields.io/badge/openHAB-FormatKit-0f766e",
+			"href": "https://www.openhab.org/",
+			"description": "openHAB formatter toolkit"
+		}
 	]
 }
