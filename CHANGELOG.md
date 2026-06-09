@@ -1,5 +1,10 @@
 # openHAB FormatKit Change Log
 
+## [2.2.1] - 09.06.2026
+
+- Added built-in openHAB language contribution for `.items`, `.sitemap`, and `.things` files so the formatter is available without relying on another extension to provide the `openhab` language id.
+- Hardened activation so a what's-new page issue cannot prevent formatter registration.
+
 ## [2.2.0] - 09.06.2026
 
 - Rebranded the extension to **openHAB FormatKit**.

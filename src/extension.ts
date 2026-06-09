@@ -129,7 +129,11 @@ export function activate(context: vscode.ExtensionContext) {
 		commandInsertNewDateTimeItem();
 	});
 
-	registerWhatsNew(context);
+	try {
+		registerWhatsNew(context);
+	} catch (error) {
+		console.warn("openHAB FormatKit: failed to show what's-new page", error);
+	}
 }
 
 /**

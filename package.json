@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.2.0",
+	"version": "2.2.1",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -113,7 +113,23 @@
 					"description": "Enable beta features like sitemap formatting or thing file formatting."
 				}
 			}
-		}
+		},
+		"languages": [
+			{
+				"id": "openhab",
+				"aliases": [
+					"openHAB",
+					"openhab"
+				],
+				"extensions": [
+					".items",
+					".sitemap",
+					".things"
+				],
+				"filenames": [],
+				"configuration": "./language-configuration.json"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
