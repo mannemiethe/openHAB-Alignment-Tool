@@ -66,6 +66,7 @@ var highestThingParametersLength = 0;
 
 // Comment Checker
 let isInBlockComment = false;
+const OPENHAB_FORMATKIT_OUTPUT = vscode.window.createOutputChannel("openHAB FormatKit");
 
 function getDocumentRange(document: vscode.TextDocument) {
 	var start = new vscode.Position(0, 0);
@@ -79,6 +80,15 @@ function getDocumentRange(document: vscode.TextDocument) {
  * @param context
  */
 export function activate(context: vscode.ExtensionContext) {
+	OPENHAB_FORMATKIT_OUTPUT.appendLine(`Activated openHAB FormatKit ${context.extension.packageJSON.version}`);
+	OPENHAB_FORMATKIT_OUTPUT.appendLine(`Extension id: ${context.extension.id}`);
+	OPENHAB_FORMATKIT_OUTPUT.appendLine(`Extension mode: ${context.extensionMode}`);
+	if (vscode.window.activeTextEditor) {
+		const document = vscode.window.activeTextEditor.document;
+		OPENHAB_FORMATKIT_OUTPUT.appendLine(`Active document: ${document.uri.toString()}`);
+		OPENHAB_FORMATKIT_OUTPUT.appendLine(`Active language: ${document.languageId}`);
+	}
+
 	// Formatter implementation
 	context.subscriptions.push(
 		vscode.languages.registerDocumentFormattingEditProvider(OPENHAB_DOCUMENT_SELECTOR, {
@@ -132,6 +142,26 @@ export function activate(context: vscode.ExtensionContext) {
 	vscode.commands.registerCommand("openhab-formatkit.insert-item-datetime", () => {
 		commandInsertNewDateTimeItem();
 	});
+
+	context.subscriptions.push(vscode.commands.registerCommand("openhab-formatkit.showDiagnostics", () => {
+		OPENHAB_FORMATKIT_OUTPUT.clear();
+		OPENHAB_FORMATKIT_OUTPUT.appendLine(`openHAB FormatKit diagnostics`);
+		OPENHAB_FORMATKIT_OUTPUT.appendLine(`Extension id: ${context.extension.id}`);
+		OPENHAB_FORMATKIT_OUTPUT.appendLine(`Version: ${context.extension.packageJSON.version}`);
+		OPENHAB_FORMATKIT_OUTPUT.appendLine(`Extension path: ${context.extensionPath}`);
+		OPENHAB_FORMATKIT_OUTPUT.appendLine(`Extension mode: ${context.extensionMode}`);
+		const editor = vscode.window.activeTextEditor;
+		if (editor) {
+			const document = editor.document;
+			OPENHAB_FORMATKIT_OUTPUT.appendLine(`Active document URI: ${document.uri.toString()}`);
+			OPENHAB_FORMATKIT_OUTPUT.appendLine(`Active document scheme: ${document.uri.scheme}`);
+			OPENHAB_FORMATKIT_OUTPUT.appendLine(`Active document language: ${document.languageId}`);
+			OPENHAB_FORMATKIT_OUTPUT.appendLine(`Active document fileName: ${document.fileName}`);
+		} else {
+			OPENHAB_FORMATKIT_OUTPUT.appendLine("No active text editor.");
+		}
+		OPENHAB_FORMATKIT_OUTPUT.show(true);
+	}));
 
 }
 

@@ -1,5 +1,9 @@
 # openHAB FormatKit Change Log
 
+## [2.2.6] - 09.06.2026
+
+- Added an `openHAB FormatKit: Show Diagnostics` command and activation logging to the `openHAB FormatKit` output channel to troubleshoot formatter discovery issues.
+
 ## [2.2.5] - 09.06.2026
 
 - Removed the what's-new activation path and commands to eliminate a possible activation failure before formatter registration.
