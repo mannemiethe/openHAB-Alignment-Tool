@@ -1,5 +1,9 @@
 # openHAB FormatKit Change Log
 
+## [2.2.7] - 09.06.2026
+
+- Replaced the standalone extension icon with artwork derived from the wordmark icon for a more detailed and consistent visual style.
+
 ## [2.2.6] - 09.06.2026
 
 - Added an `openHAB FormatKit: Show Diagnostics` command and activation logging to the `openHAB FormatKit` output channel to troubleshoot formatter discovery issues.
