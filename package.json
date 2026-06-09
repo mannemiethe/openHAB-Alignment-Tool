@@ -1,16 +1,15 @@
 {
-	"name": "miethe-openhab-formatkit",
-	"displayName": "Miethe openHAB FormatKit",
+	"name": "openhab-formatkit",
+	"displayName": "openHAB FormatKit",
 	"version": "2.2.0",
 	"publisher": "ManuelMiethe",
 	"contributors": [
-		"Manuel Miethe",
 		"Mark Hilbush"
 	],
-	"description": "Independent formatter and cleanup toolkit for openHAB items, sitemap, and configuration files.",
+	"description": "Modern independent formatter and cleanup toolkit for openHAB items, sitemap, and configuration files.",
 	"author": {
-		"name": "Manuel Miethe",
-		"url": "https://github.com/mannemiethe"
+		"name": "openHAB FormatKit maintainers",
+		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool"
 	},
 	"categories": [
 		"Other",
@@ -36,60 +35,60 @@
 	"contributes": {
 		"commands": [
 			{
-				"command": "miethe-openhab-formatkit.insert-item-generic",
-				"category": "Miethe openHAB FormatKit",
+				"command": "openhab-formatkit.insert-item-generic",
+				"category": "openHAB FormatKit",
 				"title": "Insert Item"
 			},
 			{
-				"command": "miethe-openhab-formatkit.insert-item-switch",
-				"category": "Miethe openHAB FormatKit",
+				"command": "openhab-formatkit.insert-item-switch",
+				"category": "openHAB FormatKit",
 				"title": "Insert Switch Item"
 			},
 			{
-				"command": "miethe-openhab-formatkit.insert-item-dimmer",
-				"category": "Miethe openHAB FormatKit",
+				"command": "openhab-formatkit.insert-item-dimmer",
+				"category": "openHAB FormatKit",
 				"title": "Insert Dimmer Item"
 			},
 			{
-				"command": "miethe-openhab-formatkit.insert-item-string",
-				"category": "Miethe openHAB FormatKit",
+				"command": "openhab-formatkit.insert-item-string",
+				"category": "openHAB FormatKit",
 				"title": "Insert String Item"
 			},
 			{
-				"command": "miethe-openhab-formatkit.insert-item-number",
-				"category": "Miethe openHAB FormatKit",
+				"command": "openhab-formatkit.insert-item-number",
+				"category": "openHAB FormatKit",
 				"title": "Insert Number Item"
 			},
 			{
-				"command": "miethe-openhab-formatkit.insert-item-datetime",
-				"category": "Miethe openHAB FormatKit",
+				"command": "openhab-formatkit.insert-item-datetime",
+				"category": "openHAB FormatKit",
 				"title": "Insert DateTime Item"
 			},
 			{
-				"command": "miethe-openhab-formatkit.whatsNew",
+				"command": "openhab-formatkit.whatsNew",
 				"title": "%extension.commands.whatsNew.title%",
 				"category": "%extension.commands.category.bookmarks%"
 			},
 			{
-				"command": "_miethe-openhab-formatkit.whatsNewContextMenu",
+				"command": "_openhab-formatkit.whatsNewContextMenu",
 				"title": "%extension.commands.whatsNewContextMenu.title%"
 			}
 		],
 		"configuration": {
 			"type": "object",
-			"title": "Miethe openHAB FormatKit",
+			"title": "openHAB FormatKit",
 			"properties": {
-				"miethe-openhab-formatkit.preserveWhitespace": {
+				"openhab-formatkit.preserveWhitespace": {
 					"type": "boolean",
 					"default": false,
 					"description": "Preserves any leading whitespace when reformatting an item."
 				},
-				"miethe-openhab-formatkit.newLineAfterItem": {
+				"openhab-formatkit.newLineAfterItem": {
 					"type": "boolean",
 					"default": false,
 					"description": "Choose if you want to have a new line inserted after each item."
 				},
-				"miethe-openhab-formatkit.formatStyle": {
+				"openhab-formatkit.formatStyle": {
 					"type": "string",
 					"default": "Column",
 					"enum": [
@@ -103,12 +102,12 @@
 						"Formats the files in a multiline-style. E.g. in an items file each part of an item is written in a new line."
 					]
 				},
-				"miethe-openhab-formatkit.minimumIndentAmount": {
+				"openhab-formatkit.minimumIndentAmount": {
 					"type": "number",
 					"default": 4,
 					"description": "Minimum separation of thing or item parts."
 				},
-				"miethe-openhab-formatkit.enableBetaFeatures": {
+				"openhab-formatkit.enableBetaFeatures": {
 					"type": "boolean",
 					"default": false,
 					"description": "Enable beta features like sitemap formatting or thing file formatting."
@@ -147,8 +146,5 @@
 		"sitemap",
 		"config",
 		"cleanup"
-	],
-	"sponsor": {
-		"url": "https://www.buymeacoffee.com/mannemiethe"
-	}
+	]
 }

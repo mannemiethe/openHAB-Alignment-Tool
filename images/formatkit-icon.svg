@@ -1,18 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="Miethe openHAB FormatKit icon">
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" role="img" aria-label="openHAB FormatKit icon">
   <defs>
-    <linearGradient id="bg" x1="24" y1="24" x2="232" y2="232" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#123a63"/>
-      <stop offset="1" stop-color="#0b7a75"/>
+    <radialGradient id="glow" cx="35%" cy="20%" r="85%">
+      <stop offset="0" stop-color="#5ee7ff"/>
+      <stop offset="0.45" stop-color="#2f80ed"/>
+      <stop offset="1" stop-color="#111827"/>
+    </radialGradient>
+    <linearGradient id="panel" x1="50" y1="56" x2="210" y2="204" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ffffff" stop-opacity=".24"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity=".08"/>
     </linearGradient>
-    <linearGradient id="accent" x1="64" y1="54" x2="190" y2="202" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#f7d154"/>
-      <stop offset="1" stop-color="#f28c38"/>
+    <linearGradient id="accent" x1="70" y1="70" x2="188" y2="182" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#a7f3d0"/>
+      <stop offset="1" stop-color="#22d3ee"/>
     </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#020617" flood-opacity=".35"/>
+    </filter>
   </defs>
-  <rect x="18" y="18" width="220" height="220" rx="52" fill="url(#bg)"/>
-  <path d="M70 72h116a18 18 0 0 1 18 18v84a18 18 0 0 1-18 18H70a18 18 0 0 1-18-18V90a18 18 0 0 1 18-18Z" fill="#ffffff" opacity=".12"/>
-  <path d="M79 97h76M79 128h102M79 159h66" stroke="#dff7f5" stroke-width="14" stroke-linecap="round"/>
-  <path d="M170 107l22 22-22 22" fill="none" stroke="url(#accent)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
-  <circle cx="62" cy="60" r="13" fill="url(#accent)"/>
-  <text x="128" y="226" text-anchor="middle" font-family="DejaVu Sans" font-size="22" font-weight="700" fill="#dff7f5">FORMATKIT</text>
+  <rect width="256" height="256" rx="58" fill="url(#glow)"/>
+  <circle cx="202" cy="50" r="52" fill="#ffffff" opacity=".10"/>
+  <circle cx="42" cy="210" r="70" fill="#22d3ee" opacity=".12"/>
+  <g filter="url(#shadow)">
+    <rect x="48" y="54" width="160" height="148" rx="30" fill="url(#panel)" stroke="#dbeafe" stroke-opacity=".22"/>
+    <path d="M82 92h58M82 126h92M82 160h50" stroke="#eff6ff" stroke-width="13" stroke-linecap="round"/>
+    <path d="M158 96l32 32-32 32" fill="none" stroke="url(#accent)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M68 71l13 13M188 184l13 13" stroke="#a7f3d0" stroke-width="8" stroke-linecap="round" opacity=".9"/>
+  </g>
 </svg>

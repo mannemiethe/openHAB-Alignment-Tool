@@ -1,23 +1,29 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="900" height="220" viewBox="0 0 900 220" role="img" aria-label="Miethe openHAB FormatKit wordmark">
-  <rect width="900" height="220" rx="30" fill="#0f2030"/>
-  <g transform="translate(32 22) scale(.68)">
-    <defs>
-      <linearGradient id="bg" x1="24" y1="24" x2="232" y2="232" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#123a63"/>
-        <stop offset="1" stop-color="#0b7a75"/>
-      </linearGradient>
-      <linearGradient id="accent" x1="64" y1="54" x2="190" y2="202" gradientUnits="userSpaceOnUse">
-        <stop offset="0" stop-color="#f7d154"/>
-        <stop offset="1" stop-color="#f28c38"/>
-      </linearGradient>
-    </defs>
-    <rect x="18" y="18" width="220" height="220" rx="52" fill="url(#bg)"/>
-    <path d="M70 72h116a18 18 0 0 1 18 18v84a18 18 0 0 1-18 18H70a18 18 0 0 1-18-18V90a18 18 0 0 1 18-18Z" fill="#ffffff" opacity=".12"/>
-    <path d="M79 97h76M79 128h102M79 159h66" stroke="#dff7f5" stroke-width="14" stroke-linecap="round"/>
-    <path d="M170 107l22 22-22 22" fill="none" stroke="url(#accent)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
-    <circle cx="62" cy="60" r="13" fill="url(#accent)"/>
+<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="260" viewBox="0 0 1000 260" role="img" aria-label="openHAB FormatKit wordmark">
+  <defs>
+    <radialGradient id="bg" cx="20%" cy="15%" r="95%">
+      <stop offset="0" stop-color="#1e40af"/>
+      <stop offset="0.5" stop-color="#0f766e"/>
+      <stop offset="1" stop-color="#020617"/>
+    </radialGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#a7f3d0"/>
+      <stop offset="1" stop-color="#22d3ee"/>
+    </linearGradient>
+    <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="16" flood-color="#020617" flood-opacity=".35"/>
+    </filter>
+  </defs>
+  <rect width="1000" height="260" rx="44" fill="url(#bg)"/>
+  <circle cx="910" cy="28" r="96" fill="#ffffff" opacity=".08"/>
+  <circle cx="90" cy="230" r="120" fill="#22d3ee" opacity=".10"/>
+  <g transform="translate(50 39) scale(.72)" filter="url(#soft)">
+    <rect width="256" height="256" rx="58" fill="#ffffff" stroke="#dbeafe" stroke-opacity=".20" opacity=".08"/>
+    <rect x="48" y="54" width="160" height="148" rx="30" fill="#ffffff" opacity=".12"/>
+    <path d="M82 92h58M82 126h92M82 160h50" stroke="#eff6ff" stroke-width="13" stroke-linecap="round"/>
+    <path d="M158 96l32 32-32 32" fill="none" stroke="url(#accent)" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M68 71l13 13M188 184l13 13" stroke="#a7f3d0" stroke-width="8" stroke-linecap="round" opacity=".9"/>
   </g>
-  <text x="230" y="92" font-family="DejaVu Sans" font-size="40" font-weight="700" fill="#f7fbff">Miethe openHAB</text>
-  <text x="230" y="150" font-family="DejaVu Sans" font-size="62" font-weight="800" fill="#f7d154">FormatKit</text>
-  <text x="232" y="184" font-family="DejaVu Sans" font-size="22" fill="#9fc9c7">Independent formatter and cleanup toolkit</text>
+  <text x="270" y="110" font-family="DejaVu-Sans" font-size="58" font-weight="800" fill="#f8fafc">openHAB FormatKit</text>
+  <text x="274" y="161" font-family="DejaVu-Sans" font-size="27" font-weight="500" fill="#bae6fd">modern formatter and cleanup toolkit</text>
+  <rect x="276" y="190" width="344" height="6" rx="3" fill="url(#accent)" opacity=".95"/>
 </svg>

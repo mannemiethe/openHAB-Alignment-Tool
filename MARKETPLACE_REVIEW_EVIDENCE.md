@@ -1,8 +1,7 @@
 # Visual Studio Marketplace Review Evidence
 
-Extension: `ManuelMiethe.miethe-openhab-formatkit`  
-Display name: **Miethe openHAB FormatKit**  
-Maintainer: Manuel Miethe  
+Extension: `openhab-formatkit` under the existing publisher account
+Display name: **openHAB FormatKit**
 Review issue: impersonation concern
 
 ## Summary
@@ -11,8 +10,8 @@ The extension has been rebranded so it is clearly distinct from the inactive ori
 
 ## Changes applied
 
-- Changed the extension package name from the previous maintained-fork identity to `miethe-openhab-formatkit`.
-- Changed the Marketplace display name to **Miethe openHAB FormatKit**.
+- Changed the extension package name to `openhab-formatkit`.
+- Changed the Marketplace display name to **openHAB FormatKit**.
 - Replaced the extension icon with newly created artwork:
   - `images/formatkit-icon.svg`
   - `images/formatkit-icon.png`
@@ -26,10 +25,10 @@ The extension has been rebranded so it is clearly distinct from the inactive ori
   - `images/logo_text.svg`
   - `images/vscode-oh-alignment-tool-logo-readme.png`
 - Rewrote the README introduction and attribution section to clearly state:
-  - this is independently maintained by Manuel Miethe,
+  - this is independently maintained,
   - it is not affiliated with or endorsed by the original project or author,
   - the original open-source project is credited only for transparent attribution.
-- Renamed commands and settings to the new namespace `miethe-openhab-formatkit.*`.
+- Renamed commands and settings to the new namespace `openhab-formatkit.*`.
 - Updated in-extension what's-new/messaging text to the new brand.
 - Added a `2.2.0` changelog entry documenting the rebrand.
 

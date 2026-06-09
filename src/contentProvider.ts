@@ -10,7 +10,7 @@ export class BookmarksContentProvider implements ContentProvider {
 	public provideHeader(logoUrl: string): Header {
 		return <Header>{
 			logo: <Image>{ src: logoUrl, height: 50, width: 40 },
-			message: `<b>Miethe openHAB FormatKit</b> This extension adds support for formatting and indenting <a href="http://www.openhab.org)">openHAB</a>
+			message: `<b>openHAB FormatKit</b> This extension adds support for formatting and indenting <a href="http://www.openhab.org)">openHAB</a>
 			files like <code>*.items</code>, <code>*.sitemap</code>, etc. At the moment only
 			<code>*.items</code> and <code>*.sitemap</code> files are supported. They can be formatted in a column channel-column
 			or multiline style. In the future the other file types and other format-types will be added.
@@ -32,11 +32,11 @@ export class BookmarksContentProvider implements ContentProvider {
 		});
 		changeLog.push({
 			kind: ChangeLogKind.CHANGED,
-			detail: "This maintained fork is published as Miethe openHAB FormatKit under ManuelMiethe.miethe-openhab-formatkit.",
+			detail: "This maintained fork is published as openHAB FormatKit with an independent package identity.",
 		});
 		changeLog.push({
 			kind: ChangeLogKind.CHANGED,
-			detail: "Support ongoing maintenance: Buy Manuel Miethe a coffee at https://www.buymeacoffee.com/mannemiethe",
+			detail: "Support ongoing maintenance through feedback, issues, and pull requests.",
 		});
 		changeLog.push({
 			kind: ChangeLogKind.CHANGED,
@@ -85,9 +85,9 @@ export class BookmarksContentProvider implements ContentProvider {
 	public provideSupportChannels(): SupportChannel[] {
 		const supportChannels: SupportChannel[] = [];
 		supportChannels.push({
-			title: "Buy Manuel Miethe a coffee",
-			link: "https://www.buymeacoffee.com/mannemiethe",
-			message: "Support ongoing maintenance",
+			title: "Project issues and feedback",
+			link: "https://github.com/mannemiethe/openHAB-Alignment-Tool/issues",
+			message: "Report bugs or request improvements",
 		});
 		supportChannels.push({
 			title: "PayPal donation for the original developer",

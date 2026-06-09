@@ -1,23 +1,19 @@
 <div align="center">
-  <img width="520" src="images/formatkit-wordmark.png" alt="Miethe openHAB FormatKit">
+  <img width="520" src="images/formatkit-wordmark.png" alt="openHAB FormatKit">
 </div>
 
-# Miethe openHAB FormatKit
+# openHAB FormatKit
 
-Miethe openHAB FormatKit is an independently maintained Visual Studio Code extension for formatting and cleaning up openHAB configuration files such as `.items` and `.sitemap` files.
+openHAB FormatKit is an independently maintained Visual Studio Code extension for formatting and cleaning up openHAB configuration files such as `.items` and `.sitemap` files.
 
-This project is maintained by Manuel Miethe. It is **not affiliated with, endorsed by, or published by** the original `openHAB Alignment Tool` author or project. The codebase began as a maintained fork of the inactive open-source project by Maximilian Beckenbauer, and that origin is credited here for transparency. All marketplace branding, icon artwork, package identity, README wording, and command/settings namespace have been changed for this independent release.
-
-[![Visual Studio Marketplace Installs](https://img.shields.io/visual-studio-marketplace/i/ManuelMiethe.miethe-openhab-formatkit?color=blue&label=Installs&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=ManuelMiethe.miethe-openhab-formatkit)
-[![Visual Studio Marketplace Version](https://img.shields.io/visual-studio-marketplace/v/ManuelMiethe.miethe-openhab-formatkit?color=orange&label=Version)](https://marketplace.visualstudio.com/items?itemName=ManuelMiethe.miethe-openhab-formatkit)
-[![Visual Studio Marketplace Rating](https://img.shields.io/visual-studio-marketplace/stars/ManuelMiethe.miethe-openhab-formatkit?label=Rating&logo=visual-studio-code)](https://marketplace.visualstudio.com/items?itemName=ManuelMiethe.miethe-openhab-formatkit)
+This is an independently maintained project. It is **not affiliated with, endorsed by, or published by** the original `openHAB Alignment Tool` author or project. The codebase began as a maintained fork of the inactive open-source project by Maximilian Beckenbauer, and that origin is credited here for transparency. All marketplace branding, icon artwork, package identity, README wording, and command/settings namespace have been changed for this independent release.
 
 ## What changed for the independent release
 
-- Extension display name changed to **Miethe openHAB FormatKit**.
-- Marketplace package ID changed to `ManuelMiethe.miethe-openhab-formatkit`.
+- Extension display name changed to **openHAB FormatKit**.
+- Marketplace package ID changed to `openhab-formatkit` under the existing publisher account.
 - Extension icon and README wordmark replaced with newly created artwork under `images/formatkit-*`.
-- Commands and settings moved to the `miethe-openhab-formatkit.*` namespace.
+- Commands and settings moved to the `openhab-formatkit.*` namespace.
 - README and extension messaging rewritten to make the independent maintenance status clear.
 - Attribution to the original open-source project is kept without implying affiliation or endorsement.
 
@@ -68,7 +64,7 @@ It also corrects space-based column padding when `editor.insertSpaces` is enable
 Insert a new line after each item unless a single empty line already exists.
 
 ```json
-"miethe-openhab-formatkit.newLineAfterItem": true
+"openhab-formatkit.newLineAfterItem": true
 ```
 
 ### Preserve Whitespace
@@ -76,7 +72,7 @@ Insert a new line after each item unless a single empty line already exists.
 Preserve leading whitespace in front of items while reformatting.
 
 ```json
-"miethe-openhab-formatkit.preserveWhitespace": true
+"openhab-formatkit.preserveWhitespace": true
 ```
 
 ### Minimum Indent Amount
@@ -84,7 +80,7 @@ Preserve leading whitespace in front of items while reformatting.
 Control the minimum separation of thing or item parts.
 
 ```json
-"miethe-openhab-formatkit.minimumIndentAmount": 4
+"openhab-formatkit.minimumIndentAmount": 4
 ```
 
 ### Format Style
@@ -96,7 +92,7 @@ Choose the formatter style:
 - `Multiline`
 
 ```json
-"miethe-openhab-formatkit.formatStyle": "Column"
+"openhab-formatkit.formatStyle": "Column"
 ```
 
 ### Enable Beta Features
@@ -104,7 +100,7 @@ Choose the formatter style:
 Enable beta formatting support for sitemap or thing files.
 
 ```json
-"miethe-openhab-formatkit.enableBetaFeatures": false
+"openhab-formatkit.enableBetaFeatures": false
 ```
 
 ## Special comment tags
@@ -131,15 +127,13 @@ Changes formatting for the following item definitions. Replace `%FORMATTING_STYL
 
 ## Attribution
 
-This project originated as a maintained fork of the inactive open-source project `maxbec/openHAB-Alignment-Tool` by Maximilian Beckenbauer. The current extension is independently maintained by Manuel Miethe and uses distinct marketplace identity, branding, and documentation.
+This project originated as a maintained fork of the inactive open-source project `maxbec/openHAB-Alignment-Tool` by Maximilian Beckenbauer. The current extension is independently maintained and uses distinct marketplace identity, branding, and documentation.
 
 Original project: <https://github.com/maxbec/openHAB-Alignment-Tool>
 
 ## Support
 
-If this maintained project helps you, you can support ongoing maintenance here:
-
-- ☕ [Buy Manuel Miethe a coffee](https://www.buymeacoffee.com/mannemiethe)
+If this maintained project helps you, stars, issues, and pull requests are welcome.
 
 ## More information
 
