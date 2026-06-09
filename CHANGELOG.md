@@ -1,5 +1,10 @@
 # openHAB FormatKit Change Log
 
+## [2.2.4] - 09.06.2026
+
+- Removed the `file` scheme restriction from formatter selectors so `.items`, `.sitemap`, and `.things` files are matched in local and remote workspaces such as SSH, WSL, and dev containers.
+- Added unconditional activation fallback so the formatter provider is registered even when VS Code does not classify the file as `openhab` before activation.
+
 ## [2.2.3] - 09.06.2026
 
 - Restored and expanded Marketplace discovery metadata for formatter/category searches, including `openhab`, `formatter`, `alignment`, and `aligner` keywords.

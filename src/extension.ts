@@ -46,11 +46,10 @@ const REGEX_THING_PARAMETERS = /.*[\},]/;
 
 
 const OPENHAB_DOCUMENT_SELECTOR: vscode.DocumentSelector = [
-	{ language: "openhab", scheme: "file" },
-	{ language: "openhab", scheme: "untitled" },
-	{ pattern: "**/*.items", scheme: "file" },
-	{ pattern: "**/*.sitemap", scheme: "file" },
-	{ pattern: "**/*.things", scheme: "file" },
+	{ language: "openhab" },
+	{ pattern: "**/*.items" },
+	{ pattern: "**/*.sitemap" },
+	{ pattern: "**/*.things" },
 ];
 
 // Default item values
