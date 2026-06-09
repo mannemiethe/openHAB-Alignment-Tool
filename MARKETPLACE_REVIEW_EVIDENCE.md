@@ -28,6 +28,7 @@ The extension has been rebranded so it is clearly distinct from the inactive ori
   - this is independently maintained,
   - it is not affiliated with or endorsed by the original project or author,
   - the original open-source project is credited only for transparent attribution.
+- Replaced the old README example screenshots/GIFs with reworked, branded `formatkit-*` example images.
 - Renamed commands and settings to the new namespace `openhab-formatkit.*`.
 - Updated in-extension what's-new/messaging text to the new brand.
 - Added a `2.2.0` changelog entry documenting the rebrand.
@@ -44,6 +45,12 @@ The extension has been rebranded so it is clearly distinct from the inactive ori
 - `images/formatkit-icon.png`
 - `images/formatkit-wordmark.svg`
 - `images/formatkit-wordmark.png`
+- `images/formatkit-items-column.png`
+- `images/formatkit-items-channel-column.png`
+- `images/formatkit-items-multiline.png`
+- `images/formatkit-sitemap-formatting.png`
+- `images/formatkit-new-group-tag.png`
+- `images/formatkit-format-style-tag.png`
 
 ## Verification
 

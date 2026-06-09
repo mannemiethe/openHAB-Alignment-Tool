@@ -37,19 +37,19 @@ Supported openHAB file types:
 
 **Column style**
 
-![Column style item formatting](images/items_column.png)
+![Column style item formatting](images/formatkit-items-column.png)
 
 **Column-channel style**
 
-![Column-channel item formatting](images/items_channelcolumn.png)
+![Column-channel item formatting](images/formatkit-items-channel-column.png)
 
 **Multiline style**
 
-![Multiline item formatting](images/items_multiline.png)
+![Multiline item formatting](images/formatkit-items-multiline.png)
 
 **Sitemap formatting**
 
-![Sitemap formatting](images/sitemap-formatting.gif)
+![Sitemap formatting](images/formatkit-sitemap-formatting.png)
 
 ## Maintained fixes
 
@@ -113,7 +113,7 @@ Enable beta formatting support for sitemap or thing files.
 
 Starts a new formatting group for an item section. Tracking of the longest item parts is reset for the new group.
 
-![New formatting group](images/ng_formatting.png)
+![New formatting group](images/formatkit-new-group-tag.png)
 
 ### New Formatting Style
 
@@ -123,7 +123,7 @@ Starts a new formatting group for an item section. Tracking of the longest item 
 
 Changes formatting for the following item definitions. Replace `%FORMATTING_STYLE%` with `Column`, `ChannelColumn`, or `Multiline`.
 
-![New formatting style](images/fs_formatting.png)
+![New formatting style](images/formatkit-format-style-tag.png)
 
 ## Attribution
 
