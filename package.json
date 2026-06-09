@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.2.4",
+	"version": "2.2.5",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -29,8 +29,8 @@
 	},
 	"license": "EPL-2.0",
 	"activationEvents": [
-		"*",
 		"onLanguage:openhab",
+		"onLanguage",
 		"workspaceContains:**/*.items",
 		"workspaceContains:**/*.sitemap",
 		"workspaceContains:**/*.things"
@@ -67,15 +67,6 @@
 				"command": "openhab-formatkit.insert-item-datetime",
 				"category": "openHAB FormatKit",
 				"title": "Insert DateTime Item"
-			},
-			{
-				"command": "openhab-formatkit.whatsNew",
-				"title": "%extension.commands.whatsNew.title%",
-				"category": "%extension.commands.category.bookmarks%"
-			},
-			{
-				"command": "_openhab-formatkit.whatsNewContextMenu",
-				"title": "%extension.commands.whatsNewContextMenu.title%"
 			}
 		],
 		"configuration": {

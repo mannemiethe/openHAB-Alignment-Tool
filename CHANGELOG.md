@@ -1,5 +1,10 @@
 # openHAB FormatKit Change Log
 
+## [2.2.5] - 09.06.2026
+
+- Removed the what's-new activation path and commands to eliminate a possible activation failure before formatter registration.
+- Restored language-based activation behavior closer to the last working pre-rename version while keeping the openHAB file-pattern formatter selectors.
+
 ## [2.2.4] - 09.06.2026
 
 - Removed the `file` scheme restriction from formatter selectors so `.items`, `.sitemap`, and `.things` files are matched in local and remote workspaces such as SSH, WSL, and dev containers.
