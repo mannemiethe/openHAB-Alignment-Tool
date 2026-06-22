@@ -21,7 +21,7 @@ const REGEX_OHFS_COMMENT = /^\s*\/\/\s*\#OHFS\#(\w*)\#OHFS\#$/;
 const REGEX_OHNG_COMMENT = /^\s*\/\/\s*\#OHNG\#$/;
 
 // Regex patterns to match parts of item definition
-const REGEX_ITEM_TYPE = /(Color|Contact|DateTime|Dimmer|Group|Image|Location|Number(:\w+)?|Player|Rollershutter|String|Switch)(:(Color|Contact|DateTime|Dimmer|Group|Image|Location|Number(:\w+)?|Player|Rollershutter|String|Switch))?(:(EQUALITY|AND|OR|NAND|NOR|SUM|AVG|MIN|MAX|COUNT|LATEST|EARLIEST))?(\((\w*\d*,*\s*)*\))?(\(".*"\))?/;
+const REGEX_ITEM_TYPE = /(Color|Contact|DateTime|Dimmer|Group|Image|Location|Number(?::(?!EQUALITY\b|AND\b|OR\b|NAND\b|NOR\b|SUM\b|AVG\b|MIN\b|MAX\b|COUNT\b|LATEST\b|EARLIEST\b)\w+)?|Player|Rollershutter|String|Switch)(?::(Color|Contact|DateTime|Dimmer|Group|Image|Location|Number(?::(?!EQUALITY\b|AND\b|OR\b|NAND\b|NOR\b|SUM\b|AVG\b|MIN\b|MAX\b|COUNT\b|LATEST\b|EARLIEST\b)\w+)?|Player|Rollershutter|String|Switch))?(?::(EQUALITY|AND|OR|NAND|NOR|SUM|AVG|MIN|MAX|COUNT|LATEST|EARLIEST)(?:\([^)]*\))?)?(?:\("[^"]*"\))?/;
 const REGEX_ITEM_NAME = /[a-zA-Z0-9äöüÄÖÜ][a-zA-Z0-9äöüÄÖÜ_]*/;
 const REGEX_ITEM_LABEL = /\".+?\"/;
 const REGEX_ITEM_ICON = /<.+?>/;

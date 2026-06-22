@@ -1,5 +1,10 @@
 # openHAB FormatKit Change Log
 
+## [2.2.8] - 22.06.2026
+
+- Fixed parsing of openHAB Group aggregation functions with regex parameters, e.g. `Group:Number:COUNT(.*)`.
+- Prevented aggregation names such as `COUNT` from being consumed as `Number` subtypes during item type parsing.
+
 ## [2.2.7] - 09.06.2026
 
 - Replaced the standalone extension icon with artwork derived from the wordmark icon for a more detailed and consistent visual style.
