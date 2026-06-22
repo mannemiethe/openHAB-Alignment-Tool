@@ -1,5 +1,11 @@
 # openHAB FormatKit Change Log
 
+## [2.3.0] - 22.06.2026
+
+- Added openHAB DSL syntax highlighting for `.items`, `.rules`, `.sitemap`, `.script`, `.things`, and `.persist` files.
+- Added openHAB snippets for items, rules, rule design patterns, rule type conversions, and sitemaps.
+- Added attribution notice for grammar and snippet definitions adapted from the official openHAB VS Code extension under EPL-2.0.
+
 ## [2.2.9] - 22.06.2026
 
 - Documented the `Group:Number:COUNT(.*)` regex aggregation fix in the README.

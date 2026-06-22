@@ -1,12 +1,12 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.2.9",
+	"version": "2.3.0",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
 	],
-	"description": "Modern independent formatter and cleanup toolkit for openHAB items, sitemap, and configuration files.",
+	"description": "Modern independent formatter, syntax highlighting, and snippet toolkit for openHAB configuration files.",
 	"author": {
 		"name": "openHAB FormatKit maintainers",
 		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool"
@@ -14,6 +14,7 @@
 	"categories": [
 		"Formatters",
 		"Programming Languages",
+		"Snippets",
 		"Other"
 	],
 	"icon": "images/formatkit-icon.png",
@@ -123,12 +124,43 @@
 					"openhab"
 				],
 				"extensions": [
+					".rules",
+					".script",
 					".items",
 					".sitemap",
-					".things"
+					".things",
+					".persist"
 				],
-				"filenames": [],
-				"configuration": "./language-configuration.json"
+				"configuration": "./meta/language-configuration.json"
+			}
+		],
+		"grammars": [
+			{
+				"language": "openhab",
+				"scopeName": "source.openhab",
+				"path": "./meta/openhab.tmLanguage.json"
+			}
+		],
+		"snippets": [
+			{
+				"language": "openhab",
+				"path": "./snippets/openhab_items.json"
+			},
+			{
+				"language": "openhab",
+				"path": "./snippets/openhab_rules.json"
+			},
+			{
+				"language": "openhab",
+				"path": "./snippets/openhab_rules_designpattern.json"
+			},
+			{
+				"language": "openhab",
+				"path": "./snippets/openhab_rules_typeconversions.json"
+			},
+			{
+				"language": "openhab",
+				"path": "./snippets/openhab_sitemaps.json"
 			}
 		]
 	},
@@ -170,7 +202,13 @@
 		"configuration",
 		"cleanup",
 		"smart home",
-		"home automation"
+		"home automation",
+		"syntax highlighting",
+		"snippets",
+		"rules",
+		"script",
+		"persist",
+		"dsl"
 	],
 	"badges": [
 		{

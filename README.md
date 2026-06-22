@@ -4,7 +4,7 @@
 
 # openHAB FormatKit
 
-openHAB FormatKit is an independently maintained Visual Studio Code extension for formatting and cleaning up openHAB configuration files such as `.items` and `.sitemap` files.
+openHAB FormatKit is an independently maintained Visual Studio Code extension for formatting, syntax highlighting, and snippets for openHAB configuration files such as `.items`, `.rules`, `.sitemap`, `.script`, `.things`, and `.persist` files.
 
 This is an independently maintained project. It is **not affiliated with, endorsed by, or published by** the original `openHAB Alignment Tool` author or project. The codebase began as a maintained fork of the inactive open-source project by Maximilian Beckenbauer, and that origin is credited here for transparency. All marketplace branding, icon artwork, package identity, README wording, and command/settings namespace have been changed for this independent release.
 
@@ -21,6 +21,8 @@ This is an independently maintained project. It is **not affiliated with, endors
 
 The extension uses the standard Visual Studio Code formatter API. You can format files with **Format Document**, **Format Selection**, or VS Code's format-on-save setting.
 
+It also contributes openHAB DSL syntax highlighting and snippets for common textual configuration files.
+
 Supported formatting styles for openHAB item files:
 
 - Column style
@@ -29,9 +31,12 @@ Supported formatting styles for openHAB item files:
 
 Supported openHAB file types:
 
-- `.items` — fully functional
-- `.sitemap` — under development
-- `.things` — under development / beta
+- `.items` — formatter, syntax highlighting, snippets
+- `.sitemap` — beta formatter, syntax highlighting, snippets
+- `.things` — beta formatter, syntax highlighting
+- `.rules` — syntax highlighting, snippets
+- `.script` — syntax highlighting
+- `.persist` — syntax highlighting
 
 ### Item formatting examples
 
@@ -137,7 +142,13 @@ Changes formatting for the following item definitions. Replace `%FORMATTING_STYL
 
 This project originated as a maintained fork of the inactive open-source project `maxbec/openHAB-Alignment-Tool` by Maximilian Beckenbauer. The current extension is independently maintained and uses distinct marketplace identity, branding, and documentation.
 
-Original project: <https://github.com/maxbec/openHAB-Alignment-Tool>
+Original formatter project: <https://github.com/maxbec/openHAB-Alignment-Tool>
+
+Syntax grammar and snippets are adapted from the official openHAB Visual Studio Code extension under EPL-2.0:
+
+<https://github.com/openhab/openhab-vscode>
+
+See [NOTICE.md](NOTICE.md) for details.
 
 ## Support
 
