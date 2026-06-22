@@ -57,6 +57,14 @@ This maintained version includes fixes for openHAB item channel binding configur
 
 It also corrects space-based column padding when `editor.insertSpaces` is enabled, so aligned columns stay consistent with the configured tab size.
 
+Group aggregation functions with regex parameters are preserved correctly, for example:
+
+```text
+Group:Number:COUNT(.*) gL_gO_gGd_gMain_Appliances_Count <appliances> (gL_gO_gGd_gMain_Appliance)
+```
+
+The formatter keeps `Group:Number:COUNT(.*)` intact instead of misreading `COUNT` as a `Number` subtype.
+
 ## Extension settings
 
 ### New Line After Item

@@ -1,5 +1,9 @@
 # openHAB FormatKit Change Log
 
+## [2.2.9] - 22.06.2026
+
+- Documented the `Group:Number:COUNT(.*)` regex aggregation fix in the README.
+
 ## [2.2.8] - 22.06.2026
 
 - Fixed parsing of openHAB Group aggregation functions with regex parameters, e.g. `Group:Number:COUNT(.*)`.
