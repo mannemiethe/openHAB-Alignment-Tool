@@ -4,7 +4,7 @@
 
 # openHAB FormatKit
 
-openHAB FormatKit is an independently maintained Visual Studio Code extension for formatting, syntax highlighting, and snippets for openHAB configuration files such as `.items`, `.rules`, `.sitemap`, `.script`, `.things`, and `.persist` files.
+openHAB FormatKit is an independently maintained Visual Studio Code extension for formatting, syntax highlighting, snippets, and a local outline tree for openHAB configuration files such as `.items`, `.rules`, `.sitemap`, `.script`, `.things`, and `.persist` files.
 
 This is an independently maintained project. It is **not affiliated with, endorsed by, or published by** the original `openHAB Alignment Tool` author or project. The codebase began as a maintained fork of the inactive open-source project by Maximilian Beckenbauer, and that origin is credited here for transparency. All marketplace branding, icon artwork, package identity, README wording, and command/settings namespace have been changed for this independent release.
 
@@ -21,7 +21,7 @@ This is an independently maintained project. It is **not affiliated with, endors
 
 The extension uses the standard Visual Studio Code formatter API. You can format files with **Format Document**, **Format Selection**, or VS Code's format-on-save setting.
 
-It also contributes openHAB DSL syntax highlighting and snippets for common textual configuration files.
+It also contributes openHAB DSL syntax highlighting, snippets, and a local outline tree for common textual configuration files.
 
 Supported formatting styles for openHAB item files:
 
@@ -31,11 +31,11 @@ Supported formatting styles for openHAB item files:
 
 Supported openHAB file types:
 
-- `.items` — column formatter, syntax highlighting, snippets
-- `.sitemap` — beta formatter, syntax highlighting, snippets
-- `.things` — structured indentation formatter with channel alignment, syntax highlighting
-- `.rules` — structured indentation formatter, syntax highlighting, snippets
-- `.script` — structured indentation formatter, syntax highlighting
+- `.items` — column formatter, syntax highlighting, snippets, local outline
+- `.sitemap` — beta formatter, syntax highlighting, snippets, local outline
+- `.things` — structured indentation formatter with channel alignment, syntax highlighting, local outline
+- `.rules` — structured indentation formatter, syntax highlighting, snippets, local outline
+- `.script` — structured indentation formatter, syntax highlighting, local outline
 - `.persist` — syntax highlighting
 
 ### Item formatting examples
@@ -69,6 +69,19 @@ Group:Number:COUNT(.*) gL_gO_gGd_gMain_Appliances_Count <appliances> (gL_gO_gGd_
 ```
 
 The formatter keeps `Group:Number:COUNT(.*)` intact instead of misreading `COUNT` as a `Number` subtype.
+
+## Local outline tree
+
+FormatKit adds an **openHAB FormatKit** activity-bar view with a local outline for the active openHAB file.
+
+The outline is file-based and does not require an openHAB REST connection:
+
+- `.items` — lists Items, including complex Group types such as `Group:Number:COUNT(.*)`
+- `.rules` / `.script` — lists rules, imports, and global `val` / `var` declarations
+- `.things` — lists Bridges, Things, and Channels
+- `.sitemap` — lists sitemap elements such as Frames, Groups, Switches, Text entries, etc.
+
+Clicking an outline entry jumps to its source location.
 
 ## Formatting `.things`, `.rules`, and `.script`
 

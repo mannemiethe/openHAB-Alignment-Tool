@@ -1,5 +1,15 @@
 # openHAB FormatKit Change Log
 
+## [2.5.0] - 23.06.2026
+
+- Added a local `openHAB FormatKit` outline TreeView in the activity bar.
+- The outline parses the active file without requiring an openHAB REST connection.
+- `.items` outline lists Items, including complex Group item types.
+- `.rules` and `.script` outline lists rules, imports, and global variables.
+- `.things` outline lists Bridges, Things, and Channels.
+- `.sitemap` outline lists sitemap elements.
+- Added outline refresh and go-to-source behavior.
+
 ## [2.4.1] - 23.06.2026
 
 - Improved `.things` formatting for common Bridge/Thing/Type channel blocks.

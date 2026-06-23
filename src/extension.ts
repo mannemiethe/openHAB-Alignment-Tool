@@ -8,6 +8,7 @@ import Item = require("./item");
 import Bridge = require("./bridge");
 import Thing = require("./thing");
 import Channel = require("./channel");
+import { OpenhabFormatKitOutlineProvider, revealOutlineRange } from "./outline";
 
 import { type } from "os";
 import { format } from "path";
@@ -175,6 +176,11 @@ export function activate(context: vscode.ExtensionContext) {
 		}
 		OPENHAB_FORMATKIT_OUTPUT.show(true);
 	}));
+
+	const outlineProvider = new OpenhabFormatKitOutlineProvider(context);
+	context.subscriptions.push(vscode.window.registerTreeDataProvider("openhab-formatkit-outline", outlineProvider));
+	context.subscriptions.push(vscode.commands.registerCommand("openhab-formatkit.outline.refresh", () => outlineProvider.refresh()));
+	context.subscriptions.push(vscode.commands.registerCommand("openhab-formatkit.outline.goto", (range: vscode.Range) => revealOutlineRange(range)));
 
 }
 

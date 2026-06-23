@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.4.1",
+	"version": "2.5.0",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -37,7 +37,9 @@
 		"workspaceContains:**/*.sitemap",
 		"workspaceContains:**/*.things",
 		"workspaceContains:**/*.rules",
-		"workspaceContains:**/*.script"
+		"workspaceContains:**/*.script",
+		"onView:openhab-formatkit-outline",
+		"onCommand:openhab-formatkit.outline.refresh"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -76,6 +78,12 @@
 				"command": "openhab-formatkit.showDiagnostics",
 				"category": "openHAB FormatKit",
 				"title": "Show Diagnostics"
+			},
+			{
+				"command": "openhab-formatkit.outline.refresh",
+				"category": "openHAB FormatKit",
+				"title": "Refresh Outline",
+				"icon": "$(refresh)"
 			}
 		],
 		"configuration": {
@@ -164,7 +172,33 @@
 				"language": "openhab",
 				"path": "./snippets/openhab_sitemaps.json"
 			}
-		]
+		],
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "openhab-formatkit",
+					"title": "openHAB FormatKit",
+					"icon": "images/formatkit-icon.svg"
+				}
+			]
+		},
+		"views": {
+			"openhab-formatkit": [
+				{
+					"id": "openhab-formatkit-outline",
+					"name": "Outline"
+				}
+			]
+		},
+		"menus": {
+			"view/title": [
+				{
+					"command": "openhab-formatkit.outline.refresh",
+					"when": "view == openhab-formatkit-outline",
+					"group": "navigation"
+				}
+			]
+		}
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",
