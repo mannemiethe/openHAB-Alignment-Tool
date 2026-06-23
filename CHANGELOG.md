@@ -1,5 +1,12 @@
 # openHAB FormatKit Change Log
 
+## [2.9.1] - 23.06.2026
+
+- Fixed `.items` semantic diagnostics when an Item label contains a state-format block such as `"Temperature [%.1f °C]"` before the semantic tag block.
+- Diagnostics now scan all quoted tag blocks before the channel configuration instead of only the first `[...]` block on the line.
+- Diagnostic ranges now point at the exact offending tag occurrence instead of always selecting the first matching text on the line.
+- Fixed the Semantic Point Item completion choice from invalid `Number:Number` to `Number`.
+
 ## [2.9.0] - 23.06.2026
 
 - Added local `.items` diagnostics for common semantic model mistakes.

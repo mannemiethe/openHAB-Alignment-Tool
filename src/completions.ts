@@ -102,7 +102,7 @@ function getSemanticCompletions(): vscode.CompletionItem[] {
 		...semanticProperties.map((label) => semanticTagCompletion(label, "Property")),
 		snippet("Semantic Location Group", "Group ${1:Location_Name} \"${2:Label}\" <${3:icon}> [\"${4|Indoor,Outdoor,Building,House,Garage,GroundFloor,FirstFloor,Room,Kitchen,LivingRoom,Bedroom,Bathroom,Office,Garden,Terrace|}\"]", "openHAB Semantic Model Location Group"),
 		snippet("Semantic Equipment Group", "Group ${1:Equipment_Name} \"${2:Label}\" <${3:icon}> (${4:ParentLocation}) [\"${5|Equipment,LightSource,Lamp,Window,Door,Lock,HVAC,Thermostat,Sensor,TemperatureSensor,MotionDetector,Camera,PowerOutlet,WhiteGood,WashingMachine|}\"]", "openHAB Semantic Model Equipment Group"),
-		snippet("Semantic Point Item", "${1|Switch,Dimmer,Number:Number,Number:Temperature,Number:Dimensionless,String,Contact,DateTime,Color,Rollershutter|} ${2:Point_Name} \"${3:Label}\" <${4:icon}> (${5:EquipmentOrLocation}) [\"${6|Control,Switch,Measurement,Setpoint,Status,Alarm,Forecast,Calculation|}\", \"${7|Power,Light,Temperature,Humidity,Motion,Opening,OpenState,OpenLevel,LowBattery,Presence,Energy,Voltage,Current,SoundVolume|}\"] { channel=\"${8:binding:type:id:channel}\" }", "openHAB Semantic Model Point Item"),
+		snippet("Semantic Point Item", "${1|Switch,Dimmer,Number,Number:Temperature,Number:Dimensionless,String,Contact,DateTime,Color,Rollershutter|} ${2:Point_Name} \"${3:Label}\" <${4:icon}> (${5:EquipmentOrLocation}) [\"${6|Control,Switch,Measurement,Setpoint,Status,Alarm,Forecast,Calculation|}\", \"${7|Power,Light,Temperature,Humidity,Motion,Opening,OpenState,OpenLevel,LowBattery,Presence,Energy,Voltage,Current,SoundVolume|}\"] { channel=\"${8:binding:type:id:channel}\" }", "openHAB Semantic Model Point Item"),
 		snippet("Light semantic model", "Group ${1:Room_Light} \"${2:Light}\" <light> (${3:Room}) [\"LightSource\"]\nSwitch ${1:Room_Light}_Power \"${2:Light}\" <switch> (${1:Room_Light}) [\"Switch\", \"Light\"] { channel=\"${4:binding:type:id:channel}\" }", "Common semantic model pattern for a light"),
 		snippet("Temperature measurement point", "Number:Temperature ${1:Room_Temperature} \"${2:Temperature [%.1f %unit%]}\" <temperature> (${3:RoomOrEquipment}) [\"Measurement\", \"Temperature\"] { channel=\"${4:binding:type:id:channel}\" }", "Semantic temperature measurement Item"),
 		snippet("Battery badge point", "Number:Dimensionless ${1:Equipment_Battery} \"${2:Battery [%d %%]}\" <batterylevel> (${3:Equipment}) [\"Measurement\", \"LowBattery\"] { channel=\"${4:binding:type:id:channel}\" }", "Semantic low-battery badge point"),
@@ -243,7 +243,7 @@ function getPersistenceCompletions(): vscode.CompletionItem[] {
 function getTransformFileCompletions(): vscode.CompletionItem[] {
 	return [
 		snippet("MAP entry", "${1:OPEN}=${2:Open}", "openHAB .map transformation entry"),
-		snippet("MAP wildcard", "${1:}=undefined", "Fallback .map transformation entry"),
+		snippet("MAP fallback", "${1:}=undefined", "Fallback .map transformation entry"),
 		snippet("SCALE range", "[${1:0}..${2:10}]=${3:Low}", "openHAB .scale transformation range"),
 		snippet("SCALE greater-than", "]${1:10}..${2:∞}]=${3:High}", "openHAB .scale upper range"),
 		keyword({ label: "NULL", detail: "openHAB undefined state" }),

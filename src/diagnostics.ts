@@ -25,24 +25,62 @@ function getTagKind(tag: string): "Location" | "Equipment" | "Point" | "Property
 	return undefined;
 }
 
-function createDiagnostic(lineIndex: number, line: string, text: string, message: string, severity = vscode.DiagnosticSeverity.Warning): vscode.Diagnostic {
-	let start = Math.max(0, line.indexOf(text));
-	let range = new vscode.Range(new vscode.Position(lineIndex, start), new vscode.Position(lineIndex, start + text.length));
+interface ParsedTag {
+	value: string;
+	start: number;
+	end: number;
+}
+
+function createDiagnosticAt(lineIndex: number, start: number, end: number, message: string, severity = vscode.DiagnosticSeverity.Warning): vscode.Diagnostic {
+	let range = new vscode.Range(new vscode.Position(lineIndex, start), new vscode.Position(lineIndex, end));
 	let diagnostic = new vscode.Diagnostic(range, message, severity);
 	diagnostic.source = "openHAB FormatKit";
 	return diagnostic;
 }
 
-function extractQuotedTags(line: string): string[] {
-	let tagsMatch = line.match(/\[(.*?)\]/);
-	if (!tagsMatch) {
-		return [];
+function stripInlineComment(line: string): string {
+	let inString = false;
+	let escaped = false;
+	for (let index = 0; index < line.length - 1; index++) {
+		let current = line[index];
+		if (escaped) {
+			escaped = false;
+			continue;
+		}
+		if (current === "\\") {
+			escaped = true;
+			continue;
+		}
+		if (current === '"') {
+			inString = !inString;
+			continue;
+		}
+		if (!inString && current === "/" && line[index + 1] === "/") {
+			return line.substring(0, index);
+		}
 	}
-	let tags: string[] = [];
-	let tagRegex = /"([^"]+)"/g;
-	let match: RegExpExecArray | null;
-	while ((match = tagRegex.exec(tagsMatch[1])) !== null) {
-		tags.push(match[1]);
+	return line;
+}
+
+function extractQuotedTags(line: string): ParsedTag[] {
+	let code = stripInlineComment(line);
+	let channelStart = code.indexOf("{");
+	if (channelStart >= 0) {
+		code = code.substring(0, channelStart);
+	}
+
+	let tags: ParsedTag[] = [];
+	let bracketRegex = /\[([^\]]*)\]/g;
+	let bracketMatch: RegExpExecArray | null;
+	while ((bracketMatch = bracketRegex.exec(code)) !== null) {
+		let bracketContent = bracketMatch[1];
+		let tagRegex = /"([^"]+)"/g;
+		let tagMatch: RegExpExecArray | null;
+		while ((tagMatch = tagRegex.exec(bracketContent)) !== null) {
+			let value = tagMatch[1];
+			let start = bracketMatch.index + 1 + tagMatch.index;
+			tags.push({ value, start, end: start + value.length + 2 });
+		}
 	}
 	return tags;
 }
@@ -62,15 +100,15 @@ function validateItemsDocument(document: vscode.TextDocument): vscode.Diagnostic
 
 		let seen = new Set<string>();
 		for (let tag of tags) {
-			if (seen.has(tag)) {
-				diagnostics.push(createDiagnostic(lineIndex, line, `"${tag}"`, `Duplicate semantic/tag entry "${tag}" on this Item.`, vscode.DiagnosticSeverity.Warning));
+			if (seen.has(tag.value)) {
+				diagnostics.push(createDiagnosticAt(lineIndex, tag.start, tag.end, `Duplicate semantic/tag entry "${tag.value}" on this Item.`, vscode.DiagnosticSeverity.Warning));
 			}
-			seen.add(tag);
+			seen.add(tag.value);
 		}
 
-		let byKind: { [kind: string]: string[] } = { Location: [], Equipment: [], Point: [], Property: [] };
+		let byKind: { [kind: string]: ParsedTag[] } = { Location: [], Equipment: [], Point: [], Property: [] };
 		for (let tag of tags) {
-			let kind = getTagKind(tag);
+			let kind = getTagKind(tag.value);
 			if (kind) {
 				byKind[kind].push(tag);
 			}
@@ -79,17 +117,19 @@ function validateItemsDocument(document: vscode.TextDocument): vscode.Diagnostic
 		for (let kind of ["Location", "Equipment", "Point", "Property"]) {
 			let values = byKind[kind];
 			if (values.length > 1) {
-				diagnostics.push(createDiagnostic(lineIndex, line, `"${values[1]}"`, `Only one semantic ${kind} tag should be used on one Item. Found: ${values.join(", ")}.`, vscode.DiagnosticSeverity.Warning));
+				diagnostics.push(createDiagnosticAt(lineIndex, values[1].start, values[1].end, `Only one semantic ${kind} tag should be used on one Item. Found: ${values.map((tag) => tag.value).join(", ")}.`, vscode.DiagnosticSeverity.Warning));
 			}
 		}
 
 		let primarySemanticKinds = ["Location", "Equipment", "Point"].filter((kind) => byKind[kind].length > 0);
 		if (primarySemanticKinds.length > 1) {
-			diagnostics.push(createDiagnostic(lineIndex, line, `"${byKind[primarySemanticKinds[1]][0]}"`, `Do not mix semantic ${primarySemanticKinds.join(" + ")} tags on one Item. Use one model role per Item.`, vscode.DiagnosticSeverity.Warning));
+			let tag = byKind[primarySemanticKinds[1]][0];
+			diagnostics.push(createDiagnosticAt(lineIndex, tag.start, tag.end, `Do not mix semantic ${primarySemanticKinds.join(" + ")} tags on one Item. Use one model role per Item.`, vscode.DiagnosticSeverity.Warning));
 		}
 
 		if (byKind.Property.length > 0 && byKind.Point.length === 0) {
-			diagnostics.push(createDiagnostic(lineIndex, line, `"${byKind.Property[0]}"`, `Semantic Property tag "${byKind.Property[0]}" should be paired with a Point tag such as Measurement, Control, Status, Setpoint, Switch, Alarm, Forecast, or Calculation.`, vscode.DiagnosticSeverity.Warning));
+			let tag = byKind.Property[0];
+			diagnostics.push(createDiagnosticAt(lineIndex, tag.start, tag.end, `Semantic Property tag "${tag.value}" should be paired with a Point tag such as Measurement, Control, Status, Setpoint, Switch, Alarm, Forecast, or Calculation.`, vscode.DiagnosticSeverity.Warning));
 		}
 	}
 	return diagnostics;
