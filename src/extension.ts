@@ -10,6 +10,7 @@ import Thing = require("./thing");
 import Channel = require("./channel");
 import { OpenhabFormatKitOutlineProvider, revealOutlineRange } from "./outline";
 import { registerOpenhabCompletions } from "./completions";
+import { registerOpenhabDiagnostics } from "./diagnostics";
 
 import { type } from "os";
 import { format } from "path";
@@ -98,6 +99,7 @@ export function activate(context: vscode.ExtensionContext) {
 	}
 
 	registerOpenhabCompletions(context, OPENHAB_DOCUMENT_SELECTOR);
+	registerOpenhabDiagnostics(context);
 
 	// Formatter implementation
 	context.subscriptions.push(

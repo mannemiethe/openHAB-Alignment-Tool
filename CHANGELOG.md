@@ -1,5 +1,13 @@
 # openHAB FormatKit Change Log
 
+## [2.9.0] - 23.06.2026
+
+- Added local `.items` diagnostics for common semantic model mistakes.
+- Diagnostics now warn about duplicate tags on one Item.
+- Diagnostics now warn about multiple semantic tags from the same category on one Item, e.g. two Location tags or two Point tags.
+- Diagnostics now warn about mixed primary semantic roles on one Item, e.g. Location + Equipment or Equipment + Point.
+- Diagnostics now warn about Property tags without a Point tag, e.g. `Temperature` without `Measurement`.
+
 ## [2.8.0] - 23.06.2026
 
 - Added openHAB Semantic Model suggestions for Location, Equipment, Point, and Property tags.

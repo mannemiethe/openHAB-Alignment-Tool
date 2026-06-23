@@ -21,7 +21,7 @@ This is an independently maintained project. It is **not affiliated with, endors
 
 The extension uses the standard Visual Studio Code formatter API. You can format files with **Format Document**, **Format Selection**, or VS Code's format-on-save setting.
 
-It also contributes openHAB DSL syntax highlighting, snippets, code suggestions, and a local outline tree for common textual configuration files.
+It also contributes openHAB DSL syntax highlighting, snippets, code suggestions, semantic diagnostics, and a local outline tree for common textual configuration files.
 
 Supported formatting styles for openHAB item files:
 
@@ -71,6 +71,20 @@ Group:Number:COUNT(.*) gL_gO_gGd_gMain_Appliances_Count <appliances> (gL_gO_gGd_
 ```
 
 The formatter keeps `Group:Number:COUNT(.*)` intact instead of misreading `COUNT` as a `Number` subtype.
+
+## Diagnostics
+
+FormatKit marks common semantic-model issues in `.items` files with VS Code diagnostics:
+
+- duplicate tags on the same Item
+- more than one semantic Location tag on one Item
+- more than one semantic Equipment tag on one Item
+- more than one semantic Point tag on one Item
+- more than one semantic Property tag on one Item
+- mixed primary semantic roles on one Item, e.g. Location + Equipment or Equipment + Point
+- Property tags without a Point tag, e.g. `Temperature` without `Measurement`
+
+Diagnostics are intentionally conservative and local-only. They do not require an openHAB server and do not try to validate binding-specific runtime data.
 
 ## Code suggestions
 
