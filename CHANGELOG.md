@@ -1,5 +1,11 @@
 # openHAB FormatKit Change Log
 
+## [2.5.2] - 23.06.2026
+
+- Fixed `.things` support for implicit state channel definitions without the `State` keyword, e.g. `String : stationName`.
+- The `.things` formatter now aligns implicit state channels together with `Type`, `State`, and `Trigger` channels.
+- The `.things` outline now lists implicit state channels as `State` channels.
+
 ## [2.5.1] - 23.06.2026
 
 - Extended `.things` channel formatting from `Type` channels to `Type`, `State`, and `Trigger` channel definitions.

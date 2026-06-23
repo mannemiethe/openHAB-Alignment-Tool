@@ -314,13 +314,13 @@ function parseThingChannelLine(line: string): ThingChannelLineParts | undefined 
 	let trimmed = line.trim();
 	let code = stripLineComment(trimmed).trim();
 	let comment = getLineComment(trimmed);
-	let match = code.match(/^(Type|State|Trigger)\s+(\S+)\s*:\s*(\S+)(?:\s+("[^"]*"))?(?:\s+(\[[^\]]*\]))?\s*$/);
+	let match = code.match(/^(?:(Type|State|Trigger)\s+)?(\S+)\s*:\s*(\S+)(?:\s+("[^"]*"))?(?:\s+(\[[^\]]*\]))?\s*$/);
 	if (!match) {
 		return undefined;
 	}
 	return {
 		indent,
-		keyword: match[1],
+		keyword: match[1] || "",
 		channelType: match[2],
 		channelId: match[3],
 		label: match[4] || "",
@@ -341,7 +341,8 @@ function formatThingChannelGroup(lines: string[]): string[] {
 	let maxLabel = Math.max(...parts.map((line) => line.label.length));
 	let maxParameters = Math.max(...parts.map((line) => line.parameters.length));
 	return parts.map((line) => {
-		let result = `${line.indent}${line.keyword.padEnd(maxKeyword)} ${line.channelType.padEnd(maxType)} : ${line.channelId.padEnd(maxId)}`;
+		let keyword = line.keyword ? `${line.keyword.padEnd(maxKeyword)} ` : "";
+		let result = `${line.indent}${keyword}${line.channelType.padEnd(maxType)} : ${line.channelId.padEnd(maxId)}`;
 		if (line.label || maxLabel > 0) {
 			result += ` ${line.label.padEnd(maxLabel)}`;
 		}
@@ -386,7 +387,7 @@ function formatThingsText(text: string, baseIndentLevel = 0): string {
 	};
 
 	lines.forEach((line) => {
-		if (/^\s*(?:Type|State|Trigger)\s+\S+\s*:/.test(line)) {
+		if (/^\s*(?:(?:Type|State|Trigger)\s+)?\S+\s*:/.test(line) && !/^\s*(?:Bridge|Thing|Channels)\b/.test(line)) {
 			channelGroup.push(line);
 			return;
 		}

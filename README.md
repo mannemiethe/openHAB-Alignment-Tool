@@ -33,7 +33,7 @@ Supported openHAB file types:
 
 - `.items` — column formatter, syntax highlighting, snippets, local outline
 - `.sitemap` — beta formatter, syntax highlighting, snippets, local outline
-- `.things` — structured indentation formatter with `Type` / `State` / `Trigger` channel alignment, syntax highlighting, local outline
+- `.things` — structured indentation formatter with `Type` / `State` / implicit state / `Trigger` channel alignment, syntax highlighting, local outline
 - `.rules` — structured indentation formatter, syntax highlighting, snippets, local outline
 - `.script` — structured indentation formatter, syntax highlighting, local outline
 - `.persist` — syntax highlighting, local outline
@@ -78,7 +78,7 @@ The outline is file-based and does not require an openHAB REST connection:
 
 - `.items` — lists Items, including complex Group types such as `Group:Number:COUNT(.*)`
 - `.rules` / `.script` — lists rules, imports, and global `val` / `var` declarations
-- `.things` — lists Bridges, Things, and `Type` / `State` / `Trigger` Channels
+- `.things` — lists Bridges, Things, and `Type` / `State` / implicit state / `Trigger` Channels
 - `.sitemap` — lists sitemap elements such as Frames, Groups, Switches, Buttongrids, Buttons, Inputs, Text entries, etc.
 - `.persist` — lists Strategies, Filters, Items, and Aliases
 
@@ -93,7 +93,7 @@ FormatKit uses a conservative structured formatter for these files:
 - ignores braces inside quoted strings and line comments
 - avoids semantic rewrites or aggressive line splitting
 
-For `.things` files, consecutive `Type ... : ...`, `State ... : ...`, and `Trigger ... : ...` channel definitions are also aligned and inline comments are normalized.
+For `.things` files, consecutive `Type ... : ...`, `State ... : ...`, implicit state channels such as `String : ...`, and `Trigger ... : ...` channel definitions are also aligned and inline comments are normalized.
 
 This is intentionally safer than a full parser-based formatter.
 

@@ -178,11 +178,12 @@ function parseThings(text: string): OutlineEntry[] {
 			}
 			return;
 		}
-		let channel = code.match(/^(Type|State|Trigger)\s+(\S+)\s*:\s*(\S+)(?:\s+"([^"]+)")?/);
-		if (channel) {
+		let channel = code.match(/^(?:(Type|State|Trigger)\s+)?(\S+)\s*:\s*(\S+)(?:\s+"([^"]+)")?/);
+		if (channel && !/^(Bridge|Thing|Channels)$/i.test(channel[2])) {
+			let keyword = channel[1] || "State";
 			let entry: OutlineEntry = {
 				label: channel[3],
-				description: channel[4] ? `${channel[1]} ${channel[2]}: ${channel[4]}` : `${channel[1]} ${channel[2]}`,
+				description: channel[4] ? `${keyword} ${channel[2]}: ${channel[4]}` : `${keyword} ${channel[2]}`,
 				kind: "channel",
 				range: makeRange(index, line, channel[3]),
 			};
