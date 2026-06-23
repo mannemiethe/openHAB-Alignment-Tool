@@ -1,5 +1,14 @@
 # openHAB FormatKit Change Log
 
+## [2.7.0] - 23.06.2026
+
+- Added local suggestions for openHAB transformation files under `transform/*.map` and `transform/*.scale`.
+- Added local suggestions for openHAB service configuration files under `services/*.cfg`.
+- Added common openHAB classic icon suggestions for Item and Sitemap contexts.
+- Added transformation usage suggestions for Item/Sitemap labels and Rules DSL `transform(...)` calls.
+- Added Rules DSL multimedia/voice action suggestions such as `playSound`, `playStream`, `say`, `interpret`, and volume helpers.
+- Added workspace activation coverage for transform and services configuration files without globally claiming generic `.map` or `.cfg` files.
+
 ## [2.6.0] - 23.06.2026
 
 - Added local code completion suggestions for openHAB textual configuration files.

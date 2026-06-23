@@ -28,8 +28,9 @@ function keyword(spec: CompletionSpec): vscode.CompletionItem {
 	return item;
 }
 
-function getFileKind(document: vscode.TextDocument): "items" | "things" | "rules" | "script" | "sitemap" | "persist" | "openhab" {
+function getFileKind(document: vscode.TextDocument): "items" | "things" | "rules" | "script" | "sitemap" | "persist" | "transform" | "services" | "openhab" {
 	let fileName = document.fileName.toLowerCase();
+	let normalized = fileName.replace(/\\/g, "/");
 	if (fileName.endsWith(".items")) {
 		return "items";
 	}
@@ -47,6 +48,12 @@ function getFileKind(document: vscode.TextDocument): "items" | "things" | "rules
 	}
 	if (fileName.endsWith(".persist")) {
 		return "persist";
+	}
+	if (/\/transform\/.*\.(map|scale)$/i.test(normalized)) {
+		return "transform";
+	}
+	if (/\/services\/.*\.cfg$/i.test(normalized)) {
+		return "services";
 	}
 	return "openhab";
 }
@@ -75,10 +82,41 @@ const itemTypes: CompletionSpec[] = [
 
 const groupFunctions = ["EQUALITY", "AND", "OR", "NAND", "NOR", "SUM", "AVG", "MIN", "MAX", "COUNT", "LATEST", "EARLIEST"];
 const thingChannelTypes = ["Call", "Color", "Contact", "DateTime", "Dimmer", "Image", "Location", "Number", "Player", "Rollershutter", "String", "Switch"];
+const classicIcons = [
+	"attic", "bath", "bedroom", "cellar", "corridor", "firstfloor", "garage", "garden", "groundfloor", "kitchen", "office", "terrace",
+	"battery", "blinds", "camera", "door", "frontdoor", "garagedoor", "lawnmower", "lightbulb", "lock", "poweroutlet", "projector", "receiver", "screen", "siren", "wallswitch", "whitegood", "window",
+	"colorpicker", "group", "rollershutter", "slider", "switch", "text", "humidity", "moon", "rain", "snow", "sun", "sun_clouds", "temperature", "wind",
+	"batterylevel", "carbondioxide", "colorlight", "energy", "fire", "flow", "gas", "light", "lowbattery", "motion", "oil", "pressure", "price", "qualityofservice", "smoke", "soundvolume", "time", "water",
+	"heating", "mediacontrol", "movecontrol", "zoom", "alarm", "party", "presence", "vacation", "calendar", "chart", "cinema", "climate", "contact", "dryer", "error", "fan", "faucet", "house", "microphone", "network", "none", "outdoorlight", "pantry", "player", "pump", "radiator", "recorder", "rgb", "settings", "shield", "solarplant", "status", "sunrise", "sunset", "video", "washingmachine"
+];
+
+function getIconCompletions(): vscode.CompletionItem[] {
+	return classicIcons.map((label) => keyword({
+		label,
+		insertText: label,
+		detail: "openHAB classic icon",
+		kind: vscode.CompletionItemKind.Value,
+	}));
+}
+
+function getTransformationUsageCompletions(): vscode.CompletionItem[] {
+	return [
+		snippet("MAP transform label", "[MAP(${1:file.map}):%s]", "openHAB label transformation"),
+		snippet("SCALE transform label", "[SCALE(${1:file.scale}):%s]", "openHAB label transformation"),
+		snippet("JS transform label", "[JS(${1:file.js}):%s]", "openHAB label transformation"),
+		snippet("JSONPATH transform label", "[JSONPATH(${1:$.path}):%s]", "openHAB label transformation"),
+		snippet("REGEX transform label", "[REGEX(${1:regex}):%s]", "openHAB label transformation"),
+		snippet("transform action", "transform(\"${1|MAP,SCALE,JS,JSONPATH,REGEX,XPATH,EXEC|}\", \"${2:pattern-or-file}\", ${3:value})", "Rules DSL transformation action"),
+		...[["MAP", "Map transformation"], ["SCALE", "Scale transformation"], ["JS", "Script transformation"], ["JSONPATH", "JSONPath transformation"], ["REGEX", "Regular expression transformation"], ["XPATH", "XPath transformation"], ["EXEC", "Exec transformation"]].map(([label, detail]) => keyword({ label, detail: `openHAB ${detail}` })),
+	];
+}
+
 
 function getItemCompletions(): vscode.CompletionItem[] {
 	let completions = itemTypes.map(keyword);
 	completions.push(
+		...getIconCompletions(),
+		...getTransformationUsageCompletions(),
 		snippet("Item definition", "${1|Switch,Dimmer,Number,String,DateTime,Contact,Color,Rollershutter,Player,Location,Image,Call|} ${2:Item_Name} \"${3:Label}\" <${4:icon}> (${5:Group}) [\"${6:tag}\"] { channel=\"${7:binding:thing:channel}\" }", "openHAB Item definition"),
 		snippet("Group:Number function", "Group:Number:${1|SUM,AVG,MIN,MAX,COUNT,LATEST,EARLIEST|}(${2:.*}) ${3:Group_Name} \"${4:Label}\"", "openHAB Group aggregation Item"),
 		snippet("Channel link", "{ channel=\"${1:binding:type:id:channel}\" }", "openHAB Item channel link"),
@@ -121,10 +159,16 @@ function getRuleCompletions(): vscode.CompletionItem[] {
 		snippet("createTimer", "createTimer(now.plus${1|Seconds,Minutes,Hours|}(${2:1}), [ |\n\t${0}\n])", "Rules DSL timer action"),
 		snippet("sendCommand", "${1:ItemName}.sendCommand(${2:ON})", "Send command to an Item"),
 		snippet("postUpdate", "${1:ItemName}.postUpdate(${2:state})", "Post update to an Item"),
+		snippet("playSound", "playSound(\"${1:sound.mp3}\")", "openHAB audio action"),
+		snippet("playStream", "playStream(\"${1:https://example.com/stream.mp3}\")", "openHAB audio action"),
+		snippet("say", "say(\"${1:Text to say}\")", "openHAB voice action"),
+		snippet("interpret", "interpret(\"${1:turn on the light}\")", "openHAB voice interpreter action"),
+		snippet("setMasterVolume", "setMasterVolume(${1:0.5})", "openHAB audio volume action"),
+		...getTransformationUsageCompletions(),
 		...[
 			"rule", "when", "then", "end", "or", "import", "val", "var", "return",
 			"System started", "System reached start level", "changed", "received command", "received update", "triggered",
-			"logInfo", "logDebug", "logWarn", "logError", "sendCommand", "postUpdate", "createTimer",
+			"logInfo", "logDebug", "logWarn", "logError", "sendCommand", "postUpdate", "createTimer", "playSound", "playStream", "say", "interpret", "setMasterVolume", "getMasterVolume",
 		].map((label) => keyword({ label, detail: "openHAB Rules DSL keyword/action" })),
 	];
 }
@@ -133,6 +177,8 @@ function getSitemapCompletions(): vscode.CompletionItem[] {
 	let elements = ["sitemap", "Frame", "Default", "Text", "Group", "Switch", "Buttongrid", "Button", "Selection", "Setpoint", "Slider", "Colorpicker", "Colortemperaturepicker", "Input", "Webview", "Mapview", "Image", "Video", "Chart"];
 	let completions = elements.map((label) => keyword({ label, detail: "openHAB Sitemap element" }));
 	completions.push(
+		...getIconCompletions(),
+		...getTransformationUsageCompletions(),
 		snippet("sitemap", "sitemap ${1:name} label=\"${2:Label}\" {\n\t${0}\n}", "openHAB Sitemap root"),
 		snippet("Frame", "Frame label=\"${1:Label}\" {\n\t${0}\n}", "Sitemap Frame"),
 		snippet("Text", "Text item=${1:ItemName} label=\"${2:Label [%s]}\" icon=\"${3:icon}\"", "Sitemap Text element"),
@@ -156,6 +202,41 @@ function getPersistenceCompletions(): vscode.CompletionItem[] {
 	];
 }
 
+function getTransformFileCompletions(): vscode.CompletionItem[] {
+	return [
+		snippet("MAP entry", "${1:OPEN}=${2:Open}", "openHAB .map transformation entry"),
+		snippet("MAP wildcard", "${1:}=undefined", "Fallback .map transformation entry"),
+		snippet("SCALE range", "[${1:0}..${2:10}]=${3:Low}", "openHAB .scale transformation range"),
+		snippet("SCALE greater-than", "]${1:10}..${2:∞}]=${3:High}", "openHAB .scale upper range"),
+		keyword({ label: "NULL", detail: "openHAB undefined state" }),
+		keyword({ label: "UNDEF", detail: "openHAB undefined state" }),
+		keyword({ label: "ON", detail: "openHAB common state" }),
+		keyword({ label: "OFF", detail: "openHAB common state" }),
+		keyword({ label: "OPEN", detail: "openHAB common state" }),
+		keyword({ label: "CLOSED", detail: "openHAB common state" }),
+	];
+}
+
+function getServicesCompletions(): vscode.CompletionItem[] {
+	return [
+		snippet("addons package", "package = ${1|minimal,standard,expert,legacy|}", "openHAB addons.cfg package setting"),
+		snippet("addons binding", "binding = ${1:astro,knx,mqtt}", "openHAB addons.cfg binding list"),
+		snippet("addons ui", "ui = ${1:basic,habpanel}", "openHAB addons.cfg UI list"),
+		snippet("addons persistence", "persistence = ${1:rrd4j,mapdb,jdbc}", "openHAB addons.cfg persistence list"),
+		snippet("addons transformation", "transformation = ${1:map,jsonpath,regex,scale,javascript,xpath}", "openHAB addons.cfg transformation list"),
+		snippet("runtime default audio sink", "org.openhab.audio:defaultSink=${1:enhancedjavasound}", "openHAB runtime.cfg audio setting"),
+		snippet("runtime default TTS", "org.openhab.voice:defaultTTS=${1:serviceId}", "openHAB runtime.cfg voice setting"),
+		snippet("runtime default voice", "org.openhab.voice:defaultVoice=${1:voiceId}", "openHAB runtime.cfg voice setting"),
+		snippet("runtime default STT", "org.openhab.voice:defaultSTT=${1:serviceId}", "openHAB runtime.cfg speech-to-text setting"),
+		snippet("runtime default interpreter", "org.openhab.voice:defaultHLI=${1:system}", "openHAB runtime.cfg human-language interpreter setting"),
+		...[
+			"package", "binding", "ui", "persistence", "transformation", "voice", "automation", "misc", "remote",
+			"minimal", "standard", "expert", "legacy", "map", "jsonpath", "regex", "scale", "javascript", "xpath", "rrd4j", "mapdb", "jdbc",
+			"enhancedjavasound", "webaudio", "rulehli", "system", "opennlp",
+		].map((label) => keyword({ label, detail: "openHAB service configuration keyword/value" })),
+	];
+}
+
 function getGenericCompletions(): vscode.CompletionItem[] {
 	return [
 		...getItemCompletions(),
@@ -163,6 +244,8 @@ function getGenericCompletions(): vscode.CompletionItem[] {
 		...getRuleCompletions(),
 		...getSitemapCompletions(),
 		...getPersistenceCompletions(),
+		...getTransformFileCompletions(),
+		...getServicesCompletions(),
 	];
 }
 
@@ -181,6 +264,10 @@ export function registerOpenhabCompletions(context: vscode.ExtensionContext, sel
 					return getSitemapCompletions();
 				case "persist":
 					return getPersistenceCompletions();
+				case "transform":
+					return getTransformFileCompletions();
+				case "services":
+					return getServicesCompletions();
 				default:
 					return getGenericCompletions();
 			}

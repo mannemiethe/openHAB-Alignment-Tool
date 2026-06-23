@@ -37,6 +37,8 @@ Supported openHAB file types:
 - `.rules` — structured indentation formatter, syntax highlighting, snippets, suggestions, local outline
 - `.script` — structured indentation formatter, syntax highlighting, suggestions, local outline
 - `.persist` — syntax highlighting, suggestions, local outline
+- `transform/*.map`, `transform/*.scale` — local transformation suggestions
+- `services/*.cfg` — local service/add-on/runtime suggestions
 
 ### Item formatting examples
 
@@ -81,6 +83,11 @@ Included suggestions cover:
 - `.rules` / `.script` — rule skeletons, Item/Member/Time/System/Thing/Channel trigger snippets, common Actions such as `sendCommand`, `postUpdate`, and `createTimer`
 - `.sitemap` — Sitemap element keywords and common widget snippets
 - `.persist` — `Strategies`, `Filters`, `Items`, `Aliases`, predefined strategies, and section snippets
+- `transform/*.map`, `transform/*.scale` — MAP entries, SCALE ranges, common openHAB states, and transformation usage helpers
+- `services/*.cfg` — `addons.cfg` package/binding/UI/persistence/transformation snippets plus `runtime.cfg` audio/voice defaults
+- Item/Sitemap label helpers — common transformation expressions such as `MAP(...)`, `SCALE(...)`, `JS(...)`, `JSONPATH(...)`, `REGEX(...)`
+- Item/Sitemap icon helpers — common openHAB classic icon names
+- Rules multimedia helpers — audio/voice actions such as `playSound`, `playStream`, `say`, `interpret`, and volume helpers
 
 ## Local outline tree
 

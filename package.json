@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.6.0",
+	"version": "2.7.0",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -40,7 +40,10 @@
 		"workspaceContains:**/*.script",
 		"onView:openhab-formatkit-outline",
 		"onCommand:openhab-formatkit.outline.refresh",
-		"workspaceContains:**/*.persist"
+		"workspaceContains:**/*.persist",
+		"workspaceContains:**/transform/*.map",
+		"workspaceContains:**/transform/*.scale",
+		"workspaceContains:**/services/*.cfg"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

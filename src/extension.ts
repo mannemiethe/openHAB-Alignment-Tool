@@ -51,6 +51,9 @@ const OPENHAB_DOCUMENT_SELECTOR: vscode.DocumentSelector = [
 	{ pattern: "**/*.rules" },
 	{ pattern: "**/*.script" },
 	{ pattern: "**/*.persist" },
+	{ pattern: "**/transform/*.map" },
+	{ pattern: "**/transform/*.scale" },
+	{ pattern: "**/services/*.cfg" },
 ];
 
 // Default item values
