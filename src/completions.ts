@@ -80,6 +80,35 @@ const itemTypes: CompletionSpec[] = [
 	{ label: "Switch", detail: "openHAB Item type", documentation: "ON/OFF switch state." },
 ];
 
+const semanticLocations = ["Indoor", "Apartment", "Building", "Garage", "House", "Shed", "SummerHouse", "Corridor", "Floor", "Attic", "Basement", "FirstFloor", "GroundFloor", "SecondFloor", "ThirdFloor", "Room", "Bathroom", "Bedroom", "BoilerRoom", "Cellar", "DiningRoom", "Entry", "FamilyRoom", "GuestRoom", "Kitchen", "LaundryRoom", "LivingRoom", "Office", "Veranda", "Outdoor", "Carport", "Driveway", "Garden", "Patio", "Porch", "Terrace"];
+const semanticEquipments = ["AlarmDevice", "AlarmSystem", "Application", "AudioVisual", "Display", "Projector", "Television", "MediaPlayer", "Receiver", "Screen", "Speaker", "Bed", "Camera", "CleaningRobot", "Computer", "ControlDevice", "Button", "Dial", "Keypad", "Slider", "WallSwitch", "Door", "BackDoor", "CellarDoor", "FrontDoor", "GarageDoor", "Gate", "InnerDoor", "SideDoor", "Doorbell", "DrinkingWater", "HotWaterFaucet", "WaterFilter", "WaterSoftener", "HVAC", "AirConditioner", "AirFilter", "Boiler", "Dehumidifier", "Fan", "CeilingFan", "ExhaustFan", "KitchenHood", "FloorHeating", "Furnace", "HeatPump", "HeatRecovery", "Humidifier", "RadiatorControl", "SmartVent", "Thermostat", "WaterHeater", "Horticulture", "Irrigation", "LawnMower", "SoilSensor", "LightSource", "AccentLight", "Chandelier", "Downlight", "FloodLight", "Lamp", "LightStrip", "LightStripe", "Lightbulb", "Pendant", "Sconce", "SpotLight", "TrackLight", "WallLight", "Lock", "NetworkAppliance", "Firewall", "NetworkSwitch", "Router", "WirelessAccessPoint", "PetCare", "Aquarium", "PetFeeder", "PetFlap", "PowerOutlet", "PowerSupply", "Battery", "EVSE", "Generator", "Inverter", "SolarPanel", "TransferSwitch", "UPS", "WindGenerator", "Printer", "Printer3D", "Pump", "WaterFeature", "RemoteControl", "Sensor", "AirQualitySensor", "CO2Sensor", "COSensor", "ContactSensor", "ElectricMeter", "FireDetector", "FlameDetector", "HeatDetector", "SmokeDetector", "GasMeter", "GlassBreakDetector", "HumiditySensor", "IlluminanceSensor", "LeakSensor", "OccupancySensor", "MotionDetector", "TemperatureSensor", "VibrationSensor", "WaterMeter", "WaterQualitySensor", "WeatherStation", "Siren", "Smartphone", "Tool", "Tracker", "Valve", "Vehicle", "Car", "VoiceAssistant", "WebService", "WeatherService", "Wellness", "Chlorinator", "Jacuzzi", "PoolCover", "PoolHeater", "Sauna", "Shower", "SwimmingPool", "WhiteGood", "AirFryer", "CoffeeMaker", "Cooktop", "Dishwasher", "Dryer", "FoodProcessor", "Freezer", "Fryer", "IceMaker", "Microwave", "Mixer", "Oven", "Range", "Refrigerator", "Toaster", "WashingMachine", "Window", "WindowCovering", "Blinds", "Drapes", "Zone", "AlarmZone"];
+const semanticPoints = ["Alarm", "Calculation", "Control", "Switch", "Forecast", "Measurement", "Setpoint", "Status"];
+const semanticProperties = ["AirQuality", "AQI", "CO", "CO2", "Ozone", "ParticulateMatter", "Pollen", "Radon", "VOC", "Airconditioning", "Airflow", "App", "Brightness", "Channel", "Color", "ColorTemperature", "Current", "Duration", "Enabled", "Energy", "Frequency", "Gas", "Heating", "Humidity", "Illuminance", "Info", "Level", "Light", "LowBattery", "MediaControl", "Mode", "Moisture", "Motion", "Noise", "Oil", "Opening", "LockState", "OpenLevel", "OpenState", "Position", "GeoLocation", "Power", "Precipitation", "Rain", "Presence", "Pressure", "Price", "Progress", "QualityOfService", "SignalStrength", "RSSI", "Smoke", "SoundVolume", "Speed", "StateOfCharge", "Tampered", "Temperature", "Tilt", "Timestamp", "Ultraviolet", "Ventilation", "Vibration", "Voltage", "Water", "Wind"];
+
+function semanticTagCompletion(label: string, semanticKind: string): vscode.CompletionItem {
+	return keyword({
+		label,
+		insertText: `"${label}"`,
+		detail: `openHAB Semantic ${semanticKind} tag`,
+		kind: vscode.CompletionItemKind.EnumMember,
+	});
+}
+
+function getSemanticCompletions(): vscode.CompletionItem[] {
+	return [
+		...semanticLocations.map((label) => semanticTagCompletion(label, "Location")),
+		...semanticEquipments.map((label) => semanticTagCompletion(label, "Equipment")),
+		...semanticPoints.map((label) => semanticTagCompletion(label, "Point")),
+		...semanticProperties.map((label) => semanticTagCompletion(label, "Property")),
+		snippet("Semantic Location Group", "Group ${1:Location_Name} \"${2:Label}\" <${3:icon}> [\"${4|Indoor,Outdoor,Building,House,Garage,GroundFloor,FirstFloor,Room,Kitchen,LivingRoom,Bedroom,Bathroom,Office,Garden,Terrace|}\"]", "openHAB Semantic Model Location Group"),
+		snippet("Semantic Equipment Group", "Group ${1:Equipment_Name} \"${2:Label}\" <${3:icon}> (${4:ParentLocation}) [\"${5|Equipment,LightSource,Lamp,Window,Door,Lock,HVAC,Thermostat,Sensor,TemperatureSensor,MotionDetector,Camera,PowerOutlet,WhiteGood,WashingMachine|}\"]", "openHAB Semantic Model Equipment Group"),
+		snippet("Semantic Point Item", "${1|Switch,Dimmer,Number:Number,Number:Temperature,Number:Dimensionless,String,Contact,DateTime,Color,Rollershutter|} ${2:Point_Name} \"${3:Label}\" <${4:icon}> (${5:EquipmentOrLocation}) [\"${6|Control,Switch,Measurement,Setpoint,Status,Alarm,Forecast,Calculation|}\", \"${7|Power,Light,Temperature,Humidity,Motion,Opening,OpenState,OpenLevel,LowBattery,Presence,Energy,Voltage,Current,SoundVolume|}\"] { channel=\"${8:binding:type:id:channel}\" }", "openHAB Semantic Model Point Item"),
+		snippet("Light semantic model", "Group ${1:Room_Light} \"${2:Light}\" <light> (${3:Room}) [\"LightSource\"]\nSwitch ${1:Room_Light}_Power \"${2:Light}\" <switch> (${1:Room_Light}) [\"Switch\", \"Light\"] { channel=\"${4:binding:type:id:channel}\" }", "Common semantic model pattern for a light"),
+		snippet("Temperature measurement point", "Number:Temperature ${1:Room_Temperature} \"${2:Temperature [%.1f %unit%]}\" <temperature> (${3:RoomOrEquipment}) [\"Measurement\", \"Temperature\"] { channel=\"${4:binding:type:id:channel}\" }", "Semantic temperature measurement Item"),
+		snippet("Battery badge point", "Number:Dimensionless ${1:Equipment_Battery} \"${2:Battery [%d %%]}\" <batterylevel> (${3:Equipment}) [\"Measurement\", \"LowBattery\"] { channel=\"${4:binding:type:id:channel}\" }", "Semantic low-battery badge point"),
+	];
+}
+
 const groupFunctions = ["EQUALITY", "AND", "OR", "NAND", "NOR", "SUM", "AVG", "MIN", "MAX", "COUNT", "LATEST", "EARLIEST"];
 const thingChannelTypes = ["Call", "Color", "Contact", "DateTime", "Dimmer", "Image", "Location", "Number", "Player", "Rollershutter", "String", "Switch"];
 const classicIcons = [
@@ -115,6 +144,7 @@ function getTransformationUsageCompletions(): vscode.CompletionItem[] {
 function getItemCompletions(): vscode.CompletionItem[] {
 	let completions = itemTypes.map(keyword);
 	completions.push(
+		...getSemanticCompletions(),
 		...getIconCompletions(),
 		...getTransformationUsageCompletions(),
 		snippet("Item definition", "${1|Switch,Dimmer,Number,String,DateTime,Contact,Color,Rollershutter,Player,Location,Image,Call|} ${2:Item_Name} \"${3:Label}\" <${4:icon}> (${5:Group}) [\"${6:tag}\"] { channel=\"${7:binding:thing:channel}\" }", "openHAB Item definition"),
@@ -164,11 +194,18 @@ function getRuleCompletions(): vscode.CompletionItem[] {
 		snippet("say", "say(\"${1:Text to say}\")", "openHAB voice action"),
 		snippet("interpret", "interpret(\"${1:turn on the light}\")", "openHAB voice interpreter action"),
 		snippet("setMasterVolume", "setMasterVolume(${1:0.5})", "openHAB audio volume action"),
+		snippet("getLocation", "getLocation(${1:ItemName})", "openHAB Semantics Action"),
+		snippet("getEquipment", "getEquipment(${1:ItemName})", "openHAB Semantics Action"),
+		snippet("getSemanticType", "getSemanticType(${1:ItemName})", "openHAB Semantics Action"),
+		snippet("isLocation", "isLocation(${1:ItemName})", "openHAB Semantics Action"),
+		snippet("isEquipment", "isEquipment(${1:ItemName})", "openHAB Semantics Action"),
+		snippet("isPoint", "isPoint(${1:ItemName})", "openHAB Semantics Action"),
 		...getTransformationUsageCompletions(),
 		...[
 			"rule", "when", "then", "end", "or", "import", "val", "var", "return",
 			"System started", "System reached start level", "changed", "received command", "received update", "triggered",
 			"logInfo", "logDebug", "logWarn", "logError", "sendCommand", "postUpdate", "createTimer", "playSound", "playStream", "say", "interpret", "setMasterVolume", "getMasterVolume",
+			"isLocation", "isEquipment", "isPoint", "getLocation", "getLocationType", "getEquipment", "getEquipmentType", "getPointType", "getPropertyType", "getSemanticType",
 		].map((label) => keyword({ label, detail: "openHAB Rules DSL keyword/action" })),
 	];
 }
@@ -177,6 +214,7 @@ function getSitemapCompletions(): vscode.CompletionItem[] {
 	let elements = ["sitemap", "Frame", "Default", "Text", "Group", "Switch", "Buttongrid", "Button", "Selection", "Setpoint", "Slider", "Colorpicker", "Colortemperaturepicker", "Input", "Webview", "Mapview", "Image", "Video", "Chart"];
 	let completions = elements.map((label) => keyword({ label, detail: "openHAB Sitemap element" }));
 	completions.push(
+		...getSemanticCompletions(),
 		...getIconCompletions(),
 		...getTransformationUsageCompletions(),
 		snippet("sitemap", "sitemap ${1:name} label=\"${2:Label}\" {\n\t${0}\n}", "openHAB Sitemap root"),
@@ -244,6 +282,7 @@ function getGenericCompletions(): vscode.CompletionItem[] {
 		...getRuleCompletions(),
 		...getSitemapCompletions(),
 		...getPersistenceCompletions(),
+		...getSemanticCompletions(),
 		...getTransformFileCompletions(),
 		...getServicesCompletions(),
 	];

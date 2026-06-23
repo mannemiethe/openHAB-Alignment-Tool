@@ -78,7 +78,7 @@ FormatKit contributes local VS Code completion suggestions for openHAB textual c
 
 Included suggestions cover:
 
-- `.items` — Item types, common `Number:<dimension>` examples, Group aggregation functions, Item and channel-link snippets
+- `.items` — Item types, common `Number:<dimension>` examples, Group aggregation functions, semantic model tags/snippets, Item and channel-link snippets
 - `.things` — `Bridge`, `Thing`, `Channels`, `Type`, `State`, implicit state, and `Trigger` channel snippets
 - `.rules` / `.script` — rule skeletons, Item/Member/Time/System/Thing/Channel trigger snippets, common Actions such as `sendCommand`, `postUpdate`, and `createTimer`
 - `.sitemap` — Sitemap element keywords and common widget snippets
@@ -88,6 +88,8 @@ Included suggestions cover:
 - Item/Sitemap label helpers — common transformation expressions such as `MAP(...)`, `SCALE(...)`, `JS(...)`, `JSONPATH(...)`, `REGEX(...)`
 - Item/Sitemap icon helpers — common openHAB classic icon names
 - Rules multimedia helpers — audio/voice actions such as `playSound`, `playStream`, `say`, `interpret`, and volume helpers
+- Semantic model helpers — Location, Equipment, Point, and Property tags plus snippets for Location Groups, Equipment Groups, Point Items, light models, temperature measurements, and battery badge points
+- Rules semantic helpers — `isLocation`, `isEquipment`, `isPoint`, `getLocation`, `getEquipment`, `getPointType`, `getPropertyType`, and `getSemanticType`
 
 ## Local outline tree
 

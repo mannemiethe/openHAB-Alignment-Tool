@@ -1,5 +1,12 @@
 # openHAB FormatKit Change Log
 
+## [2.8.0] - 23.06.2026
+
+- Added openHAB Semantic Model suggestions for Location, Equipment, Point, and Property tags.
+- Added `.items` snippets for semantic Location Groups, Equipment Groups, Point Items, light models, temperature measurements, and battery badge points.
+- Added Rules DSL semantic action suggestions such as `isLocation`, `isEquipment`, `isPoint`, `getLocation`, `getEquipment`, `getPointType`, `getPropertyType`, and `getSemanticType`.
+- Semantic tag data was derived from the openHAB Core semantic tag model.
+
 ## [2.7.0] - 23.06.2026
 
 - Added local suggestions for openHAB transformation files under `transform/*.map` and `transform/*.scale`.
