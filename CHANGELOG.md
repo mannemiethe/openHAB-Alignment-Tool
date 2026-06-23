@@ -1,5 +1,12 @@
 # openHAB FormatKit Change Log
 
+## [2.4.1] - 23.06.2026
+
+- Improved `.things` formatting for common Bridge/Thing/Type channel blocks.
+- Joins standalone `{` lines after `Bridge`/`Thing` declarations.
+- Aligns consecutive `Type ... : ...` channel lines by channel type, channel id, label, parameters, and comments.
+- Normalizes channel parameter spacing and line comments such as `]//03` to `] // 03`.
+
 ## [2.4.0] - 23.06.2026
 
 - Added conservative structured formatting for `.things`, `.rules`, and `.script` files.

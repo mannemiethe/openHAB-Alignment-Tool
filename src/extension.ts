@@ -261,6 +261,134 @@ function stripLineComment(line: string): string {
 	return line;
 }
 
+function getLineComment(line: string): string {
+	let inString = false;
+	let escaped = false;
+	for (let index = 0; index < line.length - 1; index++) {
+		let current = line[index];
+		if (escaped) {
+			escaped = false;
+			continue;
+		}
+		if (current === "\\") {
+			escaped = true;
+			continue;
+		}
+		if (current === '"') {
+			inString = !inString;
+			continue;
+		}
+		if (!inString && current === "/" && line[index + 1] === "/") {
+			return line.substring(index).replace(/^\/\/\s*/, "// ");
+		}
+	}
+	return "";
+}
+
+function normalizeThingParameters(parameters: string): string {
+	if (!parameters) {
+		return "";
+	}
+	return parameters.trim().replace(/^\[\s*/, "[ ").replace(/\s*\]$/, " ]");
+}
+
+interface ThingChannelLineParts {
+	indent: string;
+	channelType: string;
+	channelId: string;
+	label: string;
+	parameters: string;
+	comment: string;
+}
+
+function parseThingChannelLine(line: string): ThingChannelLineParts | undefined {
+	let indentMatch = line.match(/^\s*/);
+	let indent = indentMatch ? indentMatch[0] : "";
+	let trimmed = line.trim();
+	let code = stripLineComment(trimmed).trim();
+	let comment = getLineComment(trimmed);
+	let match = code.match(/^Type\s+(\S+)\s*:\s*(\S+)(?:\s+("[^"]*"))?(?:\s+(\[[^\]]*\]))?\s*$/);
+	if (!match) {
+		return undefined;
+	}
+	return {
+		indent,
+		channelType: match[1],
+		channelId: match[2],
+		label: match[3] || "",
+		parameters: normalizeThingParameters(match[4] || ""),
+		comment,
+	};
+}
+
+function formatThingChannelGroup(lines: string[]): string[] {
+	let parsed = lines.map(parseThingChannelLine);
+	if (parsed.some((line) => !line)) {
+		return lines;
+	}
+	let parts = parsed as ThingChannelLineParts[];
+	let maxType = Math.max(...parts.map((line) => line.channelType.length));
+	let maxId = Math.max(...parts.map((line) => line.channelId.length));
+	let maxLabel = Math.max(...parts.map((line) => line.label.length));
+	let maxParameters = Math.max(...parts.map((line) => line.parameters.length));
+	return parts.map((line) => {
+		let result = `${line.indent}Type ${line.channelType.padEnd(maxType)} : ${line.channelId.padEnd(maxId)}`;
+		if (line.label || maxLabel > 0) {
+			result += ` ${line.label.padEnd(maxLabel)}`;
+		}
+		if (line.parameters || maxParameters > 0) {
+			result += ` ${line.parameters.padEnd(maxParameters)}`;
+		}
+		if (line.comment) {
+			result += ` ${line.comment}`;
+		}
+		return result.trimRight();
+	});
+}
+
+function joinStandaloneThingBraces(text: string): string {
+	let lines = text.split("\n");
+	let result: string[] = [];
+	for (let index = 0; index < lines.length; index++) {
+		let current = lines[index];
+		let trimmed = current.trim();
+		if (trimmed === "{" && result.length > 0) {
+			let previous = result[result.length - 1];
+			if (/^\s*(Bridge|Thing)\b/.test(previous) && !previous.trimRight().endsWith("{")) {
+				result[result.length - 1] = previous.trimRight() + " {";
+				continue;
+			}
+		}
+		result.push(current);
+	}
+	return result.join("\n");
+}
+
+function formatThingsText(text: string, baseIndentLevel = 0): string {
+	let structured = formatStructuredOpenhabText(joinStandaloneThingBraces(text), "things", baseIndentLevel);
+	let lines = structured.split("\n");
+	let result: string[] = [];
+	let channelGroup: string[] = [];
+	let flushChannelGroup = () => {
+		if (channelGroup.length > 0) {
+			result.push(...formatThingChannelGroup(channelGroup));
+			channelGroup = [];
+		}
+	};
+
+	lines.forEach((line) => {
+		if (/^\s*Type\s+\S+\s*:/.test(line)) {
+			channelGroup.push(line);
+			return;
+		}
+		flushChannelGroup();
+		result.push(line);
+	});
+	flushChannelGroup();
+	return result.join("\n").trimRight() + "\n";
+}
+
+
 function countUnquotedCharacter(line: string, characterToCount: string): number {
 	let count = 0;
 	let inString = false;
@@ -381,7 +509,7 @@ function formatStructuredOpenhabFile(kind: StructuredOpenhabKind, range?: vscode
 	let selection = range ? range : new vscode.Range(new vscode.Position(0, 0), new vscode.Position(doc.lineCount - 1, doc.lineAt(doc.lineCount - 1).text.length));
 	let text = doc.getText(selection);
 	let baseIndentLevel = range ? Math.floor(doc.lineAt(range.start.line).firstNonWhitespaceCharacterIndex / (typeof vscode.window.activeTextEditor.options.tabSize === "number" ? vscode.window.activeTextEditor.options.tabSize : 4)) : 0;
-	let formatted = formatStructuredOpenhabText(text, kind, baseIndentLevel);
+	let formatted = kind === "things" ? formatThingsText(text, baseIndentLevel) : formatStructuredOpenhabText(text, kind, baseIndentLevel);
 	result.push(vscode.TextEdit.replace(selection, formatted));
 	return result;
 }

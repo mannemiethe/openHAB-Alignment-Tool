@@ -33,7 +33,7 @@ Supported openHAB file types:
 
 - `.items` — column formatter, syntax highlighting, snippets
 - `.sitemap` — beta formatter, syntax highlighting, snippets
-- `.things` — structured indentation formatter, syntax highlighting
+- `.things` — structured indentation formatter with channel alignment, syntax highlighting
 - `.rules` — structured indentation formatter, syntax highlighting, snippets
 - `.script` — structured indentation formatter, syntax highlighting
 - `.persist` — syntax highlighting
@@ -78,6 +78,8 @@ FormatKit uses a conservative structured formatter for these files:
 - normalizes indentation around `{}`, `[]`, and openHAB DSL `rule` / `when` / `then` / `end` blocks
 - ignores braces inside quoted strings and line comments
 - avoids semantic rewrites or aggressive line splitting
+
+For `.things` files, consecutive `Type ... : ...` channel definitions are also aligned and inline comments are normalized.
 
 This is intentionally safer than a full parser-based formatter.
 
