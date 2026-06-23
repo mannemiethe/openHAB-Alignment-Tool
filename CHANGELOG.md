@@ -1,5 +1,12 @@
 # openHAB FormatKit Change Log
 
+## [2.4.0] - 23.06.2026
+
+- Added conservative structured formatting for `.things`, `.rules`, and `.script` files.
+- `.things` and `.script` formatting now normalizes indentation around braces and brackets while preserving line structure.
+- `.rules` formatting now understands openHAB DSL `rule`, `when`, `then`, and `end` blocks and combines that with brace indentation.
+- Added activation coverage for `.rules` and `.script` workspaces.
+
 ## [2.3.0] - 22.06.2026
 
 - Added openHAB DSL syntax highlighting for `.items`, `.rules`, `.sitemap`, `.script`, `.things`, and `.persist` files.

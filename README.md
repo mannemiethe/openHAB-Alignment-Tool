@@ -31,11 +31,11 @@ Supported formatting styles for openHAB item files:
 
 Supported openHAB file types:
 
-- `.items` — formatter, syntax highlighting, snippets
+- `.items` — column formatter, syntax highlighting, snippets
 - `.sitemap` — beta formatter, syntax highlighting, snippets
-- `.things` — beta formatter, syntax highlighting
-- `.rules` — syntax highlighting, snippets
-- `.script` — syntax highlighting
+- `.things` — structured indentation formatter, syntax highlighting
+- `.rules` — structured indentation formatter, syntax highlighting, snippets
+- `.script` — structured indentation formatter, syntax highlighting
 - `.persist` — syntax highlighting
 
 ### Item formatting examples
@@ -69,6 +69,17 @@ Group:Number:COUNT(.*) gL_gO_gGd_gMain_Appliances_Count <appliances> (gL_gO_gGd_
 ```
 
 The formatter keeps `Group:Number:COUNT(.*)` intact instead of misreading `COUNT` as a `Number` subtype.
+
+## Formatting `.things`, `.rules`, and `.script`
+
+FormatKit uses a conservative structured formatter for these files:
+
+- keeps existing line structure intact
+- normalizes indentation around `{}`, `[]`, and openHAB DSL `rule` / `when` / `then` / `end` blocks
+- ignores braces inside quoted strings and line comments
+- avoids semantic rewrites or aggressive line splitting
+
+This is intentionally safer than a full parser-based formatter.
 
 ## Extension settings
 

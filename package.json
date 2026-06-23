@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.3.0",
+	"version": "2.4.0",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -35,7 +35,9 @@
 		"onCommand:openhab-formatkit.showDiagnostics",
 		"workspaceContains:**/*.items",
 		"workspaceContains:**/*.sitemap",
-		"workspaceContains:**/*.things"
+		"workspaceContains:**/*.things",
+		"workspaceContains:**/*.rules",
+		"workspaceContains:**/*.script"
 	],
 	"main": "./out/extension.js",
 	"contributes": {

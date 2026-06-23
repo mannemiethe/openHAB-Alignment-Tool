@@ -46,6 +46,8 @@ const OPENHAB_DOCUMENT_SELECTOR: vscode.DocumentSelector = [
 	{ pattern: "**/*.items" },
 	{ pattern: "**/*.sitemap" },
 	{ pattern: "**/*.things" },
+	{ pattern: "**/*.rules" },
+	{ pattern: "**/*.script" },
 ];
 
 // Default item values
@@ -100,7 +102,11 @@ export function activate(context: vscode.ExtensionContext) {
 				} else if (document.fileName.includes(".items")) {
 					return formatItemFile();
 				} else if (document.fileName.includes(".things")) {
-					return config.enableBetaFeatures ? formatThingFile() : undefined;
+					return formatStructuredOpenhabFile("things");
+				} else if (document.fileName.includes(".rules")) {
+					return formatStructuredOpenhabFile("rules");
+				} else if (document.fileName.includes(".script")) {
+					return formatStructuredOpenhabFile("script");
 				} else {
 					return undefined;
 				}
@@ -111,9 +117,16 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.languages.registerDocumentRangeFormattingEditProvider(OPENHAB_DOCUMENT_SELECTOR, {
 			provideDocumentRangeFormattingEdits: (document, range, options, token) => {
-				var start = new vscode.Position(0, 0);
-				var end = new vscode.Position(document.lineCount - 1, document.lineAt(document.lineCount - 1).text.length);
-				return formatItemFile(range);
+				if (document.fileName.includes(".items")) {
+					return formatItemFile(range);
+				} else if (document.fileName.includes(".things")) {
+					return formatStructuredOpenhabFile("things", range);
+				} else if (document.fileName.includes(".rules")) {
+					return formatStructuredOpenhabFile("rules", range);
+				} else if (document.fileName.includes(".script")) {
+					return formatStructuredOpenhabFile("script", range);
+				}
+				return [];
 			},
 		})
 	);
@@ -210,6 +223,167 @@ function commandInsertNewNumberItem(): void {
  */
 function commandInsertNewDateTimeItem(): void {
 	insertItem("DateTime", DEF_ITEM_NAME, '"Label [%1$tA, %1$tm/%1$td/%1$tY %1$tl:%1$tM %1$tp]"', "<time>", DEF_ITEM_GROUP, DEF_ITEM_TAG, DEF_ITEM_CHANNEL);
+}
+
+
+type StructuredOpenhabKind = "things" | "rules" | "script";
+
+function getIndentUnit(): string {
+	let editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return "\t";
+	}
+	let tabSize = typeof editor.options.tabSize === "number" ? editor.options.tabSize : 4;
+	return editor.options.insertSpaces ? " ".repeat(tabSize) : "\t";
+}
+
+function stripLineComment(line: string): string {
+	let inString = false;
+	let escaped = false;
+	for (let index = 0; index < line.length - 1; index++) {
+		let current = line[index];
+		if (escaped) {
+			escaped = false;
+			continue;
+		}
+		if (current === "\\") {
+			escaped = true;
+			continue;
+		}
+		if (current === '"') {
+			inString = !inString;
+			continue;
+		}
+		if (!inString && current === "/" && line[index + 1] === "/") {
+			return line.substring(0, index);
+		}
+	}
+	return line;
+}
+
+function countUnquotedCharacter(line: string, characterToCount: string): number {
+	let count = 0;
+	let inString = false;
+	let escaped = false;
+	let code = stripLineComment(line);
+	for (let index = 0; index < code.length; index++) {
+		let current = code[index];
+		if (escaped) {
+			escaped = false;
+			continue;
+		}
+		if (current === "\\") {
+			escaped = true;
+			continue;
+		}
+		if (current === '"') {
+			inString = !inString;
+			continue;
+		}
+		if (!inString && current === characterToCount) {
+			count++;
+		}
+	}
+	return count;
+}
+
+function normalizeStructuredOpenhabLine(line: string): string {
+	return line.trimRight().replace(/[ \t]+$/g, "");
+}
+
+function getRulesBaseIndent(trimmedLine: string, inRuleBody: boolean): number {
+	if (/^rule\b/i.test(trimmedLine)) {
+		return 0;
+	}
+	if (/^(when|then|end)\b/i.test(trimmedLine)) {
+		return 0;
+	}
+	return inRuleBody ? 1 : 0;
+}
+
+function formatStructuredOpenhabText(text: string, kind: StructuredOpenhabKind, baseIndentLevel = 0): string {
+	let indentUnit = getIndentUnit();
+	let lines = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
+	let formattedLines: string[] = [];
+	let braceIndent = 0;
+	let inBlockComment = false;
+	let inRuleBody = false;
+	let thingSectionIndent = 0;
+
+	lines.forEach((originalLine) => {
+		let trimmedRight = normalizeStructuredOpenhabLine(originalLine);
+		let trimmed = trimmedRight.trimLeft();
+
+		if (trimmed.length === 0) {
+			formattedLines.push("");
+			return;
+		}
+
+		let startsBlockComment = /^\/\*/.test(trimmed);
+		let endsBlockComment = /\*\/$/.test(trimmed);
+		let isCommentOnly = /^\/\//.test(trimmed) || inBlockComment || startsBlockComment;
+
+		let lineBraceIndent = braceIndent;
+		let leadingClosers = trimmed.match(/^[}\]]+/);
+		if (!isCommentOnly && leadingClosers) {
+			lineBraceIndent = Math.max(0, lineBraceIndent - leadingClosers[0].length);
+			if (kind === "things") {
+				thingSectionIndent = 0;
+			}
+		}
+
+		let rulesBaseIndent = kind === "rules" ? getRulesBaseIndent(trimmed, inRuleBody) : 0;
+		let thingsBaseIndent = kind === "things" && !/^Channels\s*:/i.test(trimmed) ? thingSectionIndent : 0;
+		let totalIndent = baseIndentLevel + rulesBaseIndent + thingsBaseIndent + lineBraceIndent;
+		formattedLines.push(indentUnit.repeat(Math.max(0, totalIndent)) + trimmed);
+
+		if (kind === "rules") {
+			if (/^rule\b/i.test(trimmed)) {
+				inRuleBody = false;
+			} else if (/^(when|then)\b/i.test(trimmed)) {
+				inRuleBody = true;
+			} else if (/^end\b/i.test(trimmed)) {
+				inRuleBody = false;
+			}
+		}
+
+		if (kind === "things") {
+			if (/^Channels\s*:/i.test(trimmed)) {
+				thingSectionIndent = 1;
+			} else if (/^(Bridge|Thing)\b/i.test(trimmed)) {
+				thingSectionIndent = 0;
+			}
+		}
+
+		if (startsBlockComment && !endsBlockComment) {
+			inBlockComment = true;
+		} else if (inBlockComment && endsBlockComment) {
+			inBlockComment = false;
+		}
+
+		if (!isCommentOnly) {
+			let openBraces = countUnquotedCharacter(trimmed, "{") + countUnquotedCharacter(trimmed, "[");
+			let closeBraces = countUnquotedCharacter(trimmed, "}") + countUnquotedCharacter(trimmed, "]");
+			braceIndent = Math.max(0, braceIndent + openBraces - closeBraces);
+		}
+	});
+
+	return formattedLines.join("\n").trimRight() + "\n";
+}
+
+function formatStructuredOpenhabFile(kind: StructuredOpenhabKind, range?: vscode.Range): vscode.TextEdit[] {
+	let result: vscode.TextEdit[] = [];
+	if (!vscode.window.activeTextEditor) {
+		return result;
+	}
+
+	let doc = vscode.window.activeTextEditor.document;
+	let selection = range ? range : new vscode.Range(new vscode.Position(0, 0), new vscode.Position(doc.lineCount - 1, doc.lineAt(doc.lineCount - 1).text.length));
+	let text = doc.getText(selection);
+	let baseIndentLevel = range ? Math.floor(doc.lineAt(range.start.line).firstNonWhitespaceCharacterIndex / (typeof vscode.window.activeTextEditor.options.tabSize === "number" ? vscode.window.activeTextEditor.options.tabSize : 4)) : 0;
+	let formatted = formatStructuredOpenhabText(text, kind, baseIndentLevel);
+	result.push(vscode.TextEdit.replace(selection, formatted));
+	return result;
 }
 
 /**
