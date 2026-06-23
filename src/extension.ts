@@ -300,6 +300,7 @@ function normalizeThingParameters(parameters: string): string {
 
 interface ThingChannelLineParts {
 	indent: string;
+	keyword: string;
 	channelType: string;
 	channelId: string;
 	label: string;
@@ -313,16 +314,17 @@ function parseThingChannelLine(line: string): ThingChannelLineParts | undefined 
 	let trimmed = line.trim();
 	let code = stripLineComment(trimmed).trim();
 	let comment = getLineComment(trimmed);
-	let match = code.match(/^Type\s+(\S+)\s*:\s*(\S+)(?:\s+("[^"]*"))?(?:\s+(\[[^\]]*\]))?\s*$/);
+	let match = code.match(/^(Type|State|Trigger)\s+(\S+)\s*:\s*(\S+)(?:\s+("[^"]*"))?(?:\s+(\[[^\]]*\]))?\s*$/);
 	if (!match) {
 		return undefined;
 	}
 	return {
 		indent,
-		channelType: match[1],
-		channelId: match[2],
-		label: match[3] || "",
-		parameters: normalizeThingParameters(match[4] || ""),
+		keyword: match[1],
+		channelType: match[2],
+		channelId: match[3],
+		label: match[4] || "",
+		parameters: normalizeThingParameters(match[5] || ""),
 		comment,
 	};
 }
@@ -333,12 +335,13 @@ function formatThingChannelGroup(lines: string[]): string[] {
 		return lines;
 	}
 	let parts = parsed as ThingChannelLineParts[];
+	let maxKeyword = Math.max(...parts.map((line) => line.keyword.length));
 	let maxType = Math.max(...parts.map((line) => line.channelType.length));
 	let maxId = Math.max(...parts.map((line) => line.channelId.length));
 	let maxLabel = Math.max(...parts.map((line) => line.label.length));
 	let maxParameters = Math.max(...parts.map((line) => line.parameters.length));
 	return parts.map((line) => {
-		let result = `${line.indent}Type ${line.channelType.padEnd(maxType)} : ${line.channelId.padEnd(maxId)}`;
+		let result = `${line.indent}${line.keyword.padEnd(maxKeyword)} ${line.channelType.padEnd(maxType)} : ${line.channelId.padEnd(maxId)}`;
 		if (line.label || maxLabel > 0) {
 			result += ` ${line.label.padEnd(maxLabel)}`;
 		}
@@ -383,7 +386,7 @@ function formatThingsText(text: string, baseIndentLevel = 0): string {
 	};
 
 	lines.forEach((line) => {
-		if (/^\s*Type\s+\S+\s*:/.test(line)) {
+		if (/^\s*(?:Type|State|Trigger)\s+\S+\s*:/.test(line)) {
 			channelGroup.push(line);
 			return;
 		}

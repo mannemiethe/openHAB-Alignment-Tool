@@ -1,5 +1,13 @@
 # openHAB FormatKit Change Log
 
+## [2.5.1] - 23.06.2026
+
+- Extended `.things` channel formatting from `Type` channels to `Type`, `State`, and `Trigger` channel definitions.
+- Extended the `.things` outline to show `Type`, `State`, and `Trigger` channels with clearer descriptions.
+- Added missing Sitemap outline element types such as `Buttongrid`, `Button`, `Input`, and `Colortemperaturepicker`.
+- Added `.persist` outline support for `Strategies`, `Filters`, `Items`, and `Aliases` sections.
+- Added workspace activation coverage for `.persist` files.
+
 ## [2.5.0] - 23.06.2026
 
 - Added a local `openHAB FormatKit` outline TreeView in the activity bar.

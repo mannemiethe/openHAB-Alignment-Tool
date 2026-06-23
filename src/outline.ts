@@ -1,6 +1,6 @@
 import * as vscode from "vscode";
 
-type OutlineKind = "section" | "item" | "rule" | "import" | "variable" | "bridge" | "thing" | "channel" | "sitemap";
+type OutlineKind = "section" | "item" | "rule" | "import" | "variable" | "bridge" | "thing" | "channel" | "sitemap" | "persistence";
 
 interface OutlineEntry {
 	label: string;
@@ -46,6 +46,8 @@ function getIcon(kind: OutlineKind): vscode.ThemeIcon {
 			return new vscode.ThemeIcon("radio-tower");
 		case "sitemap":
 			return new vscode.ThemeIcon("layout");
+		case "persistence":
+			return new vscode.ThemeIcon("database");
 		default:
 			return new vscode.ThemeIcon("symbol-misc");
 	}
@@ -55,7 +57,7 @@ function isSupportedDocument(document: vscode.TextDocument | undefined): boolean
 	if (!document) {
 		return false;
 	}
-	return /\.(items|rules|things|sitemap|script)$/i.test(document.fileName);
+	return /\.(items|rules|things|sitemap|script|persist)$/i.test(document.fileName);
 }
 
 function stripBlockComments(text: string): string {
@@ -176,13 +178,13 @@ function parseThings(text: string): OutlineEntry[] {
 			}
 			return;
 		}
-		let channel = code.match(/^Type\s+(\S+)\s*:\s*(\S+)(?:\s+"([^"]+)")?/);
+		let channel = code.match(/^(Type|State|Trigger)\s+(\S+)\s*:\s*(\S+)(?:\s+"([^"]+)")?/);
 		if (channel) {
 			let entry: OutlineEntry = {
-				label: channel[2],
-				description: channel[3] ? `${channel[1]}: ${channel[3]}` : channel[1],
+				label: channel[3],
+				description: channel[4] ? `${channel[1]} ${channel[2]}: ${channel[4]}` : `${channel[1]} ${channel[2]}`,
 				kind: "channel",
-				range: makeRange(index, line, channel[2]),
+				range: makeRange(index, line, channel[3]),
 			};
 			let parent = stack.length > 0 ? stack[stack.length - 1] : undefined;
 			if (parent && parent.children) {
@@ -203,7 +205,7 @@ function parseSitemap(text: string): OutlineEntry[] {
 	let cleanText = stripBlockComments(text);
 	let lines = cleanText.split(/\r?\n/);
 	let entries: OutlineEntry[] = [];
-	let sitemapRegex = /^\s*(sitemap|Frame|Default|Text|Group|Switch|Selection|Setpoint|Slider|Colorpicker|Webview|Mapview|Image|Video|Chart)\b(?:\s+([^\[{]+))?/i;
+	let sitemapRegex = /^\s*(sitemap|Frame|Default|Text|Group|Switch|Buttongrid|Button|Selection|Setpoint|Slider|Colorpicker|Colortemperaturepicker|Input|Webview|Mapview|Image|Video|Chart)\b(?:\s+([^\[{]+))?/i;
 	lines.forEach((line, index) => {
 		let code = stripLineComment(line).trim();
 		let match = code.match(sitemapRegex);
@@ -219,6 +221,55 @@ function parseSitemap(text: string): OutlineEntry[] {
 	return [section("Sitemap", "section", entries)].filter((entry): entry is OutlineEntry => !!entry);
 }
 
+function parsePersistence(text: string): OutlineEntry[] {
+	let cleanText = stripBlockComments(text);
+	let lines = cleanText.split(/\r?\n/);
+	let sections: { [name: string]: OutlineEntry[] } = {
+		Strategies: [],
+		Filters: [],
+		Items: [],
+		Aliases: [],
+	};
+	let currentSection = "";
+	lines.forEach((line, index) => {
+		let code = stripLineComment(line).trim();
+		if (!code) {
+			return;
+		}
+		let sectionMatch = code.match(/^(Strategies|Filters|Items|Aliases)\b/i);
+		if (sectionMatch) {
+			let canonical = sectionMatch[1].charAt(0).toUpperCase() + sectionMatch[1].slice(1).toLowerCase();
+			currentSection = canonical;
+			return;
+		}
+		if (code.includes("}")) {
+			currentSection = "";
+			return;
+		}
+		if (!currentSection || !sections[currentSection]) {
+			return;
+		}
+		let entryMatch = code.match(/^([^:=>]+?)\s*(?::|=>|=|->)\s*(.+)$/);
+		if (!entryMatch) {
+			return;
+		}
+		let label = entryMatch[1].trim();
+		let description = entryMatch[2].trim();
+		sections[currentSection].push({
+			label,
+			description,
+			kind: "persistence",
+			range: makeRange(index, line, label),
+		});
+	});
+	return [
+		section("Strategies", "section", sections.Strategies),
+		section("Filters", "section", sections.Filters),
+		section("Items", "section", sections.Items),
+		section("Aliases", "section", sections.Aliases),
+	].filter((entry): entry is OutlineEntry => !!entry);
+}
+
 function parseDocument(document: vscode.TextDocument): OutlineEntry[] {
 	let text = document.getText();
 	if (/\.items$/i.test(document.fileName)) {
@@ -232,6 +283,9 @@ function parseDocument(document: vscode.TextDocument): OutlineEntry[] {
 	}
 	if (/\.sitemap$/i.test(document.fileName)) {
 		return parseSitemap(text);
+	}
+	if (/\.persist$/i.test(document.fileName)) {
+		return parsePersistence(text);
 	}
 	return [];
 }
