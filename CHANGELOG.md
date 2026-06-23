@@ -1,5 +1,14 @@
 # openHAB FormatKit Change Log
 
+## [2.6.0] - 23.06.2026
+
+- Added local code completion suggestions for openHAB textual configuration files.
+- `.items` suggestions now include Item types, common `Number:<dimension>` examples, Group aggregation functions, and Item/channel-link snippets.
+- `.things` suggestions now include `Bridge`, `Thing`, `Channels`, `Type`, `State`, implicit state, and `Trigger` channel snippets.
+- `.rules` and `.script` suggestions now include rule skeletons, common trigger snippets, and common Actions such as `sendCommand`, `postUpdate`, and `createTimer`.
+- `.sitemap` suggestions now include Sitemap element keywords and common widget snippets.
+- `.persist` suggestions now include section snippets, predefined strategies, and common persistence keywords.
+
 ## [2.5.2] - 23.06.2026
 
 - Fixed `.things` support for implicit state channel definitions without the `State` keyword, e.g. `String : stationName`.

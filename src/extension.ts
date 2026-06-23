@@ -9,6 +9,7 @@ import Bridge = require("./bridge");
 import Thing = require("./thing");
 import Channel = require("./channel");
 import { OpenhabFormatKitOutlineProvider, revealOutlineRange } from "./outline";
+import { registerOpenhabCompletions } from "./completions";
 
 import { type } from "os";
 import { format } from "path";
@@ -49,6 +50,7 @@ const OPENHAB_DOCUMENT_SELECTOR: vscode.DocumentSelector = [
 	{ pattern: "**/*.things" },
 	{ pattern: "**/*.rules" },
 	{ pattern: "**/*.script" },
+	{ pattern: "**/*.persist" },
 ];
 
 // Default item values
@@ -91,6 +93,8 @@ export function activate(context: vscode.ExtensionContext) {
 		OPENHAB_FORMATKIT_OUTPUT.appendLine(`Active document: ${document.uri.toString()}`);
 		OPENHAB_FORMATKIT_OUTPUT.appendLine(`Active language: ${document.languageId}`);
 	}
+
+	registerOpenhabCompletions(context, OPENHAB_DOCUMENT_SELECTOR);
 
 	// Formatter implementation
 	context.subscriptions.push(
