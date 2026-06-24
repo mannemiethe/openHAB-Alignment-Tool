@@ -74,7 +74,7 @@ The formatter keeps `Group:Number:COUNT(.*)` intact instead of misreading `COUNT
 
 ## Diagnostics
 
-FormatKit marks common semantic-model issues in `.items` files with VS Code diagnostics:
+FormatKit marks common semantic-model and group-structure issues in `.items` files with VS Code diagnostics:
 
 - duplicate tags on the same Item
 - more than one semantic Location tag on one Item
@@ -83,6 +83,8 @@ FormatKit marks common semantic-model issues in `.items` files with VS Code diag
 - more than one semantic Property tag on one Item
 - mixed primary semantic roles on one Item, e.g. Location + Equipment or Equipment + Point
 - Property tags without a Point tag, e.g. `Temperature` without `Measurement`
+- direct Group cycles, e.g. `Group gA ... (gA)`
+- indirect Group cycles, e.g. `gA -> gB -> gC -> gA`
 
 Diagnostics are intentionally conservative and local-only. They do not require an openHAB server and do not try to validate binding-specific runtime data.
 

@@ -85,6 +85,164 @@ function extractQuotedTags(line: string): ParsedTag[] {
 	return tags;
 }
 
+interface ParsedItem {
+	name: string;
+	type: string;
+	lineIndex: number;
+	nameStart: number;
+	groups: ParsedGroupReference[];
+}
+
+interface ParsedGroupReference {
+	name: string;
+	start: number;
+	end: number;
+}
+
+function getCodeBeforeChannel(line: string): string {
+	let code = stripInlineComment(line);
+	let channelStart = code.indexOf("{");
+	if (channelStart >= 0) {
+		return code.substring(0, channelStart);
+	}
+	return code;
+}
+
+function maskQuotedText(text: string): string {
+	let result = text.split("");
+	let inString = false;
+	let escaped = false;
+	for (let index = 0; index < result.length; index++) {
+		let current = result[index];
+		if (escaped) {
+			escaped = false;
+			if (inString) {
+				result[index] = " ";
+			}
+			continue;
+		}
+		if (current === "\\") {
+			escaped = true;
+			if (inString) {
+				result[index] = " ";
+			}
+			continue;
+		}
+		if (current === '"') {
+			inString = !inString;
+			continue;
+		}
+		if (inString) {
+			result[index] = " ";
+		}
+	}
+	return result.join("");
+}
+
+function parseItemLine(line: string, lineIndex: number): ParsedItem | undefined {
+	let code = getCodeBeforeChannel(line);
+	let itemMatch = code.match(/^\s*((?:Color|Contact|DateTime|Dimmer|Group|Image|Location|Number(?::[^\s]+)?|Player|Rollershutter|String|Switch)(?::[^\s]+)*)\s+([A-Za-z_ÄÖÜäöü][A-Za-z0-9_ÄÖÜäöü]*)/);
+	if (!itemMatch) {
+		return undefined;
+	}
+	let type = itemMatch[1];
+	let name = itemMatch[2];
+	let nameStart = code.indexOf(name);
+	let groups: ParsedGroupReference[] = [];
+	let groupSearchStart = nameStart + name.length;
+	let groupSearchCode = code.substring(0, groupSearchStart) + maskQuotedText(code.substring(groupSearchStart));
+	let groupRegex = /\(([^)]*)\)/g;
+	groupRegex.lastIndex = groupSearchStart;
+	let groupMatch: RegExpExecArray | null;
+	while ((groupMatch = groupRegex.exec(groupSearchCode)) !== null) {
+		let groupList = groupMatch[1];
+		let groupNameRegex = /[A-Za-z_ÄÖÜäöü][A-Za-z0-9_ÄÖÜäöü]*/g;
+		let groupNameMatch: RegExpExecArray | null;
+		while ((groupNameMatch = groupNameRegex.exec(groupList)) !== null) {
+			let groupName = groupNameMatch[0];
+			let start = groupMatch.index + 1 + groupNameMatch.index;
+			groups.push({ name: groupName, start, end: start + groupName.length });
+		}
+	}
+	return { name, type, lineIndex, nameStart, groups };
+}
+
+function addGroupCycleDiagnostics(document: vscode.TextDocument, diagnostics: vscode.Diagnostic[]): void {
+	let itemsByName = new Map<string, ParsedItem>();
+	for (let lineIndex = 0; lineIndex < document.lineCount; lineIndex++) {
+		let line = document.lineAt(lineIndex).text;
+		let trimmed = line.trim();
+		if (!trimmed || trimmed.startsWith("//") || trimmed.startsWith("/*") || trimmed.startsWith("*")) {
+			continue;
+		}
+		let item = parseItemLine(line, lineIndex);
+		if (item) {
+			itemsByName.set(item.name, item);
+		}
+	}
+
+	let groupItems = new Set<string>();
+	itemsByName.forEach((item) => {
+		if (item.type.startsWith("Group")) {
+			groupItems.add(item.name);
+		}
+	});
+
+	let graph = new Map<string, string[]>();
+	itemsByName.forEach((item) => {
+		if (!groupItems.has(item.name)) {
+			return;
+		}
+		graph.set(item.name, item.groups.map((group) => group.name).filter((groupName) => groupItems.has(groupName)));
+	});
+
+	let reported = new Set<string>();
+	let findCycle = (start: string, current: string, path: string[], visited: Set<string>): string[] | undefined => {
+		let parents = graph.get(current) || [];
+		for (let parent of parents) {
+			if (parent === start) {
+				return [...path, parent];
+			}
+			if (!visited.has(parent)) {
+				visited.add(parent);
+				let cycle = findCycle(start, parent, [...path, parent], visited);
+				if (cycle) {
+					return cycle;
+				}
+			}
+		}
+		return undefined;
+	};
+
+	itemsByName.forEach((item) => {
+		if (!groupItems.has(item.name)) {
+			return;
+		}
+		for (let group of item.groups) {
+			if (!groupItems.has(group.name)) {
+				continue;
+			}
+			if (group.name === item.name) {
+				let key = `${item.name}->${group.name}`;
+				if (!reported.has(key)) {
+					reported.add(key);
+					diagnostics.push(createDiagnosticAt(item.lineIndex, group.start, group.end, `Group cycle detected: ${item.name} is a member of itself.`, vscode.DiagnosticSeverity.Error));
+				}
+				continue;
+			}
+			let cycle = findCycle(item.name, group.name, [item.name, group.name], new Set([item.name, group.name]));
+			if (cycle) {
+				let normalized = [...new Set(cycle)].sort().join("|");
+				let key = `${item.name}->${group.name}:${normalized}`;
+				if (!reported.has(key)) {
+					reported.add(key);
+					diagnostics.push(createDiagnosticAt(item.lineIndex, group.start, group.end, `Group cycle detected: ${cycle.join(" -> ")}.`, vscode.DiagnosticSeverity.Error));
+				}
+			}
+		}
+	});
+}
+
 function validateItemsDocument(document: vscode.TextDocument): vscode.Diagnostic[] {
 	let diagnostics: vscode.Diagnostic[] = [];
 	for (let lineIndex = 0; lineIndex < document.lineCount; lineIndex++) {
@@ -132,6 +290,7 @@ function validateItemsDocument(document: vscode.TextDocument): vscode.Diagnostic
 			diagnostics.push(createDiagnosticAt(lineIndex, tag.start, tag.end, `Semantic Property tag "${tag.value}" should be paired with a Point tag such as Measurement, Control, Status, Setpoint, Switch, Alarm, Forecast, or Calculation.`, vscode.DiagnosticSeverity.Warning));
 		}
 	}
+	addGroupCycleDiagnostics(document, diagnostics);
 	return diagnostics;
 }
 

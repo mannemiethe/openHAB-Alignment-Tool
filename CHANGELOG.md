@@ -1,5 +1,12 @@
 # openHAB FormatKit Change Log
 
+## [2.10.0] - 24.06.2026
+
+- Added `.items` diagnostics for direct and indirect Group membership cycles.
+- Group cycle diagnostics now catch self-membership such as `Group gA ... (gA)`.
+- Group cycle diagnostics now catch indirect cycles such as `gA -> gB -> gC -> gA`.
+- Group membership parsing ignores quoted labels and avoids treating Group aggregation functions such as `Group:Number:COUNT(...)` as group membership.
+
 ## [2.9.1] - 23.06.2026
 
 - Fixed `.items` semantic diagnostics when an Item label contains a state-format block such as `"Temperature [%.1f °C]"` before the semantic tag block.
