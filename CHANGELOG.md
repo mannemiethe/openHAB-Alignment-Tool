@@ -1,5 +1,9 @@
 # openHAB FormatKit Change Log
 
+## [2.10.1] - 24.06.2026
+
+- Added a dedicated openHAB tree-view activity bar icon for the FormatKit Outline/TreeViewer.
+
 ## [2.10.0] - 24.06.2026
 
 - Added `.items` diagnostics for direct and indirect Group membership cycles.
