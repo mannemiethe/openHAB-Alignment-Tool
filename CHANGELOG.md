@@ -1,5 +1,11 @@
 # openHAB FormatKit Change Log
 
+## [2.11.1] - 24.06.2026
+
+- Fixed the sitemap formatter element splitter so it also recognizes `Buttongrid`, `Button`, `Input`, and `Colortemperaturepicker` elements.
+- Removed unused legacy Thing formatter model files left over from the old formatter path.
+- Removed unused legacy What's New helper files from the package source tree.
+
 ## [2.11.0] - 24.06.2026
 
 - Removed the obsolete `openhab-formatkit.enableBetaFeatures` setting.

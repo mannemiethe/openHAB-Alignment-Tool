@@ -32,7 +32,7 @@ const REGEX_ITEM_CHANNEL_START = /\{.*\}$/;
 const REGEX_ITEM_CHANNEL_END = /.*\}$/;
 const REGEX_ITEM_CHANNEL_SECTION = /\w+="[^"]*"(\s*\[[^\]]*\])?/g;
 
-const REGEX_SITEMAP_ELEMENTS = /\b(Frame|Default|Text|Group|Switch|Selection|Setpoint|Slider|Colorpicker|Webview|Mapview|Image|Video|Chart)\b/g;
+const REGEX_SITEMAP_ELEMENTS = /\b(Frame|Default|Text|Group|Switch|Buttongrid|Button|Selection|Setpoint|Slider|Colorpicker|Colortemperaturepicker|Input|Webview|Mapview|Image|Video|Chart)\b/g;
 
 
 
