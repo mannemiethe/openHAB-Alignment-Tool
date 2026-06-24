@@ -1,5 +1,9 @@
 # openHAB FormatKit Change Log
 
+## [2.10.2] - 24.06.2026
+
+- Replaced the activity bar TreeViewer icon with a VS Code activity-bar-safe monochrome SVG, matching the original TreeView extension icon style.
+
 ## [2.10.1] - 24.06.2026
 
 - Added a dedicated openHAB tree-view activity bar icon for the FormatKit Outline/TreeViewer.
