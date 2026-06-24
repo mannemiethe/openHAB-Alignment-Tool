@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.10.2",
+	"version": "2.11.0",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -120,13 +120,8 @@
 				},
 				"openhab-formatkit.minimumIndentAmount": {
 					"type": "number",
-					"default": 4,
-					"description": "Minimum separation of thing or item parts."
-				},
-				"openhab-formatkit.enableBetaFeatures": {
-					"type": "boolean",
-					"default": false,
-					"description": "Enable beta features like sitemap formatting or thing file formatting."
+					"default": 2,
+					"description": "Minimum separation between formatted item columns."
 				}
 			}
 		},

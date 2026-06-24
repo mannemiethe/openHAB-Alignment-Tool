@@ -154,10 +154,10 @@ Preserve leading whitespace in front of items while reformatting.
 
 ### Minimum Indent Amount
 
-Control the minimum separation of thing or item parts.
+Control the minimum separation between formatted item columns.
 
 ```json
-"openhab-formatkit.minimumIndentAmount": 4
+"openhab-formatkit.minimumIndentAmount": 2
 ```
 
 ### Format Style
@@ -170,14 +170,6 @@ Choose the formatter style:
 
 ```json
 "openhab-formatkit.formatStyle": "Column"
-```
-
-### Enable Beta Features
-
-Enable beta formatting support for sitemap or thing files.
-
-```json
-"openhab-formatkit.enableBetaFeatures": false
 ```
 
 ## Special comment tags

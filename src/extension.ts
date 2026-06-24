@@ -5,9 +5,6 @@ import * as utils from "./utils";
 import * as paths from "path";
 
 import Item = require("./item");
-import Bridge = require("./bridge");
-import Thing = require("./thing");
-import Channel = require("./channel");
 import { OpenhabFormatKitOutlineProvider, revealOutlineRange } from "./outline";
 import { registerOpenhabCompletions } from "./completions";
 import { registerOpenhabDiagnostics } from "./diagnostics";
@@ -37,11 +34,6 @@ const REGEX_ITEM_CHANNEL_SECTION = /\w+="[^"]*"(\s*\[[^\]]*\])?/g;
 
 const REGEX_SITEMAP_ELEMENTS = /\b(Frame|Default|Text|Group|Switch|Selection|Setpoint|Slider|Colorpicker|Webview|Mapview|Image|Video|Chart)\b/g;
 
-const REGEX_THING_TYPE = /^Bridge|Thing/g;
-const REGEX_THING_ID = /\w*:\w*:\w*/;
-const REGEX_THING_LABEL = /\".+?\"/;
-const REGEX_THING_LOCATION = /\".+?\"/;
-const REGEX_THING_PARAMETERS = /.*[\},]/;
 
 
 const OPENHAB_DOCUMENT_SELECTOR: vscode.DocumentSelector = [
@@ -65,13 +57,6 @@ const DEF_ITEM_ICON = "<icon>";
 const DEF_ITEM_GROUP = "(group)";
 const DEF_ITEM_TAG = '["tag"]';
 const DEF_ITEM_CHANNEL = '{ channel="" }\n';
-
-// Section lengths for things
-var highestThingTypeLength = 6;
-var highestThingIdLength = 0;
-var hightesThingLabelLength = 0;
-var highestThingLocationLength = 0;
-var highestThingParametersLength = 0;
 
 // Comment Checker
 let isInBlockComment = false;
@@ -105,10 +90,9 @@ export function activate(context: vscode.ExtensionContext) {
 	context.subscriptions.push(
 		vscode.languages.registerDocumentFormattingEditProvider(OPENHAB_DOCUMENT_SELECTOR, {
 			provideDocumentFormattingEdits: (document, options, token) => {
-				let config = vscode.workspace.getConfiguration("openhab-formatkit");
 				// Check the file type, clean the file and format it
 				if (document.fileName.includes(".sitemap")) {
-					return config.enableBetaFeatures ? formatSitemapFile() : undefined;
+					return formatSitemapFile();
 				} else if (document.fileName.includes(".items")) {
 					return formatItemFile();
 				} else if (document.fileName.includes(".things")) {
@@ -899,241 +883,6 @@ function formatItemFile(range?: vscode.Range): vscode.TextEdit[] {
 	return result;
 }
 
-/**
- * Format the whole thing file
- *
- * @param range
- */
-function formatThingFile(range?: vscode.Range): vscode.TextEdit[] {
-	var result: vscode.TextEdit[] = [];
-	// Get the section lengths of each line with an item in it.
-	// Only execute if there's an active text editor
-	if (!vscode.window.activeTextEditor) {
-		return result;
-	}
-
-	// Define the basic vscode variables
-	let doc = vscode.window.activeTextEditor.document;
-	let editor = vscode.window.activeTextEditor;
-	let currentPos = editor.selection.active;
-	let newPos: vscode.Position;
-	let thingArray: Array<Thing>;
-	thingArray = new Array();
-
-	let thingPending = false;
-	let channelPending = false;
-
-	// Get the format configuration settings
-	let config = vscode.workspace.getConfiguration("openhab-formatkit");
-	let preserveWhitespace = config.preserveWhitespace;
-	let newLineAfterItem = config.newLineAfterItem;
-
-	let leadingWhiteSpace = 0;
-
-	// Reset the comment tracker
-	isInBlockComment = false;
-
-	// Default these to empty. They will be changed
-	// if they exist in the item definition
-	let firstPosition = new vscode.Position(0, 0);
-	let lastPosition = new vscode.Position(0, 0);
-	let thingType = "";
-	let thingId = "";
-	let thingLabel = "";
-	let thingLocation = "";
-	let thingParameters = "";
-	let thingComment = "";
-
-	// Section lengths for items
-	var highestLengths = [0, 0, 0, 0, 0, 0, 0];
-	highestLengths[0] = 0;
-	highestLengths[1] = 0;
-	highestLengths[2] = 0;
-	highestLengths[3] = 0;
-	highestLengths[4] = 0;
-	highestLengths[5] = 0;
-	highestLengths[6] = 0;
-
-	let firstLine = range ? range.start.line : 0;
-	let lastLine = range ? range.end.line : doc.lineCount - 1;
-
-	// #OHFS#Channel#OHFS#
-	// Clear the file in case of line-by-line item definitions
-	for (let index = firstLine; index <= lastLine; index++) {
-		// Get Position at the beginning of the current line and start a selection
-		newPos = currentPos.with(index, 0);
-
-		// Get Text of current line and check if there is a comment in it
-		let lineText = doc.lineAt(newPos.line);
-		var comment = doc.getWordRangeAtPosition(newPos.with(newPos.line, 0), REGEX_COMMENT);
-		var blockComment = doc.getWordRangeAtPosition(newPos.with(newPos.line, 0), REGEX_START_BLOCKCOMMENT);
-		var endBlockComment = doc.getWordRangeAtPosition(newPos.with(newPos.line, 0), REGEX_END_BLOCKCOMMENT);
-
-		// Check if there is leading Whitespace. If Yes add one in size of a tab.
-		leadingWhiteSpace = lineText.firstNonWhitespaceCharacterIndex;
-		if (preserveWhitespace === false) {
-			leadingWhiteSpace = 0;
-		}
-
-		// If line is empty or contains a comment continue to the next line
-		if (lineText.text.length === 0 || lineText.isEmptyOrWhitespace) {
-			if (thingPending) {
-				// Add the new item to the itemArray
-				if (newLineAfterItem) {
-					lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
-				}
-				let bindingId = thingId.split(":")[0];
-				let typeId = thingId.split(":")[1];
-				thingId = thingId.split(":")[2];
-				thingArray.push(new Thing(new vscode.Range(firstPosition, lastPosition), leadingWhiteSpace, highestLengths, thingType, bindingId, typeId, thingId, thingLabel, thingLocation, thingParameters, thingComment));
-
-				// Default these to empty. They will be changed
-				// if they exist in the item definition
-				thingType = "";
-				thingId = "";
-				thingLabel = "";
-				thingLocation = "";
-				thingParameters = "";
-				thingComment = "";
-				thingPending = false;
-			}
-			continue;
-		} else if (comment) {
-			continue;
-		} else if (blockComment && endBlockComment) {
-			isInBlockComment = false;
-			continue;
-		} else if (blockComment) {
-			isInBlockComment = true;
-			continue;
-		} else if (endBlockComment) {
-			isInBlockComment = false;
-			continue;
-		} else if (isInBlockComment) {
-			continue;
-		}
-
-		// Discover thing Type
-		// Count Whitespace or tabs at the begin of the line
-		newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-		var wordRange = doc.getWordRangeAtPosition(newPos, REGEX_THING_TYPE);
-		if (wordRange && wordRange.isSingleLine) {
-			if (thingPending) {
-				// Add the new item to the itemArray
-				if (newLineAfterItem) {
-					lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
-				}
-				let bindingId = thingId.split(":")[0];
-				let typeId = thingId.split(":")[1];
-				thingId = thingId.split(":")[2];
-				thingArray.push(new Thing(new vscode.Range(firstPosition, lastPosition), leadingWhiteSpace, highestLengths, thingType, bindingId, typeId, thingId, thingLabel, thingLocation, thingParameters, thingComment));
-
-				// Default these to empty. They will be changed
-				// if they exist in the item definition
-				thingType = "";
-				thingId = "";
-				thingLabel = "";
-				thingLocation = "";
-				thingParameters = "";
-				thingComment = "";
-				thingPending = false;
-			}
-			thingType = doc.getText(wordRange);
-			highestThingTypeLength = thingType.length > highestThingTypeLength ? thingType.length : highestThingTypeLength;
-			newPos = newPos.with(newPos.line, newPos.character + thingType.length);
-			newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-			firstPosition = new vscode.Position(index, 0);
-			thingPending = true;
-
-			// Discover thing Name
-			var thingIdRange = doc.getWordRangeAtPosition(newPos, REGEX_THING_ID);
-			if (thingIdRange && thingIdRange.isSingleLine) {
-				thingId = doc.getText(thingIdRange);
-				highestLengths[1] = thingId.length > highestLengths[1] ? thingId.length : highestLengths[1];
-				newPos = newPos.with(newPos.line, newPos.character + thingId.length);
-				newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-				lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
-			}
-		}
-		// Must have a type and name to continue
-		if (thingType.length === 0 || thingId.length === 0) {
-			continue;
-		}
-		// Discover thing Label
-		let thingLabelRange = doc.getWordRangeAtPosition(newPos, REGEX_THING_LABEL);
-		if (thingLabelRange && thingLabelRange.isSingleLine) {
-			thingLabel = doc.getText(thingLabelRange);
-			highestLengths[2] = thingLabel.length > highestLengths[2] ? thingLabel.length : highestLengths[2];
-			newPos = newPos.with(newPos.line, newPos.character + thingLabel.length);
-			newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-			lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
-		}
-		// Discover thing Icon
-		let thingLocationRange = doc.getWordRangeAtPosition(newPos, REGEX_THING_LOCATION);
-		if (thingLocationRange && thingLocationRange.isSingleLine) {
-			thingLocation = doc.getText(thingLocationRange);
-			highestLengths[3] = thingLocation.length > highestLengths[3] ? thingLocation.length : highestLengths[3];
-			newPos = newPos.with(newPos.line, newPos.character + thingLocation.length);
-			newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-			lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
-		}
-		// Discover thing Group
-		let thingParametersRange = doc.getWordRangeAtPosition(newPos, REGEX_THING_PARAMETERS);
-		if (thingParametersRange && thingParametersRange.isSingleLine) {
-			thingParameters = doc.getText(thingParametersRange);
-			highestLengths[4] = thingParameters.length > highestLengths[4] ? thingParameters.length : highestLengths[4];
-			newPos = newPos.with(newPos.line, newPos.character + thingParameters.length);
-			newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-			lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
-		}
-		// Discover comment at end of line
-		let thingCommentRange = doc.getWordRangeAtPosition(newPos, REGEX_EOL_COMMENT);
-		if (thingCommentRange && thingCommentRange.isSingleLine) {
-			thingComment = doc.getText(thingCommentRange);
-			newPos = newPos.with(newPos.line, newPos.character + thingComment.length);
-			newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-			lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
-		}
-	}
-
-	if (thingPending) {
-		// Add the new item to the itemArray
-		let bindingId = thingId.split(":")[0];
-		let typeId = thingId.split(":")[1];
-		thingId = thingId.split(":")[2];
-		thingArray.push(new Thing(new vscode.Range(firstPosition, lastPosition), leadingWhiteSpace, highestLengths, thingType, bindingId, typeId, thingId, thingLabel, thingLocation, thingParameters, thingComment));
-
-		// Default these to empty. They will be changed
-		// if they exist in the item definition
-		thingType = "";
-		thingId = "";
-		thingLabel = "";
-		thingLocation = "";
-		thingParameters = "";
-		thingComment = "";
-		thingPending = false;
-	}
-
-	// Convert the column lengths to tabs
-	highestLengths[0] = utils.generateTabFromSpaces(highestLengths[0]);
-	highestLengths[1] = utils.generateTabFromSpaces(highestLengths[1]);
-	highestLengths[2] = utils.generateTabFromSpaces(highestLengths[2]);
-	highestLengths[3] = utils.generateTabFromSpaces(highestLengths[3]);
-	highestLengths[4] = utils.generateTabFromSpaces(highestLengths[4]);
-	highestLengths[5] = utils.generateTabFromSpaces(highestLengths[5]);
-	highestLengths[6] = utils.generateTabFromSpaces(highestLengths[6]);
-
-	// Insert the newly formatted items
-	thingArray.forEach(function (thing) {
-		let reformattedThing = formatThing(thing);
-		if (reformattedThing !== "") {
-			result.push(vscode.TextEdit.replace(thing.range, reformattedThing));
-		}
-	});
-
-	return result;
-}
-
 /**----------------------------------------------------------------------------------------------------------
  * HELPER FUNCTIONS SECTION
  *---------------------------------------------------------------------------------------------------------*/
@@ -1310,70 +1059,4 @@ function formatItem(item: Item): string {
 	formattedItem = formattedItem.trimRight();
 	formattedItem = newLineAfterItem === false ? formattedItem : formattedItem + "\n";
 	return formattedItem;
-}
-
-/**
- * Helper function which creates an item out of all single parts.
- *
- * @param type
- * @param name
- * @param label
- * @param icon
- * @param group
- * @param tag
- * @param channel
- * @param leadingWhitespaceCount
- */
-function formatThing(thing: Thing): string {
-	// Get the configuration settings
-	let config = vscode.workspace.getConfiguration("openhab-formatkit");
-	let formatStyle = config.formatStyle;
-	let newLineAfterItem = config.newLineAfterItem;
-	let multilineIndentAmount = config.multilineIndentAmount;
-	let editor = vscode.window.activeTextEditor;
-	let formattedThing = "";
-
-	// Only execute if there's an active text editor
-	if (!editor) {
-		return "";
-	}
-
-	// Check for the formatting style in the user configuration
-	if (formatStyle === "Column" || formatStyle === "ChannelColumn") {
-		// Fill the required amount of tabs after each thing part. For Column Style Formatting
-		let newType = utils.fillColumns(thing.thing_type, thing.highestLengths[0]);
-		let newBindingId = utils.fillColumns(thing.binding_id, thing.highestLengths[1]);
-		let newTypeId = utils.fillColumns(thing.type_id, thing.highestLengths[2]);
-		let newThingId = utils.fillColumns(thing.thing_id, thing.highestLengths[3]);
-		let newLabel = utils.fillColumns(thing.label, thing.highestLengths[4]);
-		let newLocation = utils.fillColumns(thing.location, thing.highestLengths[5]);
-		let newParameters = utils.fillColumns(thing.parameters, thing.highestLengths[5]);
-
-		// Add the leading whitespace (for group and subgroups)
-		// Add tabs to string
-		for (let i = 0; i < thing.leadingWhiteSpace; i++) {
-			newType = "\t" + newType;
-		}
-
-		if (formatStyle === "ChannelColumn") {
-			let tabs = "";
-			let tabIndent = thing.highestLengths[0] + thing.highestLengths[1] + thing.highestLengths[2] + thing.highestLengths[3] + thing.highestLengths[4] + thing.highestLengths[5];
-
-			for (let i = 0; i < tabIndent; i++) {
-				tabs = tabs + "\t";
-			}
-			tabs = ",\n" + tabs + " ";
-			thing.location = thing.location.replace(/,\s*/g, tabs);
-		}
-
-		// Build the formatted thing and return it
-
-		// Multiline Format Style
-	} else if (formatStyle === "Multiline") {
-	} else {
-		// @todo add window message for user
-		return "";
-	}
-
-	return "";
 }

@@ -1,5 +1,13 @@
 # openHAB FormatKit Change Log
 
+## [2.11.0] - 24.06.2026
+
+- Removed the obsolete `openhab-formatkit.enableBetaFeatures` setting.
+- Sitemap formatting is now available directly instead of being hidden behind the beta flag.
+- Changed `openhab-formatkit.minimumIndentAmount` default from `4` to `2`.
+- Removed the unused legacy `.things` column formatter path and its stale internal `multilineIndentAmount` reference.
+- Updated settings documentation to describe the remaining active `.items` formatter settings more accurately.
+
 ## [2.10.2] - 24.06.2026
 
 - Replaced the activity bar TreeViewer icon with a VS Code activity-bar-safe monochrome SVG, matching the original TreeView extension icon style.
