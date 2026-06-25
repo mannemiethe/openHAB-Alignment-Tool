@@ -36,6 +36,56 @@ const REGEX_SITEMAP_ELEMENTS = /\b(Frame|Default|Text|Group|Switch|Buttongrid|Bu
 
 
 
+
+function findItemMetadataBlockEnd(text: string, startIndex: number): number {
+	let depth = 0;
+	let inString = false;
+	let escaped = false;
+
+	for (let index = startIndex; index < text.length; index++) {
+		let char = text[index];
+		if (escaped) {
+			escaped = false;
+			continue;
+		}
+		if (char === "\\") {
+			escaped = true;
+			continue;
+		}
+		if (char === '"') {
+			inString = !inString;
+			continue;
+		}
+		if (inString) {
+			continue;
+		}
+		if (char === "{") {
+			depth++;
+		} else if (char === "}") {
+			depth--;
+			if (depth === 0) {
+				return index;
+			}
+		}
+	}
+	return -1;
+}
+
+function extractItemMetadataBlock(text: string, startCharacter: number): { text: string; endCharacter: number; complete: boolean } | undefined {
+	let offset = startCharacter;
+	while (offset < text.length && /\s/.test(text[offset])) {
+		offset++;
+	}
+	if (text[offset] !== "{") {
+		return undefined;
+	}
+	let end = findItemMetadataBlockEnd(text, offset);
+	if (end === -1) {
+		return { text: text.substring(offset).trimRight(), endCharacter: text.length, complete: false };
+	}
+	return { text: text.substring(offset, end + 1).trimRight(), endCharacter: end + 1, complete: true };
+}
+
 const OPENHAB_DOCUMENT_SELECTOR: vscode.DocumentSelector = [
 	{ language: "openhab" },
 	{ pattern: "**/*.items" },
@@ -811,32 +861,31 @@ function formatItemFile(range?: vscode.Range): vscode.TextEdit[] {
 			//console.log("Tag: " + itemTag);
 			lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
 		}
-		// Discover item Channel
+		// Discover item Channel / metadata block. Use a small scanner instead of a simple regex so escaped JSON quotes inside metadata values are preserved.
 		if (!channelPending) {
-			let itemChannelRange = doc.getWordRangeAtPosition(newPos, REGEX_ITEM_CHANNEL_START);
-			if (itemChannelRange && itemChannelRange.isSingleLine) {
-				itemChannel += doc.getText(itemChannelRange);
-				itemChannel = itemChannel.trimRight();
-				if (!itemChannel.endsWith("}")) {
-					channelPending = true;
-				}
+			let metadataBlock = extractItemMetadataBlock(lineText.text, newPos.character);
+			if (metadataBlock) {
+				itemChannel += metadataBlock.text;
+				channelPending = !metadataBlock.complete;
 				highestLengths[6] = itemChannel.length > highestLengths[6] ? itemChannel.length : highestLengths[6];
-				newPos = newPos.with(newPos.line, newPos.character + itemChannel.length);
+				newPos = newPos.with(newPos.line, metadataBlock.endCharacter);
 				newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
 				lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
 			}
 		} else {
-			let itemChannelRange = doc.getWordRangeAtPosition(newPos, REGEX_ITEM_CHANNEL_END);
-			if (itemChannelRange && itemChannelRange.isSingleLine) {
-				itemChannel += doc.getText(itemChannelRange).trimLeft();
-				if (itemChannel.endsWith("}")) {
-					channelPending = false;
-				}
-				highestLengths[6] = itemChannel.length > highestLengths[6] ? itemChannel.length : highestLengths[6];
-				newPos = newPos.with(newPos.line, newPos.character + itemChannel.length);
-				newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-				lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
+			let continuation = lineText.text.substring(newPos.character).trimLeft();
+			let metadataEnd = findItemMetadataBlockEnd("{" + continuation, 0);
+			if (metadataEnd === -1) {
+				itemChannel += continuation.trimRight();
+				newPos = newPos.with(newPos.line, doc.lineAt(index).text.length);
+			} else {
+				itemChannel += continuation.substring(0, metadataEnd).trimRight();
+				channelPending = false;
+				newPos = newPos.with(newPos.line, lineText.text.indexOf(continuation) + metadataEnd);
 			}
+			highestLengths[6] = itemChannel.length > highestLengths[6] ? itemChannel.length : highestLengths[6];
+			newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
+			lastPosition = new vscode.Position(index, doc.lineAt(index).text.length);
 		}
 
 		// Discover comment at end of line

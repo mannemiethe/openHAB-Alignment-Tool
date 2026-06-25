@@ -173,6 +173,13 @@ function getGroupFunctionCompletions(): vscode.CompletionItem[] {
 	return groupFunctions.map((name) => snippet(name, `${name}(${"${1:.*}"})`, "openHAB Group aggregation function"));
 }
 
+function getGroupNumberContinuationCompletions(): vscode.CompletionItem[] {
+	return [
+		...getNumberDimensionCompletions(),
+		...getGroupFunctionCompletions(),
+	];
+}
+
 function getGroupBaseTypeCompletions(): vscode.CompletionItem[] {
 	return itemTypes
 		.filter((itemType) => !itemType.label.includes(":"))
@@ -186,16 +193,22 @@ function getGroupBaseTypeCompletions(): vscode.CompletionItem[] {
 
 function getContextualItemCompletions(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem[] | undefined {
 	let linePrefix = document.lineAt(position.line).text.substring(0, position.character);
-	if (/\bGroup:Number:[A-Z]*$/.test(linePrefix)) {
+	if (/\bGroup:Number:[A-Za-z]+:[A-Z]*$/.test(linePrefix)) {
 		return getGroupFunctionCompletions();
+	}
+	if (/\bGroup:Number:[A-Za-z]*$/.test(linePrefix)) {
+		return getGroupNumberContinuationCompletions();
 	}
 	if (/\bGroup:[A-Za-z]*$/.test(linePrefix)) {
 		return getGroupBaseTypeCompletions();
 	}
+	if (/\bNumber:[A-Za-z]+:$/.test(linePrefix)) {
+		return [];
+	}
 	if (/\bNumber:[A-Za-z]*$/.test(linePrefix)) {
 		return getNumberDimensionCompletions();
 	}
-	if (/\bGroup:Number:[A-Z]+\($/.test(linePrefix)) {
+	if (/\bGroup:Number:(?:[A-Za-z]+:)?[A-Z]+\($/.test(linePrefix)) {
 		return [keyword({ label: ".*", detail: "openHAB Group function wildcard regex", kind: vscode.CompletionItemKind.Value })];
 	}
 	if (!isAtLineStartItemTypePosition(linePrefix) && /\S/.test(linePrefix)) {

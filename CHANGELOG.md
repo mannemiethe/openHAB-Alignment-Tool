@@ -1,5 +1,12 @@
 # openHAB FormatKit Change Log
 
+## [2.12.2] - 25.06.2026
+
+- Fixed `.items` metadata parsing for escaped JSON strings such as `initializeDefaultState="{\"presets\":[{\"id\":...}]}"` so the metadata block is no longer dropped during formatting.
+- Replaced regex-only metadata block detection with a scanner that understands quoted strings and escaped quotes.
+- Improved `.items` completions for dimensioned Group Number types: `Group:Number:` now offers Number dimensions such as `Temperature` as well as aggregation functions, while `Group:Number:Temperature:` offers only aggregation functions.
+- Suppressed incorrect broad suggestions after complete dimension types such as `Number:Temperature:`.
+
 ## [2.12.1] - 25.06.2026
 
 - Improved `.items` metadata formatting for JSON-like string values.
