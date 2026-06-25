@@ -1,5 +1,13 @@
 # openHAB FormatKit Change Log
 
+## [2.12.0] - 25.06.2026
+
+- Improved `.items` completion context filtering.
+- Typing `Number:` or partial values such as `Number:T` now suggests only useful Number dimensions such as `Temperature`, `Power`, `Energy`, and `Dimensionless`.
+- Typing `Group:` now suggests only valid Group base Item types.
+- Typing `Group:Number:` or partial values such as `Group:Number:C` now suggests only Group aggregation functions such as `COUNT`, `AVG`, `SUM`, etc.
+- Suppressed broad Item suggestions after the cursor has moved past the Item type/name area.
+
 ## [2.11.1] - 24.06.2026
 
 - Fixed the sitemap formatter element splitter so it also recognizes `Buttongrid`, `Button`, `Input`, and `Colortemperaturepicker` elements.

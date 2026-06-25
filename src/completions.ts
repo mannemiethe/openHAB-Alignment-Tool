@@ -80,6 +80,23 @@ const itemTypes: CompletionSpec[] = [
 	{ label: "Switch", detail: "openHAB Item type", documentation: "ON/OFF switch state." },
 ];
 
+const numberDimensions: CompletionSpec[] = [
+	{ label: "Temperature", detail: "openHAB Number dimension", documentation: "Quantity Number for temperatures." },
+	{ label: "Power", detail: "openHAB Number dimension", documentation: "Quantity Number for power values." },
+	{ label: "Energy", detail: "openHAB Number dimension", documentation: "Quantity Number for energy values." },
+	{ label: "Dimensionless", detail: "openHAB Number dimension", documentation: "Quantity Number for percentages and ratios." },
+	{ label: "Length", detail: "openHAB Number dimension", documentation: "Quantity Number for length/distance values." },
+	{ label: "Pressure", detail: "openHAB Number dimension", documentation: "Quantity Number for pressure values." },
+	{ label: "ElectricPotential", detail: "openHAB Number dimension", documentation: "Quantity Number for voltage values." },
+	{ label: "ElectricCurrent", detail: "openHAB Number dimension", documentation: "Quantity Number for current values." },
+	{ label: "Frequency", detail: "openHAB Number dimension", documentation: "Quantity Number for frequency values." },
+	{ label: "Speed", detail: "openHAB Number dimension", documentation: "Quantity Number for speed values." },
+	{ label: "Time", detail: "openHAB Number dimension", documentation: "Quantity Number for duration/time values." },
+	{ label: "DataAmount", detail: "openHAB Number dimension", documentation: "Quantity Number for data amount values." },
+	{ label: "DataTransferRate", detail: "openHAB Number dimension", documentation: "Quantity Number for data transfer rate values." },
+	{ label: "VolumetricFlowRate", detail: "openHAB Number dimension", documentation: "Quantity Number for flow rate values." },
+];
+
 const semanticLocations = ["Indoor", "Apartment", "Building", "Garage", "House", "Shed", "SummerHouse", "Corridor", "Floor", "Attic", "Basement", "FirstFloor", "GroundFloor", "SecondFloor", "ThirdFloor", "Room", "Bathroom", "Bedroom", "BoilerRoom", "Cellar", "DiningRoom", "Entry", "FamilyRoom", "GuestRoom", "Kitchen", "LaundryRoom", "LivingRoom", "Office", "Veranda", "Outdoor", "Carport", "Driveway", "Garden", "Patio", "Porch", "Terrace"];
 const semanticEquipments = ["AlarmDevice", "AlarmSystem", "Application", "AudioVisual", "Display", "Projector", "Television", "MediaPlayer", "Receiver", "Screen", "Speaker", "Bed", "Camera", "CleaningRobot", "Computer", "ControlDevice", "Button", "Dial", "Keypad", "Slider", "WallSwitch", "Door", "BackDoor", "CellarDoor", "FrontDoor", "GarageDoor", "Gate", "InnerDoor", "SideDoor", "Doorbell", "DrinkingWater", "HotWaterFaucet", "WaterFilter", "WaterSoftener", "HVAC", "AirConditioner", "AirFilter", "Boiler", "Dehumidifier", "Fan", "CeilingFan", "ExhaustFan", "KitchenHood", "FloorHeating", "Furnace", "HeatPump", "HeatRecovery", "Humidifier", "RadiatorControl", "SmartVent", "Thermostat", "WaterHeater", "Horticulture", "Irrigation", "LawnMower", "SoilSensor", "LightSource", "AccentLight", "Chandelier", "Downlight", "FloodLight", "Lamp", "LightStrip", "LightStripe", "Lightbulb", "Pendant", "Sconce", "SpotLight", "TrackLight", "WallLight", "Lock", "NetworkAppliance", "Firewall", "NetworkSwitch", "Router", "WirelessAccessPoint", "PetCare", "Aquarium", "PetFeeder", "PetFlap", "PowerOutlet", "PowerSupply", "Battery", "EVSE", "Generator", "Inverter", "SolarPanel", "TransferSwitch", "UPS", "WindGenerator", "Printer", "Printer3D", "Pump", "WaterFeature", "RemoteControl", "Sensor", "AirQualitySensor", "CO2Sensor", "COSensor", "ContactSensor", "ElectricMeter", "FireDetector", "FlameDetector", "HeatDetector", "SmokeDetector", "GasMeter", "GlassBreakDetector", "HumiditySensor", "IlluminanceSensor", "LeakSensor", "OccupancySensor", "MotionDetector", "TemperatureSensor", "VibrationSensor", "WaterMeter", "WaterQualitySensor", "WeatherStation", "Siren", "Smartphone", "Tool", "Tracker", "Valve", "Vehicle", "Car", "VoiceAssistant", "WebService", "WeatherService", "Wellness", "Chlorinator", "Jacuzzi", "PoolCover", "PoolHeater", "Sauna", "Shower", "SwimmingPool", "WhiteGood", "AirFryer", "CoffeeMaker", "Cooktop", "Dishwasher", "Dryer", "FoodProcessor", "Freezer", "Fryer", "IceMaker", "Microwave", "Mixer", "Oven", "Range", "Refrigerator", "Toaster", "WashingMachine", "Window", "WindowCovering", "Blinds", "Drapes", "Zone", "AlarmZone"];
 const semanticPoints = ["Alarm", "Calculation", "Control", "Switch", "Forecast", "Measurement", "Setpoint", "Status"];
@@ -141,7 +158,59 @@ function getTransformationUsageCompletions(): vscode.CompletionItem[] {
 }
 
 
-function getItemCompletions(): vscode.CompletionItem[] {
+function isAtLineStartItemTypePosition(linePrefix: string): boolean {
+	return /^\s*\S*$/.test(linePrefix);
+}
+
+function getNumberDimensionCompletions(): vscode.CompletionItem[] {
+	return numberDimensions.map((dimension) => keyword({
+		...dimension,
+		kind: vscode.CompletionItemKind.EnumMember,
+	}));
+}
+
+function getGroupFunctionCompletions(): vscode.CompletionItem[] {
+	return groupFunctions.map((name) => snippet(name, `${name}(${"${1:.*}"})`, "openHAB Group aggregation function"));
+}
+
+function getGroupBaseTypeCompletions(): vscode.CompletionItem[] {
+	return itemTypes
+		.filter((itemType) => !itemType.label.includes(":"))
+		.map((itemType) => keyword({
+			label: itemType.label,
+			detail: "openHAB Group base Item type",
+			documentation: itemType.documentation,
+			kind: vscode.CompletionItemKind.EnumMember,
+		}));
+}
+
+function getContextualItemCompletions(document: vscode.TextDocument, position: vscode.Position): vscode.CompletionItem[] | undefined {
+	let linePrefix = document.lineAt(position.line).text.substring(0, position.character);
+	if (/\bGroup:Number:[A-Z]*$/.test(linePrefix)) {
+		return getGroupFunctionCompletions();
+	}
+	if (/\bGroup:[A-Za-z]*$/.test(linePrefix)) {
+		return getGroupBaseTypeCompletions();
+	}
+	if (/\bNumber:[A-Za-z]*$/.test(linePrefix)) {
+		return getNumberDimensionCompletions();
+	}
+	if (/\bGroup:Number:[A-Z]+\($/.test(linePrefix)) {
+		return [keyword({ label: ".*", detail: "openHAB Group function wildcard regex", kind: vscode.CompletionItemKind.Value })];
+	}
+	if (!isAtLineStartItemTypePosition(linePrefix) && /\S/.test(linePrefix)) {
+		return [];
+	}
+	return undefined;
+}
+
+function getItemCompletions(document?: vscode.TextDocument, position?: vscode.Position): vscode.CompletionItem[] {
+	if (document && position) {
+		let contextual = getContextualItemCompletions(document, position);
+		if (contextual) {
+			return contextual;
+		}
+	}
 	let completions = itemTypes.map(keyword);
 	completions.push(
 		...getSemanticCompletions(),
@@ -290,10 +359,10 @@ function getGenericCompletions(): vscode.CompletionItem[] {
 
 export function registerOpenhabCompletions(context: vscode.ExtensionContext, selector: vscode.DocumentSelector): void {
 	context.subscriptions.push(vscode.languages.registerCompletionItemProvider(selector, {
-		provideCompletionItems(document: vscode.TextDocument): vscode.ProviderResult<vscode.CompletionItem[]> {
+		provideCompletionItems(document: vscode.TextDocument, position: vscode.Position): vscode.ProviderResult<vscode.CompletionItem[]> {
 			switch (getFileKind(document)) {
 				case "items":
-					return getItemCompletions();
+					return getItemCompletions(document, position);
 				case "things":
 					return getThingsCompletions();
 				case "rules":
