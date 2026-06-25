@@ -1,5 +1,11 @@
 import * as vscode from "vscode";
 
+function normalizeEscapedQuotesInMetadataValues(channel: string): string {
+	return channel.replace(/(\w+\s*=\s*")((?:\\.|[^"\\])*)(")/g, (_match, prefix: string, value: string, suffix: string) => {
+		return prefix + value.replace(/\\"/g, "'") + suffix;
+	});
+}
+
 class Item {
 	public range: vscode.Range;
 	public leadingWhiteSpace: number;
@@ -26,7 +32,7 @@ class Item {
 		this.icon = icon.replace(/\<\s*/, "<").replace(/\s*\>/, ">");
 		this.group = group.replace(/\(\s*/, "(").replace(/\s*\)/, ")");
 		this.tag = tag;
-		this.channel = channel
+		this.channel = normalizeEscapedQuotesInMetadataValues(channel)
 			.replace(/\{\s*/, "{")
 			.replace(/\s*\}/, "}")
 			.replace(/\s*",\s*/, "\", ");

@@ -1,5 +1,11 @@
 # openHAB FormatKit Change Log
 
+## [2.12.1] - 25.06.2026
+
+- Improved `.items` metadata formatting for JSON-like string values.
+- Escaped inner double quotes in metadata values, e.g. `initializeDefaultState="{\"presets\":...}"`, are now normalized to single quotes inside the value: `initializeDefaultState="{'presets':...}"`.
+- Updated channel/metadata splitting to tolerate escaped quotes inside metadata values.
+
 ## [2.12.0] - 25.06.2026
 
 - Improved `.items` completion context filtering.
