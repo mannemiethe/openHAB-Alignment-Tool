@@ -1,5 +1,12 @@
 # openHAB FormatKit Change Log
 
+## [2.13.0] - 26.06.2026
+
+- Added context-aware `.items` icon suggestions inside item icon references such as `<water>`.
+- Expanded the Classic Icon suggestions from the openHAB Web UI Classic Icon Set source list, including icons such as `water`, `temperature`, `battery`, `heating`, `window`, `door`, and many more.
+- Added icon source prefix suggestions such as `oh:`, `material:`, `f7:`, `if:`, and `iconify:` for explicit icon references.
+- Removed icon suggestions from the broad `.items` line-start completion list so they only appear where useful, primarily inside `<...>`.
+
 ## [2.12.2] - 25.06.2026
 
 - Fixed `.items` metadata parsing for escaped JSON strings such as `initializeDefaultState="{\"presets\":[{\"id\":...}]}"` so the metadata block is no longer dropped during formatting.
