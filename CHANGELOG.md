@@ -1,5 +1,10 @@
 # openHAB FormatKit Change Log
 
+## [2.13.1] - 27.06.2026
+
+- Restored README support links for Buy Me a Coffee and the original developer PayPal donation link.
+- Restored VS Code sponsor metadata pointing to the Buy Me a Coffee support page.
+
 ## [2.13.0] - 26.06.2026
 
 - Added context-aware `.items` icon suggestions inside item icon references such as `<water>`.

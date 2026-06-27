@@ -8,6 +8,16 @@ openHAB FormatKit is an independently maintained Visual Studio Code extension fo
 
 This is an independently maintained project. It is **not affiliated with, endorsed by, or published by** the original `openHAB Alignment Tool` author or project. The codebase began as a maintained fork of the inactive open-source project by Maximilian Beckenbauer, and that origin is credited here for transparency. All marketplace branding, icon artwork, package identity, README wording, and command/settings namespace have been changed for this independent release.
 
+## Support & Credits
+
+If this maintained fork helps you, please consider supporting ongoing maintenance:
+
+- ☕ [Buy Manuel Miethe a coffee](https://www.buymeacoffee.com/mannemiethe)
+
+If you also want to thank the original developer of the openHAB Alignment Tool:
+
+- 💙 [PayPal donation for Maximilian Beckenbauer, the original developer](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=58GE7PE2EAQAY&source=url)
+
 ## What changed for the independent release
 
 - Extension display name changed to **openHAB FormatKit**.

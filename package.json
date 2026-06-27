@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.13.0",
+	"version": "2.13.1",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -251,5 +251,8 @@
 			"href": "https://www.openhab.org/",
 			"description": "openHAB formatter toolkit"
 		}
-	]
+	],
+	"sponsor": {
+		"url": "https://www.buymeacoffee.com/mannemiethe"
+	}
 }
