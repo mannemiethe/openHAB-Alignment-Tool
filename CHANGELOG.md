@@ -1,5 +1,11 @@
 # openHAB FormatKit Change Log
 
+## [2.13.2] - 02.07.2026
+
+- Fixed `.items` formatting for Group aggregation functions with nested parentheses in regex parameters, e.g. `Group:Number:COUNT(^([0-9]|[1-9][0-9])$)`.
+- Replaced the fragile item-type regex parser with a scanner that reads item type tokens until whitespace while respecting nested parentheses and quoted strings.
+- Preserved support for dimensioned Group Number types such as `Group:Number:Temperature:AVG(...)`.
+
 ## [2.13.1] - 27.06.2026
 
 - Restored README support links for Buy Me a Coffee and the original developer PayPal donation link.

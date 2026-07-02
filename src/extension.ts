@@ -21,7 +21,8 @@ const REGEX_OHFS_COMMENT = /^\s*\/\/\s*\#OHFS\#(\w*)\#OHFS\#$/;
 const REGEX_OHNG_COMMENT = /^\s*\/\/\s*\#OHNG\#$/;
 
 // Regex patterns to match parts of item definition
-const REGEX_ITEM_TYPE = /(Color|Contact|DateTime|Dimmer|Group|Image|Location|Number(?::(?!EQUALITY\b|AND\b|OR\b|NAND\b|NOR\b|SUM\b|AVG\b|MIN\b|MAX\b|COUNT\b|LATEST\b|EARLIEST\b)\w+)?|Player|Rollershutter|String|Switch)(?::(Color|Contact|DateTime|Dimmer|Group|Image|Location|Number(?::(?!EQUALITY\b|AND\b|OR\b|NAND\b|NOR\b|SUM\b|AVG\b|MIN\b|MAX\b|COUNT\b|LATEST\b|EARLIEST\b)\w+)?|Player|Rollershutter|String|Switch))?(?::(EQUALITY|AND|OR|NAND|NOR|SUM|AVG|MIN|MAX|COUNT|LATEST|EARLIEST)(?:\([^)]*\))?)?(?:\("[^"]*"\))?/;
+const ITEM_BASE_TYPES = ["Color", "Contact", "DateTime", "Dimmer", "Group", "Image", "Location", "Number", "Player", "Rollershutter", "String", "Switch"];
+const ITEM_GROUP_FUNCTIONS = ["EQUALITY", "AND", "OR", "NAND", "NOR", "SUM", "AVG", "MIN", "MAX", "COUNT", "LATEST", "EARLIEST"];
 const REGEX_ITEM_NAME = /[a-zA-Z0-9äöüÄÖÜ][a-zA-Z0-9äöüÄÖÜ_]*/;
 const REGEX_ITEM_LABEL = /\".+?\"/;
 const REGEX_ITEM_ICON = /<.+?>/;
@@ -36,6 +37,82 @@ const REGEX_SITEMAP_ELEMENTS = /\b(Frame|Default|Text|Group|Switch|Buttongrid|Bu
 
 
 
+
+
+function scanItemTypeToken(text: string, startIndex: number): { text: string; endCharacter: number } | undefined {
+	let index = startIndex;
+	let parenDepth = 0;
+	let inString = false;
+	let escaped = false;
+	while (index < text.length) {
+		let char = text[index];
+		if (escaped) {
+			escaped = false;
+			index++;
+			continue;
+		}
+		if (char === "\\") {
+			escaped = true;
+			index++;
+			continue;
+		}
+		if (char === '"') {
+			inString = !inString;
+			index++;
+			continue;
+		}
+		if (!inString) {
+			if (char === "(") {
+				parenDepth++;
+			} else if (char === ")" && parenDepth > 0) {
+				parenDepth--;
+			} else if (/\s/.test(char) && parenDepth === 0) {
+				break;
+			}
+		}
+		index++;
+	}
+
+	let token = text.substring(startIndex, index);
+	if (!isValidItemTypeToken(token)) {
+		return undefined;
+	}
+	return { text: token, endCharacter: index };
+}
+
+function isValidItemTypeToken(token: string): boolean {
+	if (!token) {
+		return false;
+	}
+	let segments = token.split(":");
+	let baseType = segments[0];
+	if (!ITEM_BASE_TYPES.includes(baseType)) {
+		return false;
+	}
+	if (baseType !== "Group") {
+		return segments.length === 1 || (baseType === "Number" && segments.length === 2 && segments[1].length > 0);
+	}
+	if (segments.length === 1) {
+		return true;
+	}
+	let groupBaseType = segments[1];
+	if (!ITEM_BASE_TYPES.includes(groupBaseType)) {
+		return false;
+	}
+	let functionStartIndex = 2;
+	if (groupBaseType === "Number" && segments.length > 2 && !isGroupFunctionSegment(segments[2])) {
+		functionStartIndex = 3;
+	}
+	if (segments.length === functionStartIndex) {
+		return true;
+	}
+	let groupFunction = segments.slice(functionStartIndex).join(":");
+	return isGroupFunctionSegment(groupFunction);
+}
+
+function isGroupFunctionSegment(segment: string): boolean {
+	return ITEM_GROUP_FUNCTIONS.some((name) => segment === name || segment.startsWith(name + "("));
+}
 
 function findItemMetadataBlockEnd(text: string, startIndex: number): number {
 	let depth = 0;
@@ -784,8 +861,8 @@ function formatItemFile(range?: vscode.Range): vscode.TextEdit[] {
 		// Discover item Type
 		// Count Whitespace or tabs at the begin of the line
 		newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
-		var wordRange = doc.getWordRangeAtPosition(newPos, REGEX_ITEM_TYPE);
-		if (wordRange && wordRange.isSingleLine) {
+		let itemTypeToken = scanItemTypeToken(lineText.text, newPos.character);
+		if (itemTypeToken) {
 			if (itemPending) {
 				// Add the new item to the itemArray
 				itemArray.push(new Item(new vscode.Range(firstPosition, lastPosition), leadingWhiteSpace, formatOption, highestLengths, itemType, itemName, itemLabel, itemIcon, itemGroup, itemTag, itemChannel, itemComment));
@@ -803,9 +880,9 @@ function formatItemFile(range?: vscode.Range): vscode.TextEdit[] {
 				itemComment = "";
 				itemPending = false;
 			}
-			itemType = doc.getText(wordRange);
+			itemType = itemTypeToken.text;
 			highestLengths[0] = itemType.length > highestLengths[0] ? itemType.length : highestLengths[0];
-			newPos = newPos.with(newPos.line, newPos.character + itemType.length);
+			newPos = newPos.with(newPos.line, itemTypeToken.endCharacter);
 			newPos = newPos.with(newPos.line, newPos.character + utils.countWhitespace(doc, newPos));
 			firstPosition = new vscode.Position(index, 0);
 			itemPending = true;
