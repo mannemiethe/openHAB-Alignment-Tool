@@ -1,5 +1,14 @@
 # openHAB FormatKit Change Log
 
+## [2.14.1] - 03.07.2026
+
+- Hardened the native RRD Inspector webview with a Content Security Policy and per-render script/style nonce.
+- Added validation for datasource/archive/row indexes before writing RRD edits.
+- Added stale-file protection: saving is blocked if the `.rrd` changed on disk after the inspector loaded it.
+- Avoided creating backups for empty save attempts.
+- Improved backup filename precision to reduce collisions.
+- Added a safe empty-state message for RRD files without datasource/archive data.
+
 ## [2.14.0] - 03.07.2026
 
 - Added a native VS Code custom editor for `*.rrd` files: **openHAB RRD Inspector**.

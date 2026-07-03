@@ -94,7 +94,8 @@ Current capabilities:
 - Shows datasources, archives, timestamps, raw ring-buffer indexes, and values.
 - Lets you edit existing archive values directly in the table.
 - Lets you map a timestamp to the selected archive row and add/update a value there.
-- Writes are protected by an automatic `.formatkit-backup-YYYYMMDDHHMMSS` file before saving.
+- Writes are protected by an automatic `.formatkit-backup-YYYYMMDDHHMMSSmmm` file before saving.
+- Saving is blocked if the `.rrd` changed on disk after the inspector loaded it, so openHAB updates are not silently overwritten.
 
 Important: the current write support edits stored archive values directly. It does not yet emulate the full rrd4j `Sample.update()` consolidation pipeline for creating new live samples.
 

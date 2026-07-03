@@ -265,17 +265,41 @@ export function getRows(buffer: Buffer, model: RrdModel, datasourceIndex: number
 	return rows;
 }
 
-function writeEdits(filePath: string, model: RrdModel, edits: PendingEdit[]): string {
+function writeEdits(filePath: string, model: RrdModel, edits: PendingEdit[], expectedMtimeMs: number): string {
+	if (edits.length === 0) {
+		throw new Error("No changed values to save.");
+	}
+	let currentStat = fs.statSync(filePath);
+	if (Math.abs(currentStat.mtimeMs - expectedMtimeMs) > 1) {
+		throw new Error("RRD file changed on disk after it was loaded. Refresh before saving to avoid overwriting openHAB updates.");
+	}
 	let buffer = fs.readFileSync(filePath);
-	let backupPath = `${filePath}.formatkit-backup-${new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 14)}`;
+	let backupPath = `${filePath}.formatkit-backup-${new Date().toISOString().replace(/[-:T.Z]/g, "").slice(0, 17)}`;
 	fs.copyFileSync(filePath, backupPath);
 	for (let edit of edits) {
+		validateEdit(model, edit);
 		let archive = model.archives[edit.archiveIndex];
 		let location = valueOffset(model, archive, edit.datasourceIndex, edit.row);
 		buffer.writeDoubleBE(edit.value === null ? Number.NaN : edit.value, location.offset);
 	}
 	fs.writeFileSync(filePath, buffer);
 	return backupPath;
+}
+
+function validateEdit(model: RrdModel, edit: PendingEdit): void {
+	if (!Number.isInteger(edit.datasourceIndex) || edit.datasourceIndex < 0 || edit.datasourceIndex >= model.datasources.length) {
+		throw new Error(`Invalid datasource index: ${edit.datasourceIndex}`);
+	}
+	if (!Number.isInteger(edit.archiveIndex) || edit.archiveIndex < 0 || edit.archiveIndex >= model.archives.length) {
+		throw new Error(`Invalid archive index: ${edit.archiveIndex}`);
+	}
+	let archive = model.archives[edit.archiveIndex];
+	if (!Number.isInteger(edit.row) || edit.row < 0 || edit.row >= archive.rows) {
+		throw new Error(`Invalid archive row: ${edit.row}`);
+	}
+	if (edit.value !== null && !Number.isFinite(edit.value)) {
+		throw new Error(`Invalid numeric value for row ${edit.row}`);
+	}
 }
 
 class RrdInspectorDocument implements vscode.CustomDocument {
@@ -295,8 +319,9 @@ export class RrdInspectorEditorProvider implements vscode.CustomReadonlyEditorPr
 		let render = () => {
 			try {
 				let buffer = fs.readFileSync(document.uri.fsPath);
+				let stat = fs.statSync(document.uri.fsPath);
 				let model = parseRrd(buffer, document.uri.fsPath);
-				webviewPanel.webview.html = getHtml(model, getRows(buffer, model, 0, 0), "", 0, 0);
+				webviewPanel.webview.html = getHtml(webviewPanel.webview, model, getRows(buffer, model, 0, 0), "", 0, 0, stat.mtimeMs);
 			} catch (error) {
 				webviewPanel.webview.html = getErrorHtml(error);
 			}
@@ -305,14 +330,18 @@ export class RrdInspectorEditorProvider implements vscode.CustomReadonlyEditorPr
 		webviewPanel.webview.onDidReceiveMessage((message) => {
 			try {
 				let buffer = fs.readFileSync(document.uri.fsPath);
+				let stat = fs.statSync(document.uri.fsPath);
 				let model = parseRrd(buffer, document.uri.fsPath);
+				let datasourceIndex = normalizeIndex(message.datasourceIndex, model.datasources.length);
+				let archiveIndex = normalizeIndex(message.archiveIndex, model.archives.length);
 				if (message.type === "select") {
-					webviewPanel.webview.html = getHtml(model, getRows(buffer, model, message.datasourceIndex, message.archiveIndex), "", message.datasourceIndex, message.archiveIndex);
+					webviewPanel.webview.html = getHtml(webviewPanel.webview, model, getRows(buffer, model, datasourceIndex, archiveIndex), "", datasourceIndex, archiveIndex, stat.mtimeMs);
 				} else if (message.type === "save") {
-					let backupPath = writeEdits(document.uri.fsPath, model, message.edits || []);
+					let backupPath = writeEdits(document.uri.fsPath, model, message.edits || [], Number(message.expectedMtimeMs));
 					let freshBuffer = fs.readFileSync(document.uri.fsPath);
+					let freshStat = fs.statSync(document.uri.fsPath);
 					let freshModel = parseRrd(freshBuffer, document.uri.fsPath);
-					webviewPanel.webview.html = getHtml(freshModel, getRows(freshBuffer, freshModel, message.datasourceIndex, message.archiveIndex), `Saved. Backup: ${backupPath}`, message.datasourceIndex, message.archiveIndex);
+					webviewPanel.webview.html = getHtml(webviewPanel.webview, freshModel, getRows(freshBuffer, freshModel, datasourceIndex, archiveIndex), `Saved. Backup: ${backupPath}`, datasourceIndex, archiveIndex, freshStat.mtimeMs);
 				} else if (message.type === "refresh") {
 					render();
 				}
@@ -323,13 +352,34 @@ export class RrdInspectorEditorProvider implements vscode.CustomReadonlyEditorPr
 	}
 }
 
-function getHtml(model: RrdModel, rows: RrdRow[], notice: string, selectedDatasourceIndex: number, selectedArchiveIndex: number): string {
+function normalizeIndex(value: unknown, length: number): number {
+	let index = Number(value);
+	if (!Number.isInteger(index) || index < 0 || index >= length) {
+		return 0;
+	}
+	return index;
+}
+
+function getNonce(): string {
+	let possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	let nonce = "";
+	for (let index = 0; index < 32; index++) {
+		nonce += possible.charAt(Math.floor(Math.random() * possible.length));
+	}
+	return nonce;
+}
+
+function getHtml(webview: vscode.Webview, model: RrdModel, rows: RrdRow[], notice: string, selectedDatasourceIndex: number, selectedArchiveIndex: number, fileMtimeMs: number): string {
+	let nonce = getNonce();
+	if (model.datasources.length === 0 || model.archives.length === 0) {
+		return `<!doctype html><html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'nonce-${nonce}';"><style nonce="${nonce}">body{font-family:var(--vscode-font-family);padding:14px;color:var(--vscode-foreground);background:var(--vscode-editor-background)}</style></head><body><h2>openHAB RRD Inspector</h2><p>${escapeHtml(model.itemName)} has no datasource/archive data to display.</p></body></html>`;
+	}
 	let selectedArchive = model.archives[selectedArchiveIndex];
 	let datasourceOptions = model.datasources.map((ds) => `<option value="${ds.index}"${ds.index === selectedDatasourceIndex ? " selected" : ""}>${escapeHtml(ds.name)} (${escapeHtml(ds.type)})</option>`).join("");
 	let archiveOptions = model.archives.map((arc) => `<option value="${arc.index}"${arc.index === selectedArchiveIndex ? " selected" : ""}>${arc.index}: ${escapeHtml(arc.consolFun)} / step ${arc.arcStep}s / rows ${arc.rows}</option>`).join("");
 	let tableRows = rows.map((row) => `<tr data-row="${row.row}"><td>${row.row}</td><td>${row.arrayIndex}</td><td>${row.timestamp}</td><td>${escapeHtml(row.date)}</td><td><input data-row="${row.row}" value="${row.value === null ? "NaN" : row.value}" /></td></tr>`).join("");
 	return `<!doctype html>
-<html><head><meta charset="utf-8"><style>
+<html><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'nonce-${nonce}'; script-src 'nonce-${nonce}';"><style nonce="${nonce}">
 body{font-family:var(--vscode-font-family);padding:14px;color:var(--vscode-foreground);background:var(--vscode-editor-background)}
 .toolbar{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}.notice{color:var(--vscode-testing-iconPassed);margin:8px 0}.meta{opacity:.85;margin-bottom:10px}button,select,input{font:inherit}table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid var(--vscode-panel-border);padding:4px 6px;text-align:left}th{position:sticky;top:0;background:var(--vscode-editorWidget-background)}input{width:100%;box-sizing:border-box;background:var(--vscode-input-background);color:var(--vscode-input-foreground);border:1px solid var(--vscode-input-border)}.nan input{color:var(--vscode-editorWarning-foreground)}
 </style></head><body>
@@ -339,7 +389,7 @@ ${notice ? `<div class="notice">${escapeHtml(notice)}</div>` : ""}
 <div class="toolbar"><label>Datasource <select id="ds">${datasourceOptions}</select></label><label>Archive <select id="arc">${archiveOptions}</select></label><button id="load">Load</button><button id="save">Save changed values</button><button id="refresh">Refresh</button><span id="dirty"></span></div>
 <div class="toolbar"><label>Add/update timestamp <input id="addTs" placeholder="Unix seconds" /></label><label>Value <input id="addValue" placeholder="number or NaN" /></label><button id="addByTimestamp">Map to archive row</button><span>Archive range: ${selectedArchive.startTime}–${selectedArchive.endTime}, step ${selectedArchive.arcStep}s</span></div>
 <table><thead><tr><th>Row</th><th>Raw index</th><th>Timestamp</th><th>Date</th><th>Value</th></tr></thead><tbody>${tableRows}</tbody></table>
-<script>
+<script nonce="${nonce}">
 const vscode = acquireVsCodeApi();
 const archiveStart = ${selectedArchive.startTime};
 const archiveEnd = ${selectedArchive.endTime};
@@ -368,7 +418,7 @@ document.getElementById('addByTimestamp').addEventListener('click', () => {
 });
 document.getElementById('save').addEventListener('click', () => {
   const edits = [...changed.entries()].map(([row, value]) => ({ row, value: value.trim().toLowerCase() === 'nan' || value.trim() === '' ? null : Number(value), datasourceIndex:Number(ds.value), archiveIndex:Number(arc.value) })).filter(e => e.value === null || Number.isFinite(e.value));
-  vscode.postMessage({type:'save', datasourceIndex:Number(ds.value), archiveIndex:Number(arc.value), edits});
+  vscode.postMessage({type:'save', datasourceIndex:Number(ds.value), archiveIndex:Number(arc.value), expectedMtimeMs:${fileMtimeMs}, edits});
 });
 </script></body></html>`;
 }
