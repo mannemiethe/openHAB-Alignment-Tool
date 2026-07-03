@@ -8,6 +8,7 @@ import Item = require("./item");
 import { OpenhabFormatKitOutlineProvider, revealOutlineRange } from "./outline";
 import { registerOpenhabCompletions } from "./completions";
 import { registerOpenhabDiagnostics } from "./diagnostics";
+import { RrdInspectorEditorProvider } from "./rrdInspector";
 
 import { type } from "os";
 import { format } from "path";
@@ -212,6 +213,9 @@ export function activate(context: vscode.ExtensionContext) {
 
 	registerOpenhabCompletions(context, OPENHAB_DOCUMENT_SELECTOR);
 	registerOpenhabDiagnostics(context);
+	context.subscriptions.push(vscode.window.registerCustomEditorProvider("openhab-formatkit.rrdInspector", new RrdInspectorEditorProvider(context), {
+		webviewOptions: { retainContextWhenHidden: true },
+	}));
 
 	// Formatter implementation
 	context.subscriptions.push(

@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.13.2",
+	"version": "2.14.0",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -43,7 +43,9 @@
 		"workspaceContains:**/*.persist",
 		"workspaceContains:**/transform/*.map",
 		"workspaceContains:**/transform/*.scale",
-		"workspaceContains:**/services/*.cfg"
+		"workspaceContains:**/services/*.cfg",
+		"onCustomEditor:openhab-formatkit.rrdInspector",
+		"workspaceContains:**/*.rrd"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -197,7 +199,19 @@
 					"group": "navigation"
 				}
 			]
-		}
+		},
+		"customEditors": [
+			{
+				"viewType": "openhab-formatkit.rrdInspector",
+				"displayName": "openHAB RRD Inspector",
+				"selector": [
+					{
+						"filenamePattern": "*.rrd"
+					}
+				],
+				"priority": "default"
+			}
+		]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

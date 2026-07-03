@@ -1,5 +1,14 @@
 # openHAB FormatKit Change Log
 
+## [2.14.0] - 03.07.2026
+
+- Added a native VS Code custom editor for `*.rrd` files: **openHAB RRD Inspector**.
+- The inspector runs without Java and parses rrd4j binary files directly in Node/TypeScript.
+- Added datasource/archive selection and a table with row, raw ring-buffer index, timestamp, date, and value.
+- Added editing of existing archive values and timestamp-to-row mapping for adding/updating values inside the selected archive range.
+- Added automatic `.formatkit-backup-YYYYMMDDHHMMSS` backup creation before writing edited RRD values.
+- Supports rrd4j `version 0.1` array layout and `version 0.2` matrix layout for archive values.
+
 ## [2.13.2] - 02.07.2026
 
 - Fixed `.items` formatting for Group aggregation functions with nested parentheses in regex parameters, e.g. `Group:Number:COUNT(^([0-9]|[1-9][0-9])$)`.

@@ -47,6 +47,7 @@ Supported openHAB file types:
 - `.rules` — structured indentation formatter, syntax highlighting, snippets, suggestions, local outline
 - `.script` — structured indentation formatter, syntax highlighting, suggestions, local outline
 - `.persist` — syntax highlighting, suggestions, local outline
+- `.rrd` — native read/write RRD inspector table for rrd4j files, opened directly in VS Code without Java
 - `transform/*.map`, `transform/*.scale` — local transformation suggestions
 - `services/*.cfg` — local service/add-on/runtime suggestions
 
@@ -81,6 +82,21 @@ Group:Number:COUNT(.*) gL_gO_gGd_gMain_Appliances_Count <appliances> (gL_gO_gGd_
 ```
 
 The formatter keeps `Group:Number:COUNT(.*)` intact instead of misreading `COUNT` as a `Number` subtype.
+
+## RRD Inspector
+
+FormatKit includes a native `.rrd` inspector for openHAB/rrd4j persistence files. Clicking a `*.rrd` file opens a table view instead of the binary file.
+
+Current capabilities:
+
+- Runs natively inside the VS Code extension; no local Java runtime is required.
+- Reads rrd4j `version 0.1` and `version 0.2` file layouts.
+- Shows datasources, archives, timestamps, raw ring-buffer indexes, and values.
+- Lets you edit existing archive values directly in the table.
+- Lets you map a timestamp to the selected archive row and add/update a value there.
+- Writes are protected by an automatic `.formatkit-backup-YYYYMMDDHHMMSS` file before saving.
+
+Important: the current write support edits stored archive values directly. It does not yet emulate the full rrd4j `Sample.update()` consolidation pipeline for creating new live samples.
 
 ## Diagnostics
 
