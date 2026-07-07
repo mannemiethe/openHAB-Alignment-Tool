@@ -1,5 +1,12 @@
 # openHAB FormatKit Change Log
 
+## [2.14.2] - 07.07.2026
+
+- Fixed structured formatter comment spacing for `.rules`, `.script`, and `.things` files.
+- Standalone comments such as `//This is a comment` are normalized to `// This is a comment`.
+- Inline comments such as `sendCommand(X, ON)//Comment` are normalized to `sendCommand(X, ON) // Comment`.
+- Comment detection continues to ignore `//` inside quoted strings such as URLs.
+
 ## [2.14.1] - 03.07.2026
 
 - Hardened the native RRD Inspector webview with a Content Security Policy and per-render script/style nonce.

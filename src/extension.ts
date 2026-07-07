@@ -550,7 +550,34 @@ function countUnquotedCharacter(line: string, characterToCount: string): number 
 }
 
 function normalizeStructuredOpenhabLine(line: string): string {
-	return line.trimRight().replace(/[ \t]+$/g, "");
+	return normalizeLineCommentSpacing(line.trimRight().replace(/[ \t]+$/g, ""));
+}
+
+function normalizeLineCommentSpacing(line: string): string {
+	let inString = false;
+	let escaped = false;
+	for (let index = 0; index < line.length - 1; index++) {
+		let current = line[index];
+		if (escaped) {
+			escaped = false;
+			continue;
+		}
+		if (current === "\\") {
+			escaped = true;
+			continue;
+		}
+		if (current === '"') {
+			inString = !inString;
+			continue;
+		}
+		if (!inString && current === "/" && line[index + 1] === "/") {
+			let code = line.substring(0, index).trimRight();
+			let commentText = line.substring(index + 2).trimLeft();
+			let comment = commentText.length > 0 ? `// ${commentText}` : "//";
+			return code.length > 0 ? `${code} ${comment}` : comment;
+		}
+	}
+	return line;
 }
 
 function getRulesBaseIndent(trimmedLine: string, inRuleBody: boolean): number {
