@@ -242,6 +242,6 @@ If this maintained project helps you, stars, issues, and pull requests are welco
 
 - [openHAB Documentation](https://www.openhab.org/docs/)
 - [openHAB Community](https://community.openhab.org)
-- [Issues for this maintained project](https://github.com/mannemiethe/openHAB-Alignment-Tool/issues)
+- [Issues for this maintained project](https://github.com/mannemiethe/openHAB-FormatKit/issues)
 
 **Enjoy!**
