@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.14.3",
+	"version": "2.14.4",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"

@@ -1,5 +1,9 @@
 # openHAB FormatKit Change Log
 
+## [2.14.4] - 18.08.2026
+
+- Restored the Buy Me a Coffee support link alongside Manuel Miethe's PayPal donation link.
+
 ## [2.14.3] - 18.08.2026
 
 - Added Manuel Miethe's PayPal donation link to README support links, GitHub funding metadata, VS Code extension sponsor metadata, and the extension description.

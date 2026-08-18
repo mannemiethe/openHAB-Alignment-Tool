@@ -12,6 +12,7 @@ This is an independently maintained project. It is **not affiliated with, endors
 
 If this maintained fork helps you, please consider supporting Manuel Miethe, author and maintainer of this add-in:
 
+- ☕ [Buy Manuel Miethe a coffee](https://www.buymeacoffee.com/mannemiethe)
 - 💙 [Donate to Manuel Miethe via PayPal](https://www.paypal.com/donate/?hosted_button_id=EP53TYWA59J3G)
 
 If you also want to thank the original developer of the openHAB Alignment Tool:
