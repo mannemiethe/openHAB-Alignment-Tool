@@ -6,7 +6,7 @@
 	"contributors": [
 		"Mark Hilbush"
 	],
-	"description": "Modern independent formatter, syntax highlighting, and snippet toolkit for openHAB configuration files.",
+	"description": "Modern independent formatter, syntax highlighting, and snippet toolkit for openHAB configuration files. Maintained by Manuel Miethe; donations welcome via PayPal.",
 	"author": {
 		"name": "openHAB FormatKit maintainers",
 		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool"
@@ -267,6 +267,6 @@
 		}
 	],
 	"sponsor": {
-		"url": "https://www.buymeacoffee.com/mannemiethe"
+		"url": "https://www.paypal.com/donate/?hosted_button_id=EP53TYWA59J3G"
 	}
 }

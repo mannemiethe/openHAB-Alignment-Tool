@@ -1,5 +1,9 @@
 # openHAB FormatKit Change Log
 
+## Unreleased
+
+- Added Manuel Miethe's PayPal donation link to README support links, GitHub funding metadata, VS Code extension sponsor metadata, and the extension description.
+
 ## [2.14.2] - 07.07.2026
 
 - Fixed structured formatter comment spacing for `.rules`, `.script`, and `.things` files.
