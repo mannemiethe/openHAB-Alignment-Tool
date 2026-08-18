@@ -1,5 +1,9 @@
 # openHAB FormatKit Change Log
 
+## [2.14.5] - 18.08.2026
+
+- Updated repository, bugs, homepage, and author links after renaming the GitHub repository to `openHAB-FormatKit`.
+
 ## [2.14.4] - 18.08.2026
 
 - Restored the Buy Me a Coffee support link alongside Manuel Miethe's PayPal donation link.

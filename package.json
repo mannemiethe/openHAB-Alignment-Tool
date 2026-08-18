@@ -1,7 +1,7 @@
 {
 	"name": "openhab-formatkit",
 	"displayName": "openHAB FormatKit",
-	"version": "2.14.4",
+	"version": "2.14.5",
 	"publisher": "ManuelMiethe",
 	"contributors": [
 		"Mark Hilbush"
@@ -9,7 +9,7 @@
 	"description": "Modern independent formatter, syntax highlighting, and snippet toolkit for openHAB configuration files. Maintained by Manuel Miethe; donations welcome via PayPal.",
 	"author": {
 		"name": "openHAB FormatKit maintainers",
-		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool"
+		"url": "https://github.com/mannemiethe/openHAB-FormatKit"
 	},
 	"categories": [
 		"Formatters",
@@ -19,11 +19,11 @@
 	],
 	"icon": "images/formatkit-icon.png",
 	"repository": {
-		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool",
+		"url": "https://github.com/mannemiethe/openHAB-FormatKit",
 		"type": "git"
 	},
 	"bugs": {
-		"url": "https://github.com/mannemiethe/openHAB-Alignment-Tool/issues"
+		"url": "https://github.com/mannemiethe/openHAB-FormatKit/issues"
 	},
 	"engines": {
 		"vscode": "^1.55.0"
@@ -235,7 +235,7 @@
 		"typescript": "^4.2.4",
 		"vscode-test": "^1.5.2"
 	},
-	"homepage": "https://github.com/mannemiethe/openHAB-Alignment-Tool#readme",
+	"homepage": "https://github.com/mannemiethe/openHAB-FormatKit#readme",
 	"keywords": [
 		"openHAB",
 		"openhab",
